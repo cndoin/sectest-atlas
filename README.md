@@ -1,12 +1,29 @@
 <div align="center">
-  <img src="assets/cover.svg" alt="SecTest Atlas — 网络与服务器安全测试完全手册" width="100%">
+  <img src="assets/cover.svg" alt="SecTest Atlas — Authorized Security Testing Handbook" width="100%">
 </div>
 
 # SecTest Atlas
 
+<p align="center">
+  <img alt="31 chapters" src="https://img.shields.io/badge/chapters-31-2563eb.svg">
+  <img alt="700+ checks" src="https://img.shields.io/badge/security_checks-700%2B-0f766e.svg">
+  <img alt="zero dependencies" src="https://img.shields.io/badge/dependencies-zero-16a34a.svg">
+  <img alt="2026 field edition" src="https://img.shields.io/badge/edition-2026-7c3aed.svg">
+</p>
+
+<p align="center"><strong>Map the attack path. Verify the defense. Preserve the evidence.</strong></p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="INSTALL.md">Install</a> ·
+  <a href="AI_INSTALL.md">AI setup</a> ·
+  <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="CONTRIBUTING.md">Contribute</a>
+</p>
+
 An execution-focused handbook for **authorized security assessments**. SecTest Atlas turns real attack paths into searchable, checkable, and actionable test cases across networks, servers, wireless, applications, cloud-native platforms, and AI systems.
 
-[Live handbook](https://cndoin.github.io/sectest-atlas/) · [Chinese Markdown edition](./docs/handbook.md) · [Install guide](./INSTALL.md) · [AI setup guide](./AI_INSTALL.md) · [Security policy](./SECURITY.md)
+[Open locally](./index.html) · [Chinese field handbook](./docs/handbook.md) · [Security policy](./SECURITY.md)
 
 > [!WARNING]
 > For authorized assessment, education, and defensive validation only. Obtain written permission and define scope, test windows, data handling, rollback, and emergency contacts before running any test.
@@ -14,7 +31,7 @@ An execution-focused handbook for **authorized security assessments**. SecTest A
 ## Why this project
 
 - **31 chapters and 700+ checks** covering the full assessment lifecycle.
-- **No build step:** one HTML file works locally and on GitHub Pages.
+- **No build step:** one self-contained HTML file works directly in a browser.
 - **Operator-friendly UI:** navigation search, persistent checkboxes, dark mode, mobile drawer, and print/PDF export.
 - **Evidence-oriented:** findings are structured around observation, proof, impact, remediation, and retest.
 - **Bilingual onboarding:** English-first project documentation with the complete Chinese field handbook included.
@@ -55,56 +72,14 @@ Open `http://localhost:8080`. There are no package dependencies and no build com
 └── SECURITY.md             # Disclosure policy and legal boundary
 ```
 
----
+## Responsible use
 
-## 中文说明
+1. Test only assets covered by explicit written authorization.
+2. Prefer isolated or pre-production validation before approved production windows.
+3. Minimize evidence collection, redact sensitive data, and follow agreed retention rules.
+4. Document every finding with observation, evidence, impact, remediation, and retest status.
+5. Commands in the handbook are references, never permission to test an external target.
 
-一份面向**合法授权场景**的中文网络与服务器安全测试手册。以攻击者真实路径为线索，把网络、服务器、无线、应用、云原生与 AI 系统的风险拆成可检索、可勾选、可执行的检查项。
+## Maintenance
 
-[在线阅读](https://cndoin.github.io/sectest-atlas/) · [Markdown 手册](./docs/handbook.md) · [安装说明](./INSTALL.md) · [AI 安装说明](./AI_INSTALL.md) · [安全政策](./SECURITY.md) · [参与贡献](./CONTRIBUTING.md)
-
-### 内容亮点
-
-| 维度 | 覆盖内容 |
-| --- | --- |
-| 方法体系 | PTES、NIST SP 800-115、OSSTMM、MITRE ATT&CK、CIS Benchmarks |
-| 网络与主机 | L2–L4、DNS、边界与分段、Linux/Windows、身份与凭据 |
-| 应用与平台 | Web、API、微服务、云、容器、Kubernetes、CI/CD、供应链 |
-| 无线与新技术 | WPA2/WPA3、Wi-Fi 6E/7、BLE、ZigBee、AI/LLM/智能体 |
-| 运营与韧性 | 日志检测、紫队、备份恢复、勒索韧性、性能与混沌工程 |
-| 交付落地 | 风险评级、报告模板、授权书、ROE、检查记录与验收标准 |
-
-### 快速使用
-
-无需构建、无需安装依赖：直接打开 [`index.html`](./index.html)。页面支持全文目录检索、进度勾选、本地保存、深色模式、移动端目录和打印导出。
-
-也可以直接访问已经部署好的 GitHub Pages 在线版本。
-
-### 仓库结构
-
-```text
-.
-├── index.html          # 交互式单页手册，可直接部署到 GitHub Pages
-├── assets/             # 品牌图标与项目封面
-├── docs/handbook.md    # Markdown 完整版
-├── INSTALL.md          # 本地安装与预览说明
-├── AI_INSTALL.md       # 可直接交给 AI Agent 的安装任务
-├── CONTRIBUTING.md     # 内容维护与贡献约定
-└── SECURITY.md         # 漏洞披露与安全边界
-```
-
-### 使用原则
-
-1. 先授权、再测试；高风险动作需要单独确认与回滚方案。
-2. 先在隔离或预生产环境验证，再按窗口进入生产。
-3. 证据最小化采集，敏感数据脱敏，测试结束后按约定销毁。
-4. 所有发现都应包含：现象、证据、影响、修复与复测结果。
-5. 命令是核查参考，不是对任意目标的执行许可。
-
-### 维护说明
-
-安全标准和产品能力会持续变化。提交更新时请附权威来源、适用版本与验证日期，并明确区分强制要求、最佳实践和环境相关建议。
-
----
-
-如果这份手册对你有帮助，欢迎 Star，也欢迎提交经过验证的修订。
+Security standards and platform behavior change over time. Updates should cite authoritative sources, state applicable versions and verification dates, and distinguish mandatory requirements from best practices and environment-specific guidance.

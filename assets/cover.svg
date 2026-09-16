@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">SecTest Atlas</title><desc id="desc">网络与服务器安全测试完全手册封面</desc>
+  <title id="title">SecTest Atlas</title><desc id="desc">Authorized security testing handbook cover</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630"><stop stop-color="#06101E"/><stop offset=".58" stop-color="#0B2342"/><stop offset="1" stop-color="#123E78"/></linearGradient>
     <radialGradient id="glow"><stop stop-color="#39A9FF" stop-opacity=".35"/><stop offset="1" stop-color="#39A9FF" stop-opacity="0"/></radialGradient>
@@ -8,9 +8,9 @@
   <rect width="1200" height="630" fill="url(#bg)"/><rect width="1200" height="630" fill="url(#grid)"/><circle cx="1010" cy="120" r="340" fill="url(#glow)"/>
   <g transform="translate(82 82)"><rect width="74" height="74" rx="18" fill="#4FA8FF"/><path d="M37 12 60 21v16c0 14.5-8.8 25.5-23 31-14.2-5.5-23-16.5-23-31V21l23-9Z" fill="#0A2548"/><path d="m25 38 8 8 17-20" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
   <text x="82" y="224" fill="#7FC3FF" font-family="Segoe UI,Microsoft YaHei,sans-serif" font-size="22" font-weight="700" letter-spacing="5">SECTEST ATLAS</text>
-  <text x="82" y="304" fill="#fff" font-family="Segoe UI,Microsoft YaHei,sans-serif" font-size="55" font-weight="750">网络与服务器安全测试</text>
-  <text x="82" y="372" fill="#fff" font-family="Segoe UI,Microsoft YaHei,sans-serif" font-size="55" font-weight="750">完全手册</text>
-  <text x="84" y="425" fill="#B9CEE7" font-family="Segoe UI,Microsoft YaHei,sans-serif" font-size="23">从攻击链倒推防御验证 · 可检索 · 可勾选 · 可执行</text>
-  <g font-family="Segoe UI,Microsoft YaHei,sans-serif" font-size="18" fill="#D8E9FA"><rect x="82" y="490" width="154" height="48" rx="24" fill="#FFFFFF" fill-opacity=".1" stroke="#FFFFFF" stroke-opacity=".2"/><text x="111" y="521">31 章正文</text><rect x="250" y="490" width="188" height="48" rx="24" fill="#FFFFFF" fill-opacity=".1" stroke="#FFFFFF" stroke-opacity=".2"/><text x="279" y="521">700+ 检查项</text><rect x="452" y="490" width="217" height="48" rx="24" fill="#FFFFFF" fill-opacity=".1" stroke="#FFFFFF" stroke-opacity=".2"/><text x="481" y="521">2026 实战版</text></g>
+  <text x="82" y="304" fill="#fff" font-family="Segoe UI,Arial,sans-serif" font-size="53" font-weight="750">Authorized Security</text>
+  <text x="82" y="372" fill="#fff" font-family="Segoe UI,Arial,sans-serif" font-size="53" font-weight="750">Testing Handbook</text>
+  <text x="84" y="425" fill="#B9CEE7" font-family="Segoe UI,Arial,sans-serif" font-size="23">Attack-path driven · Searchable · Checkable · Actionable</text>
+  <g font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#D8E9FA"><rect x="82" y="490" width="174" height="48" rx="24" fill="#FFFFFF" fill-opacity=".1" stroke="#FFFFFF" stroke-opacity=".2"/><text x="111" y="521">31 chapters</text><rect x="270" y="490" width="188" height="48" rx="24" fill="#FFFFFF" fill-opacity=".1" stroke="#FFFFFF" stroke-opacity=".2"/><text x="299" y="521">700+ checks</text><rect x="472" y="490" width="217" height="48" rx="24" fill="#FFFFFF" fill-opacity=".1" stroke="#FFFFFF" stroke-opacity=".2"/><text x="501" y="521">2026 field edition</text></g>
   <g transform="translate(875 240)" fill="none" stroke="#71B9FF"><path d="M96 0 192 38v67c0 60-37 107-96 130C37 212 0 165 0 105V38L96 0Z" stroke-width="6" opacity=".9"/><path d="m50 113 31 31 65-77" stroke="#fff" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><circle cx="96" cy="117" r="138" stroke-opacity=".18"/><circle cx="96" cy="117" r="166" stroke-opacity=".08"/></g>
 </svg>

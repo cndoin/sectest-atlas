@@ -4,11 +4,7 @@ SecTest Atlas is a static handbook. It does not require Node.js packages, a data
 
 SecTest Atlas 是纯静态手册，不需要安装 Node.js 依赖、数据库或构建工具。
 
-## Option 1 — Read online / 在线阅读
-
-Visit: <https://cndoin.github.io/sectest-atlas/>
-
-## Option 2 — Clone and serve locally / 克隆并本地运行
+## Clone and serve locally / 克隆并本地运行
 
 Requirements: Git and either Python 3 or any static-file server.
 
