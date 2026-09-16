@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecTest Atlas · 网络与服务器安全测试完全手册</title>
+<meta name="description" content="面向授权安全测试的中文实战手册：31 章、700+ 检查项，覆盖网络、服务器、WiFi、Web、API、云原生、AI 安全与紫队验证。">
+<meta name="theme-color" content="#07111f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SecTest Atlas · 网络与服务器安全测试完全手册">
+<meta property="og:description" content="从攻击链倒推防御验证：可检索、可勾选、可落地的安全测试 Runbook。">
+<meta property="og:image" content="assets/cover.svg">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<style>
+:root{
+  --bg:#f5f6f8; --panel:#ffffff; --panel2:#fbfcfd;
+  --ink:#15181e; --ink2:#333a47; --muted:#6b7484;
+  --line:#e2e6ed; --line2:#eef1f5;
+  --accent:#1f6feb; --accent-soft:#eaf1fe;
+  --crit:#c9252d; --high:#e8590c; --med:#c98a04; --low:#0f8b53; --info:#1f6feb;
+  --crit-bg:#fdecec; --high-bg:#fff2e8; --med-bg:#fff8e6; --low-bg:#e9f7f0; --info-bg:#eaf1fe;
+  --code-bg:#1e2430; --code-ink:#e6edf3;
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 4px 16px rgba(16,24,40,.06);
+}
+[data-theme="dark"]{
+  --bg:#07111f; --panel:#0d1b2c; --panel2:#112238;
+  --ink:#e8f0fb; --ink2:#c5d2e3; --muted:#8fa2b9;
+  --line:#23364d; --line2:#1b2b3f; --accent:#5ca2ff; --accent-soft:#132f54;
+  --crit-bg:#431b24; --high-bg:#432616; --med-bg:#3d3212; --low-bg:#123729; --info-bg:#132f54;
+  --shadow:0 10px 32px rgba(0,0,0,.22);
+  --code-bg:#050b14; --code-ink:#dce8f7;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:16px}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.75; -webkit-font-smoothing:antialiased;}
+#app{display:flex; min-height:100vh}
+#side{width:290px; flex:0 0 290px; background:var(--panel); border-right:1px solid var(--line);
+  position:sticky; top:0; height:100vh; overflow-y:auto; padding:18px 0 60px;}
+#side::-webkit-scrollbar{width:8px}
+#side::-webkit-scrollbar-thumb{background:#d5dae3;border-radius:8px}
+.brand{padding:0 20px 14px; border-bottom:1px solid var(--line2); margin-bottom:12px}
+.brand h1{font-size:15px; margin:0 0 4px; letter-spacing:.2px}
+.brand .sub{font-size:11.5px; color:var(--muted); line-height:1.5}
+.searchbox{padding:0 16px 12px}
+.searchbox input{width:100%; padding:8px 11px; border:1px solid var(--line); border-radius:8px;
+  font-size:13px; outline:none; background:var(--panel2); color:var(--ink);}
+.searchbox input:focus{border-color:var(--accent); background:#fff}
+#toc{padding:0 10px}
+#toc a{display:block; padding:6px 10px; border-radius:7px; color:var(--ink2);
+  text-decoration:none; font-size:13px; line-height:1.5; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+#toc a:hover{background:var(--accent-soft); color:var(--accent)}
+#toc a.on{background:var(--accent); color:#fff; font-weight:600}
+#toc .grp{font-size:11px; color:var(--muted); padding:12px 10px 4px; letter-spacing:1px; font-weight:700}
+#toc a.hide{display:none}
+#main{flex:1; min-width:0; padding:0 0 80px}
+.wrap{max-width:1080px; margin:0 auto; padding:0 34px}
+.hero{background:linear-gradient(135deg,#12294d 0%,#1f4d8f 55%,#2a6fc9 100%);
+  color:#fff; padding:38px 0 30px; margin-bottom:26px;}
+.hero h1{font-size:27px; margin:0 0 8px; line-height:1.35; letter-spacing:.3px}
+.hero p{margin:0; color:#cfe0f7; font-size:14px; max-width:820px}
+.hero-stats{display:flex; gap:26px; margin-top:22px; flex-wrap:wrap}
+.hero-stats div{font-size:12px; color:#bcd4f2}
+.hero-stats b{display:block; font-size:22px; color:#fff; font-weight:700; line-height:1.3}
+.hero-tags{margin-top:16px; display:flex; gap:8px; flex-wrap:wrap}
+.hero-tags span{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.2);
+  padding:3px 10px; border-radius:20px; font-size:11.5px}
+section{background:var(--panel); border:1px solid var(--line); border-radius:14px;
+  padding:26px 30px 30px; margin:0 0 22px; box-shadow:var(--shadow); scroll-margin-top:14px}
+section > h2{font-size:20px; margin:0 0 6px; padding-bottom:12px; border-bottom:2px solid var(--line2);
+  display:flex; align-items:baseline; gap:10px; letter-spacing:.2px;}
+section > h2 .num{background:var(--accent); color:#fff; font-size:12.5px; padding:2px 9px;
+  border-radius:6px; font-weight:700; flex:0 0 auto; letter-spacing:.5px;}
+section > h2 .en{font-size:12px; color:var(--muted); font-weight:400; margin-left:auto}
+.lead{color:var(--ink2); font-size:14px; margin:14px 0 20px; padding:12px 16px;
+  background:var(--panel2); border-left:3px solid var(--accent); border-radius:0 8px 8px 0}
+h3{font-size:16px; margin:26px 0 10px; padding-left:11px; border-left:4px solid var(--accent); line-height:1.5}
+h4{font-size:14.5px; margin:20px 0 8px; color:var(--ink)}
+p{margin:10px 0}
+ul,ol{margin:10px 0; padding-left:22px}
+li{margin:5px 0}
+a{color:var(--accent)}
+.tw{overflow-x:auto; margin:14px 0; border:1px solid var(--line); border-radius:10px}
+table{border-collapse:collapse; width:100%; font-size:13px; background:var(--panel)}
+th{background:#f2f5f9; text-align:left; padding:10px 12px; font-weight:700; color:var(--ink2);
+  border-bottom:1px solid var(--line); white-space:nowrap; font-size:12.5px}
+td{padding:9px 12px; border-bottom:1px solid var(--line2); vertical-align:top; line-height:1.65}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#fbfcfe}
+[data-theme="dark"] tbody tr:hover{background:#12243a}
+td.c,th.c{text-align:center; white-space:nowrap}
+table.tight td,table.tight th{padding:6px 9px; font-size:12.5px}
+.b{display:inline-block; padding:1px 8px; border-radius:5px; font-size:11.5px; font-weight:700; white-space:nowrap; line-height:1.7}
+.b-crit{background:var(--crit-bg); color:var(--crit); border:1px solid #f5c6c6}
+.b-high{background:var(--high-bg); color:var(--high); border:1px solid #fbd5b8}
+.b-med{background:var(--med-bg); color:#8a6100; border:1px solid #f6e2ae}
+.b-low{background:var(--low-bg); color:var(--low); border:1px solid #b9e4cd}
+.b-info{background:var(--info-bg); color:var(--info); border:1px solid #c3d9fb}
+.b-gray{background:#f0f2f5; color:#5b6472; border:1px solid #e0e4ea}
+.note{border-radius:9px; padding:12px 15px; margin:14px 0; font-size:13.5px; line-height:1.7}
+.note.warn{background:var(--crit-bg); border-left:4px solid var(--crit); color:#7d1b1f}
+.note.tip{background:var(--low-bg); border-left:4px solid var(--low); color:#0b5c37}
+.note.info{background:var(--info-bg); border-left:4px solid var(--accent); color:#14418c}
+.note.cau{background:var(--med-bg); border-left:4px solid var(--med); color:#7a5a00}
+.note b{font-weight:700}
+pre{background:var(--code-bg); color:var(--code-ink); padding:13px 15px; border-radius:9px;
+  overflow-x:auto; font-size:12.5px; line-height:1.75; margin:12px 0;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
+pre::-webkit-scrollbar{height:8px}
+pre::-webkit-scrollbar-thumb{background:#3a4453;border-radius:8px}
+code{font-family:"SFMono-Regular",Consolas,Menlo,monospace; background:#eef1f5;
+  padding:1px 5px; border-radius:4px; font-size:12.5px; color:#b03060}
+pre code{background:none; padding:0; color:inherit; font-size:inherit}
+ul.chk{list-style:none; padding-left:0; margin:12px 0}
+ul.chk li{display:flex; gap:10px; align-items:flex-start; padding:7px 10px; border-radius:7px;
+  border:1px solid var(--line2); margin:6px 0; background:var(--panel2); font-size:13.5px; line-height:1.65;}
+ul.chk li:hover{border-color:#c9d6ea; background:#fff}
+ul.chk input{width:16px; height:16px; margin-top:3px; flex:0 0 auto; accent-color:var(--accent); cursor:pointer}
+ul.chk li.done{background:var(--low-bg); border-color:#c7e8d8}
+ul.chk li.done span{text-decoration:line-through; color:var(--muted)}
+ul.chk .id{font-family:Consolas,monospace; font-size:11.5px; color:var(--muted); flex:0 0 auto; min-width:74px}
+.grid{display:grid; gap:12px; margin:14px 0}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{border:1px solid var(--line); border-radius:10px; padding:14px 16px; background:var(--panel2)}
+.card h5{margin:0 0 6px; font-size:14px; display:flex; align-items:center; gap:7px}
+.card p{margin:0; font-size:13px; color:var(--ink2); line-height:1.7}
+.card ul{margin:6px 0 0; padding-left:18px; font-size:12.8px; color:var(--ink2)}
+.kv{display:grid; grid-template-columns:130px 1fr; gap:6px 14px; font-size:13.5px; margin:10px 0}
+.kv .k{color:var(--muted)}
+.flow{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:14px 0}
+.flow .st{background:var(--accent-soft); border:1px solid #c3d9fb; color:#14418c;
+  padding:6px 12px; border-radius:8px; font-size:12.5px; font-weight:600}
+.flow .ar{color:var(--muted)}
+.top{position:fixed; right:22px; bottom:22px; background:var(--accent); color:#fff; border:none;
+  width:42px; height:42px; border-radius:50%; cursor:pointer; font-size:17px; box-shadow:0 4px 14px rgba(31,111,235,.35)}
+.pbar{position:fixed; left:0; top:0; height:3px; background:var(--accent); width:0; z-index:50}
+.foot{text-align:center; color:var(--muted); font-size:12.5px; padding:26px 0 0}
+.hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:20px}
+.hero-actions a,.hero-actions button{border:1px solid rgba(255,255,255,.28); border-radius:9px; padding:8px 13px;
+  background:rgba(255,255,255,.12); color:#fff; text-decoration:none; cursor:pointer; font:inherit; font-size:12.5px}
+.hero-actions a:first-child{background:#fff;color:#173b70;font-weight:700}
+.hero-actions a:hover,.hero-actions button:hover{transform:translateY(-1px);background:rgba(255,255,255,.2)}
+.hero-actions a:first-child:hover{background:#eef5ff}
+.mobile-menu{display:none;position:fixed;left:14px;bottom:18px;z-index:60;border:0;border-radius:50%;width:44px;height:44px;
+  background:var(--panel);color:var(--ink);box-shadow:var(--shadow);font-size:20px;cursor:pointer}
+@media (max-width:960px){
+  #side{display:block;position:fixed;z-index:55;transform:translateX(-105%);transition:transform .24s ease;box-shadow:18px 0 50px rgba(0,0,0,.2)}
+  body.menu-open #side{transform:translateX(0)}
+  .mobile-menu{display:block}
+  .wrap{padding:0 16px}
+  section{padding:20px 16px 24px}
+  .hero{padding:26px 0 22px}
+  .hero h1{font-size:21px}
+}
+@media print{
+  #side,.top,.pbar,.searchbox,.mobile-menu,.hero-actions{display:none}
+  #main{padding:0}
+  body{background:#fff}
+  section{break-inside:avoid; box-shadow:none; border:1px solid #ccc; margin-bottom:12px}
+  .hero{background:#1f4d8f !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  pre{background:#f4f6f8; color:#111; border:1px solid #ddd}
+}
+</style>
+</head>
+<body>
+<div class="pbar" id="pbar"></div>
+<div id="app">
+<aside id="side">
+  <div class="brand">
+    <h1>网络安全 · 服务器 · WiFi</h1>
+    <div class="sub">全量安全测试总纲 v1.0<br>31 章 · 4 附录 · 可执行 Runbook</div>
+  </div>
+  <div class="searchbox"><input id="q" type="search" placeholder="搜索章节 / 关键字…" autocomplete="off"></div>
+  <nav id="toc">
+    <div class="grp">总 纲</div>
+    <a href="#s00">00 使用说明与合规红线</a>
+    <a href="#s01">01 测试总纲与三档深度</a>
+    <a href="#s02">02 倒推法：黑客攻击链</a>
+    <a href="#s03">03 资产发现与攻击面</a>
+    <div class="grp">网 络</div>
+    <a href="#s04">04 网络层 L2/L3/L4</a>
+    <a href="#s05">05 DNS 与命名服务</a>
+    <a href="#s06">06 中间人与认证中继</a>
+    <a href="#s07">07 边界 · 分段 · ACL</a>
+    <a href="#s08">08 拒绝服务与抗压</a>
+    <div class="grp">无 线</div>
+    <a href="#s09">09 WiFi / 802.11 全量</a>
+    <a href="#s10">10 BLE · ZigBee · RF · 蜂窝</a>
+    <div class="grp">主 机 与 系 统</div>
+    <a href="#s11">11 服务器主机安全基线</a>
+    <a href="#s12">12 服务 · 端口 · 数据库</a>
+    <a href="#s13">13 提权 · 持久化 · 对抗</a>
+    <a href="#s14">14 固件 · 硬件 · 侧信道</a>
+    <div class="grp">应 用 与 数 据</div>
+    <a href="#s15">15 Web 应用（OWASP 2025）</a>
+    <a href="#s16">16 API 与微服务</a>
+    <a href="#s17">17 AI / LLM / 智能体</a>
+    <a href="#s18">18 身份 · AD · Kerberos</a>
+    <a href="#s19">19 云 · 容器 · K8s · 供应链</a>
+    <a href="#s20">20 密码学 · TLS · PKI</a>
+    <a href="#s21">21 邮件与协作办公面</a>
+    <a href="#s22">22 数据 · 备份 · 勒索韧性</a>
+    <div class="grp">稳 定 与 运 营</div>
+    <a href="#s23">23 稳定性 · 性能 · 混沌</a>
+    <a href="#s24">24 检测与响应（紫队）</a>
+    <a href="#s25">25 社会工程与物理</a>
+    <a href="#s26">26 前沿学术与新攻击</a>
+    <div class="grp">落 地</div>
+    <a href="#s27">27 工具矩阵与命令速查</a>
+    <a href="#s28">28 风险评级与报告模板</a>
+    <a href="#s29">29 加固基线与验收标准</a>
+    <a href="#s30">30 执行 Runbook 与排期</a>
+    <div class="grp">附 录</div>
+    <a href="#a1">A 渗透测试授权书模板</a>
+    <a href="#a2">B ROE 规则与红线</a>
+    <a href="#a3">C 用例 / 发现记录模板</a>
+    <a href="#a4">D 端口与危险信号速查</a>
+  </nav>
+</aside>
+<main id="main">
+<div class="hero">
+  <div class="wrap">
+    <h1>网络安全 · 服务器安全 · WiFi 安全 全量测试总纲</h1>
+    <p>以"黑客倒推法"为主线：先还原攻击者真实的攻击链与手法，再逐条反推成可执行的测试用例、判定标准与加固基线。覆盖传统手法与 2025–2026 最新攻击（AI 智能体攻击、Wi-Fi 7/WPA3、UEFI/TPM 固件、GPU Rowhammer、供应链蠕虫）。</p>
+    <div class="hero-stats">
+      <div><b>31</b>章正文</div>
+      <div><b>4</b>份附录模板</div>
+      <div><b>700+</b>测试检查项</div>
+      <div><b>L1–L3</b>三档测试深度</div>
+      <div><b>ATT&amp;CK</b>全链映射</div>
+    </div>
+    <div class="hero-tags">
+      <span>PTES</span><span>NIST SP 800-115</span><span>OSSTMM</span><span>OWASP WSTG / ASVS</span>
+      <span>OWASP Top 10 2025</span><span>OWASP API Top 10 2023</span><span>OWASP LLM Top 10</span>
+      <span>MITRE ATT&amp;CK</span><span>CIS Benchmarks</span><span>等保 2.0</span><span>CVSS v4.0 / EPSS</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#s00">开始阅读</a>
+      <a href="docs/handbook.md">Markdown 版本</a>
+      <button type="button" id="themeToggle" aria-label="切换深色模式">◐ 切换主题</button>
+      <button type="button" onclick="window.print()">打印 / 导出 PDF</button>
+    </div>
+  </div>
+</div>
+<div class="wrap">
+
+<section id="s00">
+<h2><span class="num">00</span>使用说明与合规红线<span class="en">Rules of Engagement &amp; Legal Boundary</span></h2>
+<div class="note warn"><b>⚠ 先读这一章，再动任何一台设备。</b>本文件包含大量具备实际破坏力的攻击手法与命令。<b>所有测试必须在获得书面授权、明确范围、明确时间窗、明确应急联系人的前提下进行。</b>未经授权对计算机信息系统实施扫描、侵入、获取数据、干扰功能，在中国及绝大多数司法辖区均构成违法犯罪。</div>
+
+<h3>0.1 中国大陆适用法律（红线清单）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:210px">法律法规</th><th>与本项目相关的条款要点</th><th class="c">红线</th></tr></thead>
+<tbody>
+<tr><td>《刑法》第 285 条</td><td>非法侵入计算机信息系统罪；非法获取计算机信息系统数据、非法控制计算机信息系统罪。情节严重处 3 年以下，特别严重 3–7 年。</td><td class="c"><span class="b b-crit">禁止</span></td></tr>
+<tr><td>《刑法》第 286 条</td><td>破坏计算机信息系统罪（删除/修改/增加/干扰，造成系统不能正常运行），后果严重 5 年以下，特别严重 5 年以上。</td><td class="c"><span class="b b-crit">禁止</span></td></tr>
+<tr><td>《刑法》第 287 条之一/之二</td><td>非法利用信息网络罪、帮助信息网络犯罪活动罪（提供工具、账号、技术支持）。</td><td class="c"><span class="b b-crit">禁止</span></td></tr>
+<tr><td>《网络安全法》第 27 条</td><td>不得非法侵入他人网络、干扰网络正常功能、窃取网络数据；不得提供专门用于侵入/非法控制的网络程序工具。</td><td class="c"><span class="b b-crit">禁止</span></td></tr>
+<tr><td>《数据安全法》《个人信息保护法》</td><td>测试过程中接触到的个人信息、重要数据必须脱敏、最小化使用、不得外传；数据分类分级与出境规则。</td><td class="c"><span class="b b-high">强约束</span></td></tr>
+<tr><td>《关键信息基础设施安全保护条例》</td><td>若被测对象属关基（CII），测试需报主管部门；每年至少一次检测评估。</td><td class="c"><span class="b b-high">强约束</span></td></tr>
+<tr><td>《网络安全等级保护条例》/ 等保 2.0</td><td>定级备案、建设整改、等级测评、监督检查；三级系统每年测评一次，四级每半年一次。</td><td class="c"><span class="b b-med">对齐</span></td></tr>
+<tr><td>《网络产品安全漏洞管理规定》</td><td>不得在厂商提供修补措施前发布漏洞信息；不得向境外机构提供未公开漏洞信息。</td><td class="c"><span class="b b-high">强约束</span></td></tr>
+</tbody></table></div>
+
+<h3>0.2 测试前必须完成的 6 件事</h3>
+<ol>
+<li><b>书面授权书</b>：盖公章，明确委托方、受托方、目标资产清单、测试类型、时间窗、签署人。模板见<a href="#a1">附录 A</a>。</li>
+<li><b>ROE（测试规则）</b>：明确允许/禁止的技术、破坏性操作审批流程、紧急叫停机制。模板见<a href="#a2">附录 B</a>。</li>
+<li><b>应急联系人表</b>：委托方技术负责人、安全负责人、法务、机房值班、我方项目经理，7×24 可达。</li>
+<li><b>备份与回退证明</b>：被测系统全量备份已验证可恢复并留存校验值；虚拟化环境保留快照。</li>
+<li><b>隔离与白名单</b>：测试源 IP 在 WAF/IPS/封禁系统加白；确认不影响第三方（云厂商、运营商、邻网）。</li>
+<li><b>证据链与保密</b>：建立证据保全目录（截屏、抓包、日志、哈希），签署 NDA，明确数据销毁时间点。</li>
+</ol>
+
+<h3>0.3 绝对禁止清单（任何情况下不得做）</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">R-01</span><span>对<b>未列入授权范围</b>的 IP / 域名 / 无线信号做任何探测（含 ping、DNS 查询）。邻近租户、路人热点只做被动记录，绝不触碰。</span></li>
+<li><input type="checkbox"><span class="id">R-02</span><span>对生产系统执行<b>拒绝服务</b>类测试（SYN Flood、Slowloris、CC、放大反射），除非 ROE 逐项书面批准且有熔断机制。</span></li>
+<li><input type="checkbox"><span class="id">R-03</span><span>对生产客户端做 <b>Deauth / 解除认证洪水</b>。WiFi 的 DoS 验证一律放在实验室镜像 SSID 或屏蔽笼中。</span></li>
+<li><input type="checkbox"><span class="id">R-04</span><span>明文导出、外传、留存<b>真实生产数据</b>（尤其个人信息、口令、密钥）。取证用最小化样本并脱敏，结束按约定销毁。</span></li>
+<li><input type="checkbox"><span class="id">R-05</span><span>使用<b>真实恶意样本 / 勒索软件</b>在靶机落地运行。改用 EICAR、Atomic Red Team 或自写无害 PoC。</span></li>
+<li><input type="checkbox"><span class="id">R-06</span><span>在被测环境<b>留下持久化后门</b>。如需验证驻留能力，用一次性可撤销方式并登记，结束 100% 清理复核。</span></li>
+<li><input type="checkbox"><span class="id">R-07</span><span>修改生产数据、删改业务记录、篡改账务/订单/库存。<b>只读优先</b>，写操作必须单点审批。</span></li>
+<li><input type="checkbox"><span class="id">R-08</span><span>把发现的漏洞信息发布到公开渠道，或在厂商修复前扩散。遵循《网络产品安全漏洞管理规定》。</span></li>
+<li><input type="checkbox"><span class="id">R-09</span><span>测试员私自留存客户凭据、拓扑、源码。凭据交密钥管理系统，项目结束清除本地副本。</span></li>
+<li><input type="checkbox"><span class="id">R-10</span><span>社会工程测试中外发真实钓鱼链接、欺骗高管转账演练等，须单独审批并有人事/法务在场。</span></li>
+</ul>
+
+<h3>0.4 风险等级与文档使用约定</h3>
+<div class="grid g2">
+<div class="card"><h5><span class="b b-crit">严重</span></h5><p>可直接导致核心资产失陷、域控/生产库沦陷、大面积数据泄露、业务长时间中断。<b>7 日内</b>修复或临时缓解。</p></div>
+<div class="card"><h5><span class="b b-high">高危</span></h5><p>可被利用于提权、横向移动、绕过关键认证，但需一定前置条件。<b>30 日内</b>修复。</p></div>
+<div class="card"><h5><span class="b b-med">中危</span></h5><p>信息泄露、配置不当、缺失防御纵深，单独利用影响有限但可串联。<b>90 日内</b>修复。</p></div>
+<div class="card"><h5><span class="b b-low">低危 / 建议</span></h5><p>最佳实践差距、加固建议、可观测性缺口。纳入下一迭代。</p></div>
+</div>
+<div class="note info"><b>勾选框说明：</b>所有 <code>ul.chk</code> 清单项可点击勾选，进度自动保存在你本机浏览器（localStorage），刷新不丢失，适合测试员边测边打勾。总进度见 <a href="#s30">第 30 章</a> 看板。</div>
+</section>
+
+<section id="s01">
+<h2><span class="num">01</span>测试总纲与三档深度<span class="en">Framework, Scope &amp; Depth Levels</span></h2>
+<p class="lead">没有方法论的渗透测试只是"跑了个扫描器"。本总纲以 <b>PTES 七阶段</b>做流程骨架，<b>NIST SP 800-115</b>做合规对齐，<b>OWASP 系列</b>做技术检查表，<b>MITRE ATT&amp;CK</b>做攻击者行为映射，<b>CVSS v4.0 + EPSS</b>做风险量化。测试员按同一套框架执行，两个人应得出大体一致的结论。</p>
+
+<h3>1.1 主流方法论对照</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:150px">方法论</th><th style="width:80px">定位</th><th>阶段划分</th><th style="width:170px">本项目用法</th></tr></thead>
+<tbody>
+<tr><td><b>PTES</b></td><td>流程标准</td><td>前期交互 → 情报收集 → 威胁建模 → 漏洞分析 → 漏洞利用 → 后渗透 → 报告</td><td><b>主骨架</b>：按 7 阶段排期与验收</td></tr>
+<tr><td><b>NIST SP 800-115</b></td><td>合规范式</td><td>Planning → Discovery → Attack → Reporting</td><td>对外交付、等保/ISO 审计的对齐口径</td></tr>
+<tr><td><b>OSSTMM</b></td><td>可量化度量</td><td>把安全拆成可测量的攻击面指标（通道、向量、交互）</td><td>计算攻击面覆盖率与年度同比</td></tr>
+<tr><td><b>MITRE ATT&amp;CK</b></td><td>行为库</td><td>14 个战术（Recon → … → Impact），1900+ 技术</td><td>紫队验证、检测覆盖度打分</td></tr>
+<tr><td><b>OWASP WSTG / ASVS</b></td><td>Web 清单</td><td>WSTG 12 大类 300+ 用例；ASVS 三级验证</td><td>第 15 章逐条依据</td></tr>
+<tr><td><b>CIS / DISA STIG</b></td><td>加固基线</td><td>按 OS / 中间件 / 云的分级配置基线</td><td>第 11、29 章判定口径</td></tr>
+<tr><td><b>TIBER-EU / CBEST</b></td><td>红队对抗</td><td>情报驱动、全隐蔽、红蓝紫三方</td><td>L3 高级对抗的组织方式</td></tr>
+</tbody></table></div>
+
+<h3>1.2 三档测试深度</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:110px">档位</th><th style="width:150px">回答什么问题</th><th>做什么</th><th style="width:100px">工期</th><th style="width:130px">知识前提</th></tr></thead>
+<tbody>
+<tr><td><span class="b b-low">L1</span><br>基线核查</td><td>"配置合规吗？有明显敞口吗？"</td><td>配置审计 + 认证/非认证漏洞扫描 + 端口服务盘点 + 弱口令抽查 + WiFi 配置核查。<b>不做利用</b>。</td><td>3–5 工作日</td><td>需提供只读账号</td></tr>
+<tr><td><span class="b b-med">L2</span><br>深度渗透</td><td>"黑客真打进来，能到哪一步？"</td><td>L1 基础上：<b>人工验证 + 安全利用</b>、提权、横向移动、域内攻击链、Web/API 业务逻辑、WiFi 实战破解、数据可达性证明。</td><td>10–20 工作日</td><td>灰盒（推荐）：普通域账号 + 拓扑</td></tr>
+<tr><td><span class="b b-crit">L3</span><br>红队对抗</td><td>"能多快发现并拦住真实 APT？"</td><td>全程隐蔽，绕过 EDR/边界/流程，含社工、物理、C2 与持久化、目标达成。<b>同步考核蓝队检测率与响应时间</b>。</td><td>4–8 周</td><td>白盒起步，少数人知情</td></tr>
+</tbody></table></div>
+<div class="note tip"><b>建议：</b>先做一次完整 <b>L1</b> 打底（先关敞口），再做 <b>L2</b> 证明残余风险，稳定运行半年后再上 <b>L3</b>。直接跳 L3 通常只会拿到一堆已知问题，浪费高级测试资源。</div>
+
+<h3>1.3 PTES 七阶段 × 交付物 × 验收</h3>
+<div class="flow"><span class="st">① 前期交互</span><span class="ar">→</span><span class="st">② 情报收集</span><span class="ar">→</span><span class="st">③ 威胁建模</span><span class="ar">→</span><span class="st">④ 漏洞分析</span><span class="ar">→</span><span class="st">⑤ 漏洞利用</span><span class="ar">→</span><span class="st">⑥ 后渗透</span><span class="ar">→</span><span class="st">⑦ 报告与复测</span></div>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:50px">阶段</th><th style="width:150px">核心动作</th><th>关键产出</th><th style="width:200px">验收标准</th></tr></thead>
+<tbody>
+<tr><td class="c">①</td><td>范围、授权、ROE、排期</td><td>授权书、ROE、资产清单、联系人表、备份证明</td><td>双方签字；范围无歧义；叫停通道畅通</td></tr>
+<tr><td class="c">②</td><td>被动 OSINT + 主动发现</td><td>资产台账、攻击面图、暴露面清单</td><td>覆盖率 ≥ 95%；与 CMDB 差异已标注</td></tr>
+<tr><td class="c">③</td><td>资产分级、威胁建模、攻击树</td><td>威胁模型、皇冠珠宝清单、ATT&amp;CK 映射表</td><td>每条攻击假设都有对应测试用例</td></tr>
+<tr><td class="c">④</td><td>扫描 + <b>人工验证</b></td><td>漏洞清单（CVSS v4.0 + EPSS + CWE）、误判剔除记录</td><td>扫描结果 100% 人工过一遍；误报率 &lt; 10%</td></tr>
+<tr><td class="c">⑤</td><td>安全利用、链式组合、PoC</td><td>可复现 PoC、截图/抓包证据、影响范围</td><td>每个严重/高危均有 PoC 或无法利用的论证</td></tr>
+<tr><td class="c">⑥</td><td>提权、横移、持久化、数据可达性</td><td>攻击链路图、影响力评估、清理清单</td><td>证明"单点漏洞 → 全面失陷"的真实路径</td></tr>
+<tr><td class="c">⑦</td><td>报告、路线图、清理、复测</td><td>执行摘要 + 技术报告 + 修复建议 + 复测报告</td><td>严重/高危 100% 复测通过；产物已清理</td></tr>
+</tbody></table></div>
+
+<h3>1.4 黑盒 / 灰盒 / 白盒</h3>
+<div class="grid g3">
+<div class="card"><h5>黑盒</h5><p>零先验，模拟外部攻击者。最真实但耗时最长、易漏深层逻辑问题。适用：外部暴露面、首次摸底、合规。</p></div>
+<div class="card"><h5>灰盒 <span class="b b-info">推荐</span></h5><p>提供普通账号 + 基础拓扑，模拟"员工被钓鱼后的攻击者"或恶意内部人，性价比最高。适用：绝大多数内网与服务器测试。</p></div>
+<div class="card"><h5>白盒</h5><p>开放源码、架构、凭据。覆盖率最高，可发现设计层缺陷。适用：关键系统发布前、代码审计。</p></div>
+</div>
+
+<h3>1.5 风险量化口径</h3>
+<div class="kv">
+<div class="k">CVSS v4.0</div><div>基础分（攻击向量/复杂度/权限要求/用户交互/影响）+ 威胁分（在野利用成熟度）+ 环境分（资产重要性、缓解措施）</div>
+<div class="k">EPSS</div><div>未来 30 天被在野利用的概率。<b>优先级 = CVSS × EPSS × 资产权重</b>，避免"高分低危"挤占排期</div>
+<div class="k">CWE</div><div>弱点类型编号（如 CWE-89），用于归类与开发侧整改</div>
+<div class="k">VEX</div><div>漏洞可利用性交换：声明"本部署下该 CVE 不可利用"，减少无效告警</div>
+<div class="k">业务风险</div><div><b>可能性 × 影响 × 可达性</b>。同一个"中危"在域控上是严重，在一次性测试机上是低危</div>
+</div>
+<div class="note cau"><b>注意：</b>报告里不要只给 CVSS 分数。董事会看不懂 7.8 分意味着什么，但看得懂"一个前台页面的漏洞，可以在 40 分钟内拿到全部客户数据并加密生产库"。<b>每条严重/高危都要写清业务影响和攻击耗时。</b></div>
+</section>
+
+<section id="s02">
+<h2><span class="num">02</span>倒推法：黑客是怎么打进来的<span class="en">Adversary Kill Chain Reverse Mapping</span></h2>
+<p class="lead">这一章是整份文档的<b>灵魂</b>。思路：<b>先完整还原真实攻击者从零到拿下服务器的每一步手法</b>（含 2025–2026 实战数据），<b>再倒推出"这一步要测什么、怎么测、测出来算不算过"</b>。后面所有章节的测试项，都能在这里找到它的"攻击来源"。</p>
+
+<h3>2.1 真实攻击链全景（14 步）</h3>
+<div class="flow"><span class="st">① 目标选定</span><span class="ar">→</span><span class="st">② 情报收集</span><span class="ar">→</span><span class="st">③ 暴露面发现</span><span class="ar">→</span><span class="st">④ 武器化</span><span class="ar">→</span><span class="st">⑤ 初始访问</span><span class="ar">→</span><span class="st">⑥ 立足/执行</span><span class="ar">→</span><span class="st">⑦ 持久化</span><span class="ar">→</span><span class="st">⑧ 提权</span></div>
+<div class="flow"><span class="st">⑨ 防御规避</span><span class="ar">→</span><span class="st">⑩ 凭据窃取</span><span class="ar">→</span><span class="st">⑪ 内网探测</span><span class="ar">→</span><span class="st">⑫ 横向移动</span><span class="ar">→</span><span class="st">⑬ 目标达成</span><span class="ar">→</span><span class="st">⑭ 影响/勒索/外传</span></div>
+
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:38px">#</th><th style="width:110px">阶段</th><th style="width:290px">黑客实际使用的方法</th><th style="width:100px">ATT&amp;CK</th><th>倒推出的测试项（章节）</th><th class="c" style="width:60px">频次</th></tr></thead>
+<tbody>
+<tr><td class="c">①</td><td><b>目标选定</b></td><td>在 FOFA / Shodan / Censys 按指纹批量筛目标；从泄露库查员工邮箱；盯供应链与子公司</td><td>T1595<br>T1590</td><td>用攻击者视角搜自己（第 3 章）</td><td class="c"><span class="b b-info">100%</span></td></tr>
+<tr><td class="c">②</td><td><b>情报收集</b></td><td>WHOIS/备案、证书透明日志、GitHub 代码与 Secret 泄露、招聘 JD 泄漏技术栈、LinkedIn 组织架构</td><td>T1589<br>T1591</td><td>OSINT 自查、仓库 Secret 扫描（3.2 / 19.3）</td><td class="c"><span class="b b-info">100%</span></td></tr>
+<tr><td class="c">③</td><td><b>暴露面发现</b></td><td>全端口 masscan、服务指纹、目录/子域爆破、Swagger 发现、云桶枚举、被遗忘的测试环境</td><td>T1592<br>T1046</td><td>端口服务盘点、遗忘资产、影子 IT（3、12 章）</td><td class="c"><span class="b b-info">100%</span></td></tr>
+<tr><td class="c">④</td><td><b>武器化</b></td><td>1-day/N-day 快速武器化（FortiBleed 类）；AI 生成钓鱼页与免杀载荷；伪造签名证书；投毒依赖包</td><td>T1587<br>T1588</td><td>N-day 响应速度、EDR 免杀测试（26 / 24.4）</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">⑤</td><td><b>初始访问</b></td><td>①边缘设备 0day/N-day ②钓鱼/AiTM ③ stolen credentials ④公网应用漏洞 ⑤供应链 ⑥恶意 OAuth 同意</td><td>T1190<br>T1566<br>T1078</td><td>互联网暴露面渗透、钓鱼演练、凭据泄露检查（4/15/19/25）</td><td class="c"><span class="b b-crit">决定性</span></td></tr>
+<tr><td class="c">⑥</td><td><b>立足/执行</b></td><td>WebShell、计划任务、服务创建、容器逃逸、云函数；Living-off-the-Land（PowerShell/wmiexec/curl）</td><td>T1059<br>T1053</td><td>主机执行面检测覆盖（13 / 24 章）</td><td class="c"><span class="b b-crit">100%</span></td></tr>
+<tr><td class="c">⑦</td><td><b>持久化</b></td><td>Run 键、systemd、cron、WMI 事件订阅、SSH authorized_keys、Golden Ticket、ADCS 模板后门、云 IAM 后门、<b>UEFI/Bootkit</b></td><td>T1547<br>T1543</td><td>持久化检测与清理（13.2 / 14.2 / 24.5）</td><td class="c"><span class="b b-crit">100%</span></td></tr>
+<tr><td class="c">⑧</td><td><b>提权</b></td><td>内核/驱动漏洞、sudo 与 capability 误配、SUID、服务路径劫持、令牌与 UAC 绕过、容器逃逸、<b>云 IAM 提权链</b></td><td>T1068<br>T1548</td><td>本地提权全量测试（13.1 / 19.2）</td><td class="c"><span class="b b-crit">100%</span></td></tr>
+<tr><td class="c">⑨</td><td><b>防御规避</b></td><td><b>EDR-kill（BYOVD 驱动）</b>、进程注入、unhooking、日志清除、时间伪造、伪装为合法工具</td><td>T1562<br>T1055</td><td>EDR 对抗与日志完整性（24.4）</td><td class="c"><span class="b b-crit">常态</span></td></tr>
+<tr><td class="c">⑩</td><td><b>凭据窃取</b></td><td>LSASS dump、SAM/NTDS.dit、浏览器与密码管理器、Kerberoasting/ASREPRoast、内存令牌、云元数据 Key</td><td>T1003<br>T1558</td><td>凭据面测试与加固（18 章）</td><td class="c"><span class="b b-crit">100%</span></td></tr>
+<tr><td class="c">⑪</td><td><b>内网探测</b></td><td>ARP/ICMP 扫描、SMB/AD 枚举（BloodHound）、端口扫描、DNS 查询、SNMP 遍历、IPv6/mDNS 发现</td><td>T1046<br>T1087</td><td>内网可见性、协议最小化（4 / 6 / 7 章）</td><td class="c"><span class="b b-crit">100%</span></td></tr>
+<tr><td class="c">⑫</td><td><b>横向移动</b></td><td>PsExec/WMI/SMB、RDP、NTLM Relay、Pass-the-Hash/Ticket、SSH key 复用、云角色扮演、跳板机</td><td>T1021<br>T1550</td><td>分段与横移阻断验证（7 / 18 章）</td><td class="c"><span class="b b-crit">100%</span></td></tr>
+<tr><td class="c">⑬</td><td><b>目标达成</b></td><td>定位并访问"皇冠珠宝"：源码、数据库、备份服务器、财务/客户数据、CI/CD 与制品库、密钥管理</td><td>T1078<br>T1537</td><td>数据可达性、最小权限验证（22 / 29 章）</td><td class="c"><span class="b b-crit">决定性</span></td></tr>
+<tr><td class="c">⑭</td><td><b>影响</b></td><td>勒索加密（含 ESXi/NAS 跨平台）、数据外传与多重勒索、破坏备份、擦除、DDoS、公开泄露</td><td>T1486<br>T1567</td><td>备份与韧性演练、DLP 与外传检测（22 章）</td><td class="c"><span class="b b-crit">高危</span></td></tr>
+</tbody></table></div>
+
+<h3>2.2 2025–2026 实测数据：攻击者到底靠什么进来</h3>
+<div class="note info">以下数据来自 Palo Alto Unit 42《2026 全球事件响应报告》（750+ 起真实 IR 案件）、Halcyon 2026 Q2 勒索报告、Proofpoint 2026 调研与 Black Hat USA 2026。它决定了<b>你的测试预算应该往哪放</b>。</div>
+<div class="tw"><table>
+<thead><tr><th style="width:250px">观察结论</th><th>数据</th><th>倒推出的测试重点</th></tr></thead>
+<tbody>
+<tr><td>身份是最可靠的突破口</td><td><b>约 90%</b> 的 IR 案件中，身份弱点（凭据/令牌/权限）起了实质作用</td><td>第 18 章：AD/Kerberos/云 IAM/MFA 抗钓鱼必须重点测</td></tr>
+<tr><td>多攻击面交叉</td><td><b>87%</b> 的入侵跨越多个攻击面</td><td>不做单点评测，要做跨面串联的攻击路径验证</td></tr>
+<tr><td>浏览器是主战场</td><td><b>48%</b> 涉及浏览器侧活动（邮件、SaaS、网页）</td><td>AiTM 钓鱼代理、恶意 OAuth、浏览器凭据窃取要纳入</td></tr>
+<tr><td>多数是可预防的暴露</td><td><b>&gt;90%</b> 的入侵由可预防缺口促成：可见性不足、控制未一致落地、身份过度信任</td><td>配置核查（11/29 章）比买新盒子更划算</td></tr>
+<tr><td>AI 加速攻击</td><td>2025 年最快的数据外传速度<b>提升 4 倍</b>；65% 受害组织认为 AI 显著提升了攻击有效性</td><td>第 17 章：AI 智能体攻击面；MTTD 压到分钟级</td></tr>
+<tr><td>第三方与供应链</td><td>涉及第三方的泄露从 15% 跃升至 <b>30%</b>；供应链泄露平均 <b>491 万美元</b>、<b>267 天</b>才发现</td><td>第 19 章：依赖、CI/CD、SaaS 集成、SBOM</td></tr>
+<tr><td>边缘设备是快车道</td><td>NetScaler、SonicWall SSL VPN、FortiOS 等漏洞帮助攻击者在<b>1 小时内</b>从入侵到投毒勒索</td><td>VPN/网关类设备必须做 N-day 快速核验（4/11 章）</td></tr>
+<tr><td>EDR-kill 成标配</td><td>主流勒索团伙已普遍把"关闭 EDR"写进攻击链（BYOVD 合法驱动摘除防护）</td><td>第 24 章：EDR 自我保护、驱动白名单必须测</td></tr>
+<tr><td>智能体化勒索出现</td><td>2026 年 7 月"JadePuffer"被评估为<b>首个由 LLM 智能体自主完成</b>主要入侵阶段的勒索事件</td><td>第 17/26 章：AI 智能体滥用、LLM 密钥与工具权限</td></tr>
+</tbody></table></div>
+
+<h3>2.3 倒推工作法：从"攻击手法"到"测试用例"</h3>
+<p>对每一个攻击手法，用四问模板生成测试项。后面所有章节的表格都遵循这个结构。</p>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:52px">步骤</th><th style="width:120px">问什么</th><th>输出</th><th style="width:250px">示例（Kerberoasting）</th></tr></thead>
+<tbody>
+<tr><td class="c">1</td><td><b>黑客怎么做</b></td><td>手法的前置条件、操作、工具</td><td>任意域用户可请求服务主体 SPN 的票据，离线暴破服务账号密码</td></tr>
+<tr><td class="c">2</td><td><b>我们怎么验证</b></td><td>复现步骤与命令</td><td><code>Rubeus kerberoast /stats</code> 后 <code>hashcat -m 13100</code></td></tr>
+<tr><td class="c">3</td><td><b>什么算通过</b></td><td>可量化、二值的判定标准</td><td>服务账号口令 ≥ 25 位随机 或 用 gMSA；SIEM 5 分钟内告警 RC4 票据请求</td></tr>
+<tr><td class="c">4</td><td><b>不过怎么办</b></td><td>修复动作与加固基线</td><td>迁移 gMSA、禁用 RC4、AES-only、开启 4769 告警</td></tr>
+</tbody></table></div>
+
+<h3>2.4 攻击路径图（Attack Path）— 必须交付的产物</h3>
+<p>报告不能只有"漏洞列表"，必须有<b>攻击路径图</b>：从"最可能的入口"到"皇冠珠宝"的实际可达链路。它回答管理层真正关心的问题：<b>我们离全面失陷还有几步？</b></p>
+<pre>入口：公网 VPN 边缘设备 N-day  ──┐
+入口：钓鱼邮件 → AiTM 拿下会话  ──┼──► 普通域用户 ──► Kerberoasting ──► 服务账号
+入口：公网 Web 逻辑漏洞         ──┘                        │
+                                                          ▼
+                              域控同步权限 ◄── ACL 滥用 ◄── 服务器本地管理员
+                                    │
+                                    ▼
+                    皇冠珠宝：生产数据库 / 备份服务器 / CI-CD 制品库 / 密钥管理
+                                    │
+                                    ▼
+              影响：勒索加密（含 ESXi 与 NAS）+ 数据外传 + 破坏不可变备份</pre>
+<div class="note tip"><b>给测试员的活儿：</b>每完成一条攻击路径，就在图上标出"实际走了几步、每步耗时多久、哪一步被蓝队发现了"。这张图的价值远超单个漏洞列表——它直接告诉你<b>应该在中间哪一步设卡，性价比最高</b>。</div>
+</section>
+
+<section id="s03">
+<h2><span class="num">03</span>资产发现与攻击面测绘<span class="en">Asset Discovery &amp; Attack Surface</span></h2>
+<p class="lead">你无法保护你不知道存在的东西。绝大多数严重入侵都发生在<b>"不在 CMDB 里的资产"</b>上——临时测试机、被遗忘的旧域名、个人搭建的 SaaS、员工私接的路由器。</p>
+
+<h3>3.1 资产台账必须包含的 12 类对象</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:120px">类别</th><th style="width:270px">盘点内容</th><th>常用方法 / 工具</th></tr></thead>
+<tbody>
+<tr><td>域名与子域</td><td>主域、所有子域、历史解析、泛解析、悬空 CNAME</td><td>证书透明日志（crt.sh）、DNS 爆破、FOFA/Shodan、subfinder/amass</td></tr>
+<tr><td>IP 与网段</td><td>公网 IP 段（含 BGP 宣告）、内网网段、VPN 池、云 VPC、IPv6</td><td>WHOIS/ASN 查询、masscan 存活、云 API 导出</td></tr>
+<tr><td>端口与服务</td><td>开放端口、服务版本、Banner、协议指纹</td><td>nmap -sV -sC、nuclei、指纹比对</td></tr>
+<tr><td>Web 资产</td><td>站点、路径、API、后台、Swagger/GraphQL、被遗忘的测试站</td><td>httpx / feroxbuster / katana、JS 提取接口</td></tr>
+<tr><td>证书</td><td>TLS 证书、颁发者、有效期、算法、SAN 是否泄露内网名</td><td>testssl.sh、CT 日志监控、sslyze</td></tr>
+<tr><td>云资产</td><td>IAM 账号/角色、存储桶、快照、镜像、Serverless、OAuth 授权</td><td>cloudsploit / prowler / ScoutSuite、控制台导出</td></tr>
+<tr><td>无线资产</td><td>SSID/BSSID、AP 型号与固件、控制器、RADIUS、信号覆盖</td><td>airodump-ng / Kismet / wigle、控制器清单</td></tr>
+<tr><td>代码与制品</td><td>仓库、CI/CD、制品库、镜像、SBOM、Terraform state</td><td>全量扫描、trufflehog / gitleaks</td></tr>
+<tr><td>身份资产</td><td>AD 用户/组/计算机/服务账号、云 IAM、应用账号、API Key</td><td>BloodHound / ldapsearch、密钥扫描</td></tr>
+<tr><td>终端与服务器</td><td>OS 版本、补丁级别、已装软件、EDR 覆盖率</td><td>EDR 控制台、lynis / osquery</td></tr>
+<tr><td>第三方与供应链</td><td>外包商接入、VPN 账号、共享账号、SaaS 集成、开源依赖</td><td>合同台账、OAuth 授权审计、SBOM</td></tr>
+<tr><td>物理与 IoT</td><td>门禁、摄像头、打印机、工控设备、BMC/IPMI、USB 设备</td><td>现场勘查、网络扫描、资产标签核对</td></tr>
+</tbody></table></div>
+
+<h3>3.2 OSINT 自查清单（用攻击者视角搜自己）</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">AS-01</span><span>在 FOFA / Shodan / Censys / ZoomEye 用公司名、域名、证书序列号检索，导出命中并逐一确认归属</span></li>
+<li><input type="checkbox"><span class="id">AS-02</span><span>证书透明日志检索：发现未登记子域与内网域名泄露（SAN 含 <code>*.corp.internal</code> 属高危）</span></li>
+<li><input type="checkbox"><span class="id">AS-03</span><span>代码平台泄露排查：组织名、邮箱后缀、特征字符串；<code>trufflehog</code>/<code>gitleaks</code> 扫历史提交</span></li>
+<li><input type="checkbox"><span class="id">AS-04</span><span>网盘/文档平台/问答站点/招聘 JD 中的技术栈与架构泄露</span></li>
+<li><input type="checkbox"><span class="id">AS-05</span><span>公司邮箱在历史泄露库中的命中（HIBP 企业版/监控），命中账号强制改密并启用 MFA</span></li>
+<li><input type="checkbox"><span class="id">AS-06</span><span>历史快照暴露的旧后台、旧接口、注释里的内部地址</span></li>
+<li><input type="checkbox"><span class="id">AS-07</span><span>云存储桶公开枚举（公司名、项目名、常见前缀组合）</span></li>
+<li><input type="checkbox"><span class="id">AS-08</span><span>移动 App / 小程序反编译，提取硬编码域名、API、密钥、第三方 SDK</span></li>
+<li><input type="checkbox"><span class="id">AS-09</span><span>ASN 与 IP 段归属核对：确认没有"以为下线但仍在宣告"的网段</span></li>
+<li><input type="checkbox"><span class="id">AS-10</span><span>影子 IT：用 DNS/上网行为日志找出未审批的高频 SaaS</span></li>
+</ul>
+
+<h3>3.3 主动发现（授权范围内）</h3>
+<pre># 1) 存活发现（低速）
+sudo nmap -sn -PE -PP -PM -oA live 10.0.0.0/16
+# 2) 全端口 + 版本（masscan 先筛端口）
+sudo masscan -p1-65535 10.0.0.0/16 --rate 3000 -oX mass.xml
+sudo nmap -sV -sC -O -p&lt;开放端口&gt; -iL targets.txt -oA detail
+# 3) UDP 常见端口（常被忽略：SNMP/DNS/NTP/DHCP/TFTP）
+sudo nmap -sU --top-ports 200 -iL targets.txt -oA udp
+# 4) IPv6（很多环境完全没做 IPv6 防护）
+sudo nmap -6 -sV fe80::/64
+# 5) Web 资产探测
+subfinder -d example.com -o subs.txt &amp;&amp; httpx -l subs.txt -title -status-code -tech-detect -o web.txt
+# 6) 漏洞初筛（务必人工复核）
+nuclei -l web.txt -severity critical,high -o nuclei.txt</pre>
+<div class="note warn"><b>扫描速率与稳定性：</b>内网全端口扫描会打满交换机 CAM 表、触发 IPS 封禁、甚至让老旧打印机/工控设备宕机。<b>先小范围试扫 → 观察 10 分钟 → 再放量</b>，提前加白并通知网络组。</div>
+
+<h3>3.4 攻击面分级</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:100px">等级</th><th style="width:190px">定义</th><th>典型对象</th><th style="width:80px">强度</th></tr></thead>
+<tbody>
+<tr><td><span class="b b-crit">S1 核心</span></td><td>暴露于互联网且承载关键数据/控制能力</td><td>VPN/网关、邮件、对外 Web/API、域控跳板、CI/CD、密钥管理、备份服务器</td><td>L2–L3</td></tr>
+<tr><td><span class="b b-high">S2 重要</span></td><td>内网可达，被攻破后可横向到核心</td><td>办公终端、应用服务器、数据库、虚拟化平台、RADIUS、无线控制器</td><td>L2</td></tr>
+<tr><td><span class="b b-med">S3 一般</span></td><td>隔离区/受限访问，影响可控</td><td>访客 WiFi、测试环境、IoT 段、打印网段</td><td>L1</td></tr>
+<tr><td><span class="b b-low">S4 低</span></td><td>物理隔离或一次性用途</td><td>离线备份、展示机、临时演示环境</td><td>抽查</td></tr>
+</tbody></table></div>
+<div class="note tip"><b>验收指标：</b>资产台账覆盖率 ≥ 95%；OSINT 自查 10 项全部执行并留痕；S1 类资产 100% 进入 L2 深度测试。</div>
+</section>
+
+<section id="s04">
+<h2><span class="num">04</span>网络层安全测试（L2 / L3 / L4）<span class="en">Layer 2/3/4 Security Testing</span></h2>
+<p class="lead">内网一旦被踩进来，攻击者第一件事就是"看清网络、找到路"。这一章测的是：<b>攻击者能否在网络层劫持流量、欺骗身份、突破 VLAN 隔离</b>。多数企业防住了外网，却在内网裸奔。</p>
+
+<h3>4.1 二层（L2）攻击面</h3>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:140px">测试项</th><th style="width:290px">黑客手法 / 命令</th><th>判定标准（安全）</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">L2-01</td><td>ARP 欺骗 / 中间人</td><td><code>bettercap -eval "net.probe on; arp.spoof on"</code>；<code>ettercap -T -M arp</code></td><td>交换机启用 <b>DAI</b> + DHCP Snooping；或全网强制加密使截获无价值</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">L2-02</td><td>MAC 泛洪（CAM 溢出）</td><td><code>macof -i eth0</code> 观察交换机是否退化为集线器</td><td>启用 <b>端口安全</b>，限制每端口 MAC 数并违规 shutdown</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L2-03</td><td>VLAN 跳跃（Switch Spoofing）</td><td>探测 DTP：<code>yersinia dtp -attack 1</code>；伪造 DTP 协商成 Trunk</td><td>接入端口<b>关闭 DTP、强制 access</b>、未用端口放入黑洞 VLAN</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L2-04</td><td>VLAN 双标签</td><td>发送双层 802.1Q 标签帧验证跨 VLAN 单跳</td><td>本征 VLAN 不用业务 VLAN；Trunk 明确 tag/untag 策略</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">L2-05</td><td>STP 操纵</td><td><code>yersinia stp -attack 4</code> 宣称 Root Bridge 劫持路径</td><td>启用 <b>BPDU Guard / Root Guard</b></td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L2-06</td><td>DHCP 饥饿 + 伪造服务器</td><td><code>yersinia dhcp -attack 1/2</code>；rogue DHCP 下发恶意网关/DNS</td><td>启用 <b>DHCP Snooping</b>，接入端口拒绝 DHCP 响应</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L2-07</td><td>私接路由 / 影子 AP</td><td>接入端口出现多 MAC、TTL 异常、意外 DHCP/NAT 行为</td><td>802.1X 或 NAC；发现私接自动隔离并告警</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L2-08</td><td>802.1X 绕过</td><td>MAC 克隆绕过 MAB；利用未启用 802.1X 的端口（打印机、IP 电话）</td><td>所有接入端口启用 802.1X；失败进隔离 VLAN</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L2-09</td><td>IPv6 NDP 欺骗</td><td><code>mitm6 -d domain.local</code> 伪造 DHCPv6 下发恶意 DNS</td><td>未用 IPv6 则禁用；启用 <b>RA Guard / DHCPv6 Guard</b></td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">L2-10</td><td>私有 VLAN / 端口隔离</td><td>同网段两台主机互 ping / 互扫端口</td><td>终端网段启用 <b>PVLAN / 端口隔离</b></td><td class="c"><span class="b b-med">中</span></td></tr>
+</tbody></table></div>
+
+<h3>4.2 三层（L3）与路由</h3>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:140px">测试项</th><th style="width:290px">手法 / 命令</th><th>判定标准</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">L3-01</td><td>IP 源地址欺骗</td><td><code>hping3 -a &lt;伪造源&gt; -S target -p 80</code></td><td>启用 <b>uRPF</b> 与入向过滤（BCP38）</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">L3-02</td><td>源路由 / IP 选项</td><td><code>nmap --ip-options "R"</code> 探测 LSRR</td><td>边界丢弃带源路由选项的包</td><td class="c"><span class="b b-low">低</span></td></tr>
+<tr><td class="c">L3-03</td><td>ICMP 隧道（隐蔽外传）</td><td><code>ptunnel-ng</code> / <code>icmpsh</code></td><td>出口过滤非必要 ICMP；异常载荷检测告警</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L3-04</td><td>动态路由协议攻击</td><td>OSPF/BGP/RIP 未认证时注入伪造路由（Scapy 构造 LSA/BGP UPDATE）</td><td>路由协议启用 <b>MD5 / TCP-AO / 密钥链</b>；BGP 用 RPKI 与最大前缀限制</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">L3-05</td><td>分片攻击</td><td>重叠分片绕过 IDS（<code>fragroute</code>）</td><td>启用分片重组检测；丢弃异常分片</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">L3-06</td><td>VPN / IPSec / GRE</td><td>IKE 版本与算法、弱 DH 组、PSK 弱口令、拆分隧道泄漏</td><td>IKEv2 + AES-GCM/ChaCha20-Poly1305，DH ≥ 14；禁用 IKEv1、DES/3DES/MD5</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L3-07</td><td>组播 / IGMP 滥用</td><td>IGMP 泛洪、组播劫持</td><td>IGMP Snooping、组播边界过滤</td><td class="c"><span class="b b-low">低</span></td></tr>
+</tbody></table></div>
+
+<h3>4.3 四层（L4）与会话</h3>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:140px">测试项</th><th style="width:290px">手法 / 命令</th><th>判定标准</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">L4-01</td><td>TCP 会话劫持</td><td>预测/嗅探 SEQ/ACK 后注入（hunt / shijack）</td><td>全网启用加密；随机化 ISN；无明文协议</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L4-02</td><td>SYN Flood 防护</td><td><code>hping3 -S -p 80 --flood --rand-source</code>（<b>须批准</b>）</td><td><b>SYN Cookie</b>；速率限制；压力下仍可服务正常用户</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">L4-03</td><td>源端口随机化</td><td>检查 DNS/NFS 源端口是否可预测</td><td>启用随机源端口与随机 IP ID</td><td class="c"><span class="b b-low">低</span></td></tr>
+<tr><td class="c">L4-04</td><td>UDP 反射面自查</td><td>从外网探测自身是否开放 <b>DNS/NTP/SNMP/memcached/CLDAP/SSDP</b> 放大源</td><td>关闭递归与 monlist；响应限速；UDP 服务不对公网开放</td><td class="c"><span class="b b-high">高</span></td></tr>
+</tbody></table></div>
+
+<h3>4.4 明文协议与"古老但仍在跑"的服务</h3>
+<div class="note cau">以下服务在太多内网仍在使用，且几乎全是明文或有已知缺陷：<b>必须逐项确认是否真的需要</b>，不需要就关掉。</div>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">NP-01</span><span><b>HTTP / FTP / Telnet</b>：全明文 → 替换为 HTTPS / SFTP / SSH</span></li>
+<li><input type="checkbox"><span class="id">NP-02</span><span><b>SNMP v1/v2c</b>：community 常为 public/private → 改 v3（authPriv）或关闭</span></li>
+<li><input type="checkbox"><span class="id">NP-03</span><span><b>LLMNR / NBT-NS / mDNS / WPAD</b>：广播解析是 Responder 的温床 → GPO 关闭</span></li>
+<li><input type="checkbox"><span class="id">NP-04</span><span><b>SMBv1</b>：永恒之蓝一族 → 全禁用；SMB 强制签名与加密</span></li>
+<li><input type="checkbox"><span class="id">NP-05</span><span><b>LDAP 匿名绑定 / 明文 LDAP</b> → 禁用匿名，强制 LDAPS 与签名</span></li>
+<li><input type="checkbox"><span class="id">NP-06</span><span><b>NFS / rsync 无认证导出</b>：<code>showmount -e</code> 检查 <code>no_root_squash</code></span></li>
+<li><input type="checkbox"><span class="id">NP-07</span><span><b>VNC / RDP 弱口令与无 NLA</b>：强制 NLA + 账户锁定</span></li>
+<li><input type="checkbox"><span class="id">NP-08</span><span><b>Redis / MongoDB / ES / Memcached 未授权访问</b> → 直接数据泄露或 RCE</span></li>
+<li><input type="checkbox"><span class="id">NP-09</span><span><b>IPMI / BMC / iLO / iDRAC</b> 暴露在业务网段 → 独立管理网 + 强口令 + 固件更新</span></li>
+<li><input type="checkbox"><span class="id">NP-10</span><span><b>Docker Remote API (2375)</b> 未授权 → 直接拿下宿主机</span></li>
+</ul>
+</section>
+
+<section id="s05">
+<h2><span class="num">05</span>DNS 与命名 / 目录服务<span class="en">DNS &amp; Naming Services</span></h2>
+<p class="lead">DNS 是最容易被忽略、又最致命的基础设施：它既是攻击入口（投毒、接管），也是攻击者的外传与 C2 通道（隧道）。</p>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:140px">测试项</th><th style="width:290px">测试方法</th><th>判定标准</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">DNS-01</td><td>域传送（AXFR）</td><td><code>dig axfr @ns.example.com example.com</code>，对全部权威 NS 测试</td><td>仅对从服务器允许，且 TSIG 认证 + IP 白名单</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DNS-02</td><td>递归开放</td><td>从外网 <code>nmap -sU -p53 --script dns-recursion</code></td><td>权威服务器<b>关闭递归</b>；递归仅对内网</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DNS-03</td><td>缓存投毒</td><td>源端口/TXID 随机性检测；dnschef 概念验证</td><td>软件最新；<b>0x20 随机化</b>、源端口随机化；DNSSEC 校验</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DNS-04</td><td>DNSSEC</td><td><code>dig +dnssec example.com</code>；<code>delv</code> 检查 AD 标志与密钥轮换</td><td>关键域启用 DNSSEC 且验证链完整</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">DNS-05</td><td>子域接管</td><td>枚举 CNAME，检查是否指向已释放的云资源</td><td>无悬空 CNAME；流程要求"先解绑 DNS 再释放资源"</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">DNS-06</td><td>NSEC 枚举</td><td><code>ldns-walk example.com</code></td><td>启用 <b>NSEC3 + Opt-out + 高强度 salt</b></td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">DNS-07</td><td>DNS 隧道外传</td><td><code>iodine / dnscat2</code> 在授权网段验证穿透</td><td>出口 DNS 统一到企业解析器；检测长标签与异常频率</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DNS-08</td><td>DNS Rebinding</td><td>短 TTL + 双 A 记录（rbndr.us）测试访问内网</td><td>应用校验 Host；DNS 层过滤私网 A 记录响应</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DNS-09</td><td>NTP / 时间源</td><td><code>ntpdc -c monlist</code>（放大源）；时间是否被篡改</td><td>禁用 monlist；统一内部时间源；时间偏移告警</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">DNS-10</td><td>WPAD / PAC 劫持</td><td>检查 <code>wpad.example.com</code> 是否可注册；DHCP 252 选项</td><td>禁用 WPAD 自动发现；GPO 固定代理配置</td><td class="c"><span class="b b-high">高</span></td></tr>
+</tbody></table></div>
+
+<h3>5.2 目录服务（LDAP / AD DS）</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">DS-01</span><span>LDAP 匿名绑定是否开启 → <code>ldapsearch -x -H ldap://dc -b "DC=x,DC=com"</code> 应被拒绝</span></li>
+<li><input type="checkbox"><span class="id">DS-02</span><span>LDAP 是否强制签名与通道绑定（CVE-2017-8563 / Channel Binding）</span></li>
+<li><input type="checkbox"><span class="id">DS-03</span><span>是否可通过 LDAP 枚举全部用户、组、计算机、密码策略</span></li>
+<li><input type="checkbox"><span class="id">DS-04</span><span>域控 LDAPS（636）证书有效性与算法强度</span></li>
+<li><input type="checkbox"><span class="id">DS-05</span><span>AD 回收站是否启用、备份可恢复、SYSVOL 是否含明文密码（GPP cpassword）</span></li>
+<li><input type="checkbox"><span class="id">DS-06</span><span>僵尸账号（90 天未登录）、离职未禁用、服务账号永不改密</span></li>
+</ul>
+</section>
+
+<section id="s06">
+<h2><span class="num">06</span>中间人、广播协议与认证中继<span class="en">MITM, Broadcast &amp; Auth Relay</span></h2>
+<p class="lead">这是<b>内网失守最常见的第一步</b>：攻击者什么都不用破解，只要在同一个广播域里"答应"客户端的询问，就能拿到 NTLM 挑战响应，进而中继到服务器或离线暴破。</p>
+<pre># 监听 LLMNR/NBT-NS/mDNS 并响应
+sudo responder -I eth0 -wrfv
+# 拿到 NTLMv2 后：1) 离线暴破
+hashcat -m 5600 hash.txt wordlist.txt
+# 2) 直接中继（无需破解！）
+sudo ntlmrelayx.py -tf targets.txt -smb2support -socks -c "whoami /priv"
+sudo ntlmrelayx.py -t ldap://dc01.corp.local --escalate-user attacker
+sudo ntlmrelayx.py -t ldaps://dc01.corp.local --dump-domain</pre>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:160px">测试项</th><th style="width:270px">黑客手法</th><th>判定标准</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">MM-01</td><td>LLMNR / NBT-NS 投毒</td><td>客户端广播询问时抢答并索取 NTLM 认证</td><td>GPO 关闭多播名称解析与 NBT-NS；改用 DNS</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">MM-02</td><td>NTLM 中继（SMB）</td><td>中继到未启用 SMB 签名的服务器执行命令</td><td>全网 <b>强制 SMB 签名</b>与加密</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">MM-03</td><td>NTLM 中继（LDAP）</td><td>中继到域控写入 ACL / 添加用户 / 拉域数据</td><td>LDAP 强制<b>签名 + 通道绑定</b>；仅 LDAPS</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">MM-04</td><td>IPv6 劫持（mitm6）</td><td>伪造 DHCPv6 下发恶意 DNS（Windows 默认优先 IPv6）</td><td>未用 IPv6 则禁用；网络侧 <b>RA Guard</b></td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">MM-05</td><td>ARP/DHCP 中间人 + SSL Strip</td><td>截获后 <code>sslstrip</code> 降级 HTTPS → HTTP</td><td>全网 <b>HSTS（含 preload）</b>；DNS/DHCP 防护</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">MM-06</td><td>WPAD / PAC 劫持</td><td>抢答 wpad，把浏览器代理指向攻击者</td><td>禁用 WPAD；固定 PAC 或 GPO 代理</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">MM-07</td><td>mDNS / SSDP / WS-Discovery</td><td>打印机、投屏、IoT 广播发现被滥用做反射与探测</td><td>跨 VLAN 阻断广播；终端防火墙限制</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">MM-08</td><td>强制认证（Coercion）</td><td><b>PetitPotam / PrinterBug / ShadowCoerce</b>：让服务器主动回连</td><td>禁用相关 RPC 或限制；启用 EPA；SMB 签名阻断中继</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">MM-09</td><td>证书服务中继（ADCS）</td><td>中继到 HTTP 证书注册接口（ESC8）换 TGT</td><td>ADCS 启用 <b>EPA</b>；关闭 Web Enrollment 或强制证书认证</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+</tbody></table></div>
+
+<h3>6.2 接入后的中间人</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">MM-10</span><span>接入访客 WiFi 后能否直接访问内网管理口（路由器、防火墙、打印机、监控）</span></li>
+<li><input type="checkbox"><span class="id">MM-11</span><span>接入后能否 ARP 欺骗截获同网段其他客户端流量（验证客户端隔离 / PVLAN）</span></li>
+<li><input type="checkbox"><span class="id">MM-12</span><span>能否通过 DNS 劫持把用户导向钓鱼页（Evil Twin + 假门户）</span></li>
+<li><input type="checkbox"><span class="id">MM-13</span><span>内部站点是否强制 HTTPS 且 HSTS；是否可被 SSL Strip 降级</span></li>
+<li><input type="checkbox"><span class="id">MM-14</span><span>是否存在内网明文传输的凭据（Basic Auth、HTTP 登录页、明文 FTP/Telnet）</span></li>
+</ul>
+<div class="note tip"><b>一句话总结：</b>关闭 LLMNR/NBT-NS + 强制 SMB 签名 + LDAP 签名与通道绑定 + 禁用无关 IPv6 + HSTS，能一次性砍掉内网 70% 的"低成本失守路径"。这五项应放进第 29 章<b>最高优先级</b>。</div>
+</section>
+
+<section id="s07">
+<h2><span class="num">07</span>边界、防火墙、ACL 与网络分段<span class="en">Perimeter, Firewall &amp; Segmentation</span></h2>
+<p class="lead">分段的目的是让"一个点被打穿"不等于"全线失陷"。测试方式是<b>站在攻击者的位置，实际去够那些"不该够得着"的东西</b>。</p>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:150px">场景</th><th style="width:270px">怎么测</th><th>判定标准</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">SG-01</td><td>访客 WiFi → 内网</td><td>接入访客 SSID，扫内网段，尝试访问域控/OA/财务/数据库</td><td>除 DHCP/DNS/出口外<b>全部阻断</b>；无法解析内部域名</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">SG-02</td><td>办公网 → 服务器区</td><td>从办公终端扫描服务器区全端口与管理口</td><td>仅开放业务端口；管理口仅允许跳板机</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">SG-03</td><td>DMZ → 内网反向</td><td>模拟 DMZ 主机被拿下，能否向内发起连接</td><td>DMZ 到内网<b>默认拒绝</b></td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">SG-04</td><td>东西向流量</td><td>在 Web 服务器上尝试连其他服务器端口（Redis、另一台 DB）</td><td>东西向默认拒绝；微隔离/主机防火墙</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">SG-05</td><td>IoT / 监控 / 门禁区</td><td>双向测试与办公/服务器的互通</td><td>独立 VLAN，双向默认拒绝</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">SG-06</td><td>带外管理网</td><td>从业务网段访问 IPMI/iDRAC/iLO 的 623/443</td><td>独立管理 VLAN，ACL 仅允许运维跳板</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">SG-07</td><td>跳板机 / 堡垒机</td><td>绕过堡垒机直连；共享账号、无 MFA、录屏缺失</td><td>目标仅接受堡垒机源 IP；实名 + MFA + 全审计</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">SG-08</td><td>出网（Egress）</td><td>从服务器尝试直连公网（4444、ICMP、DNS TXT）</td><td>出网白名单 + 强制代理；C2 协议告警</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">SG-09</td><td>VPN 后的权限</td><td>拿到一个普通 VPN 账号后能到达什么</td><td>分组授权、最小权限、按角色分流</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">SG-10</td><td>云 VPC / 安全组</td><td>检查 0.0.0.0/0 入站、宽松安全组、对等连接横向</td><td>无 0.0.0.0/0 管理端口；跨账号/跨 VPC 显式控制</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+</tbody></table></div>
+
+<h3>7.2 防火墙与规则集审计</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">FW-01</span><span>是否存在 <b>any-any</b> 或过大范围允许规则、僵尸规则</span></li>
+<li><input type="checkbox"><span class="id">FW-02</span><span>规则顺序是否导致"shadowed rules"（宽规则在前使精规则失效）</span></li>
+<li><input type="checkbox"><span class="id">FW-03</span><span>临时规则长期未清理 → 规则应带 owner、工单号、过期时间</span></li>
+<li><input type="checkbox"><span class="id">FW-04</span><span>默认策略为 deny；最后一条显式 deny + log</span></li>
+<li><input type="checkbox"><span class="id">FW-05</span><span>IPS 签名库更新频率；是否处于<b>只监听不阻断</b>（tap 非 inline）</span></li>
+<li><input type="checkbox"><span class="id">FW-06</span><span>管理口：不可从业务网段访问、HTTPS、强口令、失败锁定</span></li>
+<li><input type="checkbox"><span class="id">FW-07</span><span>设备自身固件版本与已知 CVE（边缘设备是头号入口）</span></li>
+<li><input type="checkbox"><span class="id">FW-08</span><span>日志外送 SIEM；被拒绝连接是否有记录</span></li>
+<li><input type="checkbox"><span class="id">FW-09</span><span>配置备份与变更审计：可追溯"谁在何时改了哪条规则"</span></li>
+<li><input type="checkbox"><span class="id">FW-10</span><span>高可用主备切换是否会造成 <b>fail-open</b>（故障开放全通）</span></li>
+</ul>
+<pre># 用真实流量验证规则（而非只看配置）
+nmap -Pn -p 443 10.20.0.10                       # 应允许的能通
+nmap -Pn -p 22,3389,3306,6379,27017 --open 10.99.0.0/24   # 应拒绝的不通
+curl -m 5 http://example.com &amp;&amp; echo "EGRESS-OPEN"        # 出网测试
+dig TXT test.dnslog.cn @8.8.8.8                            # 外部 DNS 检查</pre>
+</section>
+
+<section id="s08">
+<h2><span class="num">08</span>拒绝服务与抗压能力测试<span class="en">DoS / DDoS Resilience</span></h2>
+<div class="note warn"><b>生产环境禁止直接压测。</b>所有洪泛型测试必须在<b>隔离压测环境</b>或<b>维护窗口 + ROE 书面批准 + 熔断阈值</b>下进行。优先采用"容量推算 + 演练"而非真实打死。</div>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:110px">层次</th><th style="width:200px">攻击类型</th><th style="width:220px">测试方式</th><th>防护 / 判定</th></tr></thead>
+<tbody>
+<tr><td class="c">DS-01</td><td>L3/L4 容量</td><td>SYN/ACK/UDP/ICMP Flood</td><td>hping3 / mausezahn 逐步加压</td><td>上游清洗 / 高防 / SYN Cookie；记录拐点带宽</td></tr>
+<tr><td class="c">DS-02</td><td>反射放大</td><td>DNS/NTP/SSDP/CLDAP/memcached（自测是否成为放大器）</td><td>从外网对自己做反射探测</td><td>关闭递归/monlist/UDP；响应限速；<b>不得成为别人的放大器</b></td></tr>
+<tr><td class="c">DS-03</td><td>应用层 CC</td><td>HTTP Flood、Slowloris、慢 POST</td><td><code>slowhttptest -c 1000 -H</code>；k6/locust</td><td>WAF + 速率限制 + 连接超时；CDN 前置</td></tr>
+<tr><td class="c">DS-04</td><td>业务慢查询</td><td>大分页、深递归、复杂报表、<b>ReDoS</b></td><td>找 P99 &gt; 2s 的接口构造成本放大请求</td><td>超时、分页上限、异步化、缓存；ReDoS 属代码漏洞应修</td></tr>
+<tr><td class="c">DS-05</td><td>资源耗尽</td><td>上传打满磁盘、日志打满、连接池/线程打满</td><td>受控上传与并发连接测试</td><td>配额告警、日志轮转、连接池上限、优雅降级</td></tr>
+<tr><td class="c">DS-06</td><td>依赖雪崩</td><td>下游（DB/缓存/第三方）变慢或不可用</td><td>故障注入（Chaos Mesh / toxiproxy）</td><td>熔断、降级、重试退避、超时传递</td></tr>
+<tr><td class="c">DS-07</td><td>基础设施单点</td><td>单台 LB / DNS / 认证服务故障</td><td>关停演练（GameDay）</td><td>无单点；切换 &lt; RTO；DNS 多运营商 + 低 TTL</td></tr>
+<tr><td class="c">DS-08</td><td>证书 / 时间到期</td><td>证书过期、时钟漂移、许可证到期</td><td>检查监控与到期告警</td><td>到期前 30/14/7/1 天告警</td></tr>
+</tbody></table></div>
+<h3>8.2 抗压测试必须记录的 6 个数字</h3>
+<div class="grid g3">
+<div class="card"><h5>① 拐点 QPS</h5><p>响应时间开始急剧上升的并发点</p></div>
+<div class="card"><h5>② 崩溃点</h5><p>开始出现 5xx / 连接拒绝的并发点</p></div>
+<div class="card"><h5>③ 恢复时间</h5><p>压力撤销后回到正常水位的时间</p></div>
+<div class="card"><h5>④ 降级表现</h5><p>过载时是否优雅降级而非雪崩</p></div>
+<div class="card"><h5>⑤ 资源水位</h5><p>CPU / 内存 / 句柄 / 连接池 / 磁盘 IO 峰值</p></div>
+<div class="card"><h5>⑥ 告警触发</h5><p>监控是否在拐点前告警，MTTD 多少</p></div>
+</div>
+<div class="note info"><b>与第 23 章的关系：</b>第 8 章测"被攻击时扛不扛得住"（恶意流量），第 23 章测"正常业务增长时稳不稳"（良性负载）。两者都做，且<b>压测环境必须与生产同规格</b>，否则数字没有参考价值。</div>
+</section>
+
+<section id="s09">
+<h2><span class="num">09</span>WiFi / 802.11 无线安全全量测试<span class="en">Wireless 802.11 Security — Complete</span></h2>
+<p class="lead">无线是唯一<b>"隔着墙就能打进来"</b>的攻击面：攻击者不需要进入你的大门，只要把车停在停车场。本章从射频勘测、协议攻击、企业认证、客户端行为到监控告警，给出完整可执行清单。</p>
+<div class="note warn"><b>测试红线：</b>① 授权书必须写明<b>物理地址</b>（含楼层、园区）；多租户楼宇须提前告知物业。② 邻近租户与路人热点<b>只做被动记录</b>，绝不触碰、绝不 deauth。③ <b>禁止对生产客户端做 deauth/DDoS</b>，相关验证放到实验室镜像 SSID 或屏蔽笼。优先用被动方法。</div>
+
+<h3>9.1 无线测试五步流程</h3>
+<div class="flow"><span class="st">① 配置审查</span><span class="ar">→</span><span class="st">② 扫描与勘测</span><span class="ar">→</span><span class="st">③ 握手捕获与分析</span><span class="ar">→</span><span class="st">④ 攻击与渗透</span><span class="ar">→</span><span class="st">⑤ 客户端兼容与报告</span></div>
+
+<h3>9.2 阶段一：射频（RF）测绘与勘测</h3>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:150px">测试项</th><th style="width:280px">方法 / 工具</th><th>判定标准</th></tr></thead>
+<tbody>
+<tr><td class="c">RF-01</td><td>SSID/BSSID 全清单</td><td><code>airodump-ng wlan0mon -w scan</code>（被动 24–48h）；Kismet；wigle</td><td>在播 SSID 与官方清单 100% 对应；未知 BSSID 全部追查定位</td></tr>
+<tr><td class="c">RF-02</td><td>OUI 厂商与设备指纹</td><td>MAC 前 3 字节查厂商；识别手机热点、随身 WiFi、家用路由</td><td>无员工私接设备；IoT/OT 登记在册</td></tr>
+<tr><td class="c">RF-03</td><td>信号泄漏边界</td><td>在建筑外围（街道、停车场、相邻楼层）测量 RSSI</td><td>围墙外 &lt; -75 dBm；或采用定向天线/低功率控制</td></tr>
+<tr><td class="c">RF-04</td><td>信道规划与同频干扰</td><td>频谱分析仪 / airgraph-ng / Ekahau / NetSpot</td><td>2.4G 仅用 1/6/11；5G 合理规划并避让 DFS</td></tr>
+<tr><td class="c">RF-05</td><td>覆盖盲区与信噪比</td><td>主动走场测量 SNR、重试率、漫游切换点</td><td>关键区域 SNR ≥ 25 dB</td></tr>
+<tr><td class="c">RF-06</td><td>6 GHz / Wi-Fi 6E / 7</td><td>确认网卡支持 6 GHz；<b>MLO 多链路需同时抓多个频段</b></td><td>具备覆盖 6 GHz 的审计能力（硬件与技能）</td></tr>
+<tr><td class="c">RF-07</td><td>非 Wi-Fi 干扰源</td><td>微波炉、无绳电话、蓝牙、ZigBee、雷达对 DFS 的影响</td><td>有基线与应对方案；DFS 事件有记录</td></tr>
+</tbody></table></div>
+
+<h3>9.3 阶段二：加密与协议安全（核心）</h3>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:150px">攻击 / 测试项</th><th style="width:320px">黑客手法与命令</th><th>判定标准（安全）</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">WF-01</td><td><b>WEP 遗留</b></td><td>ARP 重放 / IV 收集：<code>aireplay-ng -3</code> → <code>aircrack-ng</code></td><td>环境中<b>不存在</b> WEP / Open / WPA(TKIP) SSID</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">WF-02</td><td><b>WPA2 四次握手破解</b></td><td><code>airodump-ng -c 6 --bssid XX -w cap wlan0mon</code><br><code>hashcat -m 22000 cap.hc22000 rockyou.txt -r best64.rule</code></td><td>PSK ≥ 16 位随机（建议 20+）且不在任何字典；或改用 802.1X</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">WF-03</td><td><b>PMKID 攻击</b><br>（无需客户端在线）</td><td><code>hcxdumptool -i wlan0 --enable-status=1 -o cap.pcapng</code><br><code>hcxpcapngtool -o hash.hc22000 cap.pcapng</code><br><code>hashcat -m 22000 hash.hc22000 dict.txt</code></td><td>启用 <b>WPA3-SAE</b>；或 PSK 高熵且定期轮换；监控关联风暴</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">WF-04</td><td><b>Deauth 洪水</b></td><td><code>aireplay-ng -0 10 -a AP -c STA wlan0mon</code>；MDK4</td><td>启用 <b>802.11w / PMF（必需）</b>；WIDS 检测并告警</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">WF-05</td><td><b>WPA3 过渡模式降级</b></td><td>搭建同名 Rogue WPA2 AP，诱使客户端回退并抓握手</td><td>生产 SSID <b>关闭 WPA2/WPA3 过渡模式</b>；旧设备隔离到单独 SSID</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">WF-06</td><td><b>Dragonblood</b><br>CVE-2019-9494~9499</td><td>SAE 握手降级、缓存时序侧信道、DoS</td><td>AP 与客户端固件已修补；SAE 抗降级（H2E）</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">WF-07</td><td><b>KRACK</b><br>CVE-2017-13077 等</td><td>四次握手重放导致密钥重装</td><td>AP 与客户端均已打补丁；无老固件</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">WF-08</td><td><b>FragAttacks</b><br>CVE-2020-24588 等</td><td>分片聚合与帧碎片注入，绕过加密</td><td>固件修补；客户端打补丁</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">WF-09</td><td><b>SSID Confusion</b><br>CVE-2023-52424</td><td>在不同网络信标中伪造受信任 SSID</td><td>使用 802.1X 并校验服务器证书；固件修补</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">WF-10</td><td><b>WPS</b></td><td><code>wash -i wlan0mon</code>；<code>reaver -b AP -c CH -K 1</code>（Pixie-Dust）；bully</td><td><b>全面禁用 WPS</b>；有 PIN 失败锁定</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">WF-11</td><td><b>OWE 降级</b></td><td>开放网络下伪造无 OWE 的 AP</td><td>开放网络强制 OWE + PMF</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">WF-12</td><td><b>隐藏 SSID / MAC 过滤</b></td><td>隐藏 SSID 可被探针泄露；MAC 过滤可克隆绕过</td><td>不依赖这两者做安全控制（是障碍不是防护）</td><td class="c"><span class="b b-med">中</span></td></tr>
+</tbody></table></div>
+
+<h3>9.4 阶段三：企业 802.1X / EAP / RADIUS（最容易被打穿的一环）</h3>
+<pre># Evil Twin —— 测试客户端是否校验 RADIUS 服务器证书
+sudo eaphammer --cert-wizard
+sudo eaphammer -i wlan0 --essid "CORP-WIFI" --auth wpa-eap --creds
+# 或 hostapd-wpe（记录用户名 + MSCHAPv2 挑战/响应）
+asleap -C challenge -R response -W wordlist
+hashcat -m 5500 mschap.hash rockyou.txt</pre>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:160px">测试项</th><th style="width:260px">黑客手法</th><th>判定标准（安全）</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">EX-01</td><td><b>客户端是否校验服务器证书</b></td><td>Evil Twin 用自签证书冒充 RADIUS；客户端不校验即发送身份</td><td>客户端<b>显式指定 CA 与服务器名称</b>（MDM/GPO 推送），禁用"不验证"</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">EX-02</td><td><b>EAP 方法强度</b></td><td>PEAP-MSCHAPv2 质询可离线暴破</td><td>优先 <b>EAP-TLS（双向证书）</b>；禁用 EAP-MD5、LEAP</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">EX-03</td><td><b>EAP 降级</b></td><td>伪造 AP 只"支持"弱方法诱导降级</td><td>客户端与 RADIUS 均<b>限定方法列表</b></td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">EX-04</td><td><b>RADIUS 共享密钥</b></td><td>弱/复用共享密钥可离线解密或伪造</td><td>≥ 22 字符随机，每 AP 唯一，定期轮换</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">EX-05</td><td><b>RADIUS 暴露</b></td><td>RADIUS 端口对客户端 VLAN 可达；无 NAS 白名单</td><td>仅允许 AP/控制器网段；防火墙隔离</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">EX-06</td><td><b>机器证书 vs 用户证书</b></td><td>仅用户认证时，不合规设备也能接入</td><td>企业设备用 EAP-TLS + 设备证书；结合 MDM 合规状态</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">EX-07</td><td><b>动态 VLAN 分配</b></td><td>利用 RADIUS 属性越权到高权限 VLAN</td><td>基于可信属性（AD 组）；交换机侧有兜底策略</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">EX-08</td><td><b>证书生命周期</b></td><td>根 CA 私钥保护、CRL/OCSP 可达、吊销生效、模板配置</td><td>离线根 CA；CRL 高可用；禁用危险模板</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">EX-09</td><td><b>ADCS 相关（ESC 系列）</b></td><td>证书模板错误配置提权到域控</td><td>见第 18 章；<code>Certify / certipy-ad</code> 专项审计</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+</tbody></table></div>
+
+<h3>9.5 阶段四：Evil Twin / Rogue AP / 客户端行为</h3>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:160px">测试项</th><th style="width:260px">方法</th><th>判定标准</th></tr></thead>
+<tbody>
+<tr><td class="c">ET-01</td><td>Evil Twin（同名 AP）</td><td>airgeddon / wifiphisher / fluxion / eaphammer</td><td>客户端<b>不自动连接</b>未校验 AP；WIDS 2 分钟内告警并定位</td></tr>
+<tr><td class="c">ET-02</td><td>KARMA / MANA</td><td>AP 响应所有探针请求</td><td>客户端禁用"自动连接开放网络"；企业配置校验证书</td></tr>
+<tr><td class="c">ET-03</td><td>探针请求泄露</td><td>抓 airodump 看客户端广播曾连接的 SSID</td><td>启用 <b>MAC 随机化</b>；企业设备关闭"随时探测"</td></tr>
+<tr><td class="c">ET-04</td><td>Captive Portal 钓鱼</td><td>伪造门户骗取账号密码 / 诱导下载</td><td>证书受信任；员工培训；不向门户输入企业凭据</td></tr>
+<tr><td class="c">ET-05</td><td>Rogue / Shadow AP</td><td>扫描发现未在册 BSSID → 定向天线三角定位</td><td>WIDS 自动检测；发现到告警 &lt; 2 分钟；有抑制能力</td></tr>
+<tr><td class="c">ET-06</td><td>客户端隔离</td><td>访客 A ping / 扫访客 B</td><td><b>客户端隔离开启</b></td></tr>
+<tr><td class="c">ET-07</td><td>访客到企业桥接</td><td>从访客 SSID 访问内网 DNS、管理口、数据库端口</td><td>严格 VLAN 隔离 + ACL；<b>无法解析内部域名</b>（最常见高危发现）</td></tr>
+<tr><td class="c">ET-08</td><td>MAC 随机化与隐私</td><td>企业设备随机化是否导致 NAC 失效</td><td>策略明确；NAC 不依赖 MAC 做唯一凭据</td></tr>
+</tbody></table></div>
+
+<h3>9.6 阶段五：无线基础设施自身</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">WI-01</span><span>AP / 控制器管理界面：默认或共享口令、HTTP 明文、可从客户端 VLAN 访问</span></li>
+<li><input type="checkbox"><span class="id">WI-02</span><span>固件版本与已知 CVE；建立固件基线</span></li>
+<li><input type="checkbox"><span class="id">WI-03</span><span>云管理门户：MFA、审计日志、API Token 管理、管理员实名</span></li>
+<li><input type="checkbox"><span class="id">WI-04</span><span>管理协议：SSHv2 / HTTPS only，禁用 Telnet、HTTP、SNMP v1/v2c</span></li>
+<li><input type="checkbox"><span class="id">WI-05</span><span>配置备份、变更审计、配置漂移自动比对</span></li>
+<li><input type="checkbox"><span class="id">WI-06</span><span>物理安全：AP 可被拆卸、暴露网口（拆卸后可直接接入有线内网！）</span></li>
+<li><input type="checkbox"><span class="id">WI-07</span><span>PoE 交换机端口安全；AP 接入是否需要认证</span></li>
+<li><input type="checkbox"><span class="id">WI-08</span><span>无线日志接入 SIEM：认证失败、Rogue 告警、deauth 风暴、异常关联</span></li>
+<li><input type="checkbox"><span class="id">WI-09</span><span>WIPS 传感器布点与 RSSI 覆盖；误报调优（基于一周基线）</span></li>
+<li><input type="checkbox"><span class="id">WI-10</span><span>Wi-Fi 7 专项：MLO 跨链路是否保持分段与身份归属、6 GHz 策略一致、PMF 必需</span></li>
+</ul>
+
+<h3>9.7 合规映射与 2026 推荐基线</h3>
+<div class="tw"><table class="tight">
+<thead><tr><th style="width:170px">标准</th><th>要求要点</th></tr></thead>
+<tbody>
+<tr><td><b>PCI DSS</b></td><td>无线须使用强加密（WPA3/等效），不得回退到不安全协议；定期无线扫描；Rogue AP 检测</td></tr>
+<tr><td><b>NIST SP 800-53</b></td><td>SC-12 密钥管理与加密、SC-7 边界保护、AC-18 无线访问限制、IA-2/IA-3 认证</td></tr>
+<tr><td><b>等保 2.0</b></td><td>无线接入需认证授权；禁用 WEP 等弱算法；第三级应能检测非授权无线设备并定位</td></tr>
+<tr><td><b>ISO/IEC 27001</b></td><td>A.8.20 网络安全、A.8.21 网络服务安全、A.8.16 监视</td></tr>
+<tr><td><b>HIPAA / GDPR</b></td><td>要求加密（未强制 WPA3），但个人数据风险要求等同防护</td></tr>
+</tbody></table></div>
+<div class="note tip"><b>2026 企业无线推荐基线：</b>① 全面禁用 WEP/WPA/TKIP/WPS；② 员工 SSID 用 <b>WPA3-Enterprise + EAP-TLS</b>（设备证书，MDM 推送，强制校验服务器证书与 CN）；③ 访客 SSID 用 <b>OWE 或 WPA3-Personal</b>，独立 VLAN + 客户端隔离 + 仅出网；④ 所有生产 SSID <b>PMF = Required</b>；⑤ 关闭 WPA3 过渡模式，老设备隔离；⑥ WIDS/WIPS 接入 SIEM，2 分钟告警 SLA；⑦ 每季度走场勘测 + 每年完整无线渗透测试；⑧ PSK（若不可避免）≥ 20 位随机、按站点唯一、每年轮换、人员变动立即轮换。</div>
+</section>
+
+<section id="s10">
+<h2><span class="num">10</span>其他无线与射频：BLE · ZigBee · RFID · SDR · 蜂窝<span class="en">BLE / IoT Radio / Cellular</span></h2>
+<p class="lead">企业环境里除了 WiFi 还有一大堆"会发信号的东西"：门禁卡、无线键鼠、蓝牙耳机、智能锁、传感器、车载钥匙、对讲、无人机。它们往往<b>完全没有安全设计</b>，且经常与内网有连接。</p>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:120px">技术</th><th style="width:270px">典型攻击手法</th><th style="width:160px">工具</th><th>测试要点 / 判定</th></tr></thead>
+<tbody>
+<tr><td class="c">BT-01</td><td><b>BLE 低功耗蓝牙</b></td><td>GATT 中间人、无认证配对、Just Works 降级、重放开锁、设备追踪</td><td>bettercap ble、btlejack、Ubertooth、nRF52840</td><td>智能锁/门禁需认证配对与滚动码；禁用可发现广播</td></tr>
+<tr><td class="c">BT-02</td><td><b>经典蓝牙</b></td><td>BlueBorne（CVE-2017-0781 等）、BlueSmack DoS、PIN 暴破</td><td>bluelog、spooftooph</td><td>设备补丁；蓝牙默认不可发现</td></tr>
+<tr><td class="c">ZG-01</td><td><b>ZigBee / Thread / Matter</b></td><td>密钥提取（安装码嗅探）、重放控制指令</td><td>KillerBee、zbstumbler、ApiMote</td><td>网络密钥保护；重放检测（帧计数）；IoT 独立网段</td></tr>
+<tr><td class="c">ZG-02</td><td><b>Z-Wave</b></td><td>帧重放、S2 未启用降级</td><td>SDR + scapy-radio</td><td>强制 S2 安全等级</td></tr>
+<tr><td class="c">RF-01</td><td><b>Sub-GHz 固定码遥控</b></td><td>重放攻击（车库、道闸、门禁遥控器、报警器）</td><td>Flipper Zero、HackRF、URH、Yard Stick One</td><td>改用滚动码；重放检测；日志记录</td></tr>
+<tr><td class="c">RF-02</td><td><b>RFID / NFC / 门禁卡</b></td><td>UID 克隆、MIFARE Classic 密钥破解、中继攻击</td><td>Proxmark3、Flipper Zero、mfoc</td><td>升级到 CPU 卡/加密卡；防重放；重要区域加 PIN 或生物</td></tr>
+<tr><td class="c">RF-03</td><td><b>SDR 与信号分析</b></td><td>频谱录制与重放、信号解码、定位</td><td>RTL-SDR、HackRF、LimeSDR、GQRX</td><td>关键无线控制链路应有加密与认证，而非靠"频率不公开"</td></tr>
+<tr><td class="c">RF-04</td><td><b>GPS / GNSS</b></td><td>欺骗（spoofing）与干扰（jamming），影响授时与定位</td><td>HackRF + gps-sdr-sim</td><td>关键授时用多源与防欺骗天线；时钟偏移告警</td></tr>
+<tr><td class="c">CL-01</td><td><b>伪基站 / IMSI Catcher</b></td><td>降级到 2G、中间人短信、设备追踪（Stingray）</td><td>SDR + 开源 LTE 栈</td><td>关键人员禁用 2G、使用加密通信</td></tr>
+<tr><td class="c">CL-02</td><td><b>SIM Swap / 短信劫持</b></td><td>社工营业厅或内鬼补卡，接管短信验证码</td><td>—</td><td><b>关键系统禁止短信作为唯一 MFA</b>；改用 TOTP/FIDO2</td></tr>
+<tr><td class="c">CL-03</td><td><b>5G 切片 / 专网</b></td><td>切片间隔离失效、UPF 暴露、边缘 MEC 被攻</td><td>运营商协同测试</td><td>专网与公网隔离；与运营商明确责任边界</td></tr>
+<tr><td class="c">DR-01</td><td><b>无人机</b></td><td>劫持图传、GPS 欺骗、利用无人机投送设备（WiFi Pineapple / BadUSB）</td><td>反制设备、频谱监测</td><td>园区反无人机侦测；机房窗户/天台物理防护</td></tr>
+</tbody></table></div>
+<div class="note cau"><b>现实提醒：</b>Red Team 常用手法是"无人机把便携 4G 路由器/树莓派丢到楼顶或窗台"，从内部建立不受监控的长期通道。物理巡检应包含<b>天台、弱电井、吊顶、空调外机位</b>——这些地方出现的陌生小盒子，往往比任何漏洞都危险。</div>
+</section>
+
+<section id="s11">
+<h2><span class="num">11</span>服务器主机安全基线（Linux / Windows）<span class="en">Server Host Hardening</span></h2>
+<p class="lead">"服务器稳不稳、会不会被黑"，八成取决于基础配置。本章按 CIS Benchmark / DISA STIG / 等保 2.0 口径，给出可逐条打勾的核查清单。</p>
+
+<h3>11.1 Linux 主机核查清单</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">LX-01</span><span><b>系统与内核</b>：版本是否在支持期；禁用不必要模块（<code>dccp / sctp / rds / tipc / n-hdlc / bluetooth</code>）</span></li>
+<li><input type="checkbox"><span class="id">LX-02</span><span><b>内核参数</b>：<code>ip_forward=0</code>、<code>icmp_echo_ignore_broadcasts=1</code>、<code>rp_filter=1</code>、<code>accept_source_route=0</code>、<code>accept_redirects=0</code>、<code>log_martians=1</code>、<code>tcp_syncookies=1</code>、<code>randomize_va_space=2</code>、<code>protected_hardlinks/symlinks=1</code>、<code>yama.ptrace_scope</code></span></li>
+<li><input type="checkbox"><span class="id">LX-03</span><span><b>SSH 加固</b>：<code>PermitRootLogin no</code>、<code>PasswordAuthentication no</code>、<code>PermitEmptyPasswords no</code>、<code>X11Forwarding no</code>、<code>MaxAuthTries 3</code>、<code>AllowUsers/AllowGroups</code>、弱算法禁用、fail2ban</span></li>
+<li><input type="checkbox"><span class="id">LX-04</span><span><b>账户与认证</b>：无空口令；UID 0 仅 root；口令复杂度与有效期；sudo 组实名且需密码；无 <code>NOPASSWD</code> 滥用</span></li>
+<li><input type="checkbox"><span class="id">LX-05</span><span><b>文件权限</b>：<code>/etc/shadow</code> 000/600；无全局可写文件；无未授权 SUID/SGID；<code>umask 027</code></span></li>
+<li><input type="checkbox"><span class="id">LX-06</span><span><b>服务最小化</b>：逐项确认 enabled 单元；关闭 avahi / cups / rpcbind / nfs / telnet / rsh / vsftpd / xinetd</span></li>
+<li><input type="checkbox"><span class="id">LX-07</span><span><b>强制访问控制</b>：SELinux <code>Enforcing</code> 或 AppArmor 启用且策略有效</span></li>
+<li><input type="checkbox"><span class="id">LX-08</span><span><b>主机防火墙</b>：默认拒绝入站；仅开业务端口；规则持久化</span></li>
+<li><input type="checkbox"><span class="id">LX-09</span><span><b>日志与审计</b>：auditd 关键事件；<b>日志外发集中平台</b>（本地日志可被删）；留存 ≥ 180 天</span></li>
+<li><input type="checkbox"><span class="id">LX-10</span><span><b>更新机制</b>：补丁流程与周期；<b>关键漏洞 72 小时内响应</b></span></li>
+<li><input type="checkbox"><span class="id">LX-11</span><span><b>启动完整性</b>：GRUB 密码、单用户保护、Secure Boot、AIDE/Tripwire、rkhunter/Lynis</span></li>
+<li><input type="checkbox"><span class="id">LX-12</span><span><b>容器与命名空间</b>：不以 root 运行容器；userns-remap；不用 <code>--privileged</code></span></li>
+<li><input type="checkbox"><span class="id">LX-13</span><span><b>敏感文件</b>：磁盘无明文密钥/口令；<code>~/.bash_history</code>；<code>/tmp</code> 权限</span></li>
+<li><input type="checkbox"><span class="id">LX-14</span><span><b>时间同步</b>：chrony/ntp 指向内部可信源；时间偏移告警</span></li>
+<li><input type="checkbox"><span class="id">LX-15</span><span><b>Core Dump</b>：生产限制 core dump（可能含内存中的密钥）</span></li>
+</ul>
+<pre>#!/bin/bash
+echo "== UID0 =="; awk -F: '($3==0){print $1}' /etc/passwd
+echo "== 空口令 =="; awk -F: '($2==""){print $1}' /etc/shadow
+echo "== SUID =="; find / -xdev -perm -4000 -type f 2>/dev/null
+echo "== 全局可写 =="; find / -xdev -perm -0002 -type f 2>/dev/null
+echo "== 能力 =="; getcap -r / 2>/dev/null
+echo "== 监听 =="; ss -lntup
+echo "== 定时任务 =="; ls -la /etc/cron* /var/spool/cron 2>/dev/null
+echo "== SSH =="; grep -E "^(PermitRootLogin|PasswordAuthentication|PermitEmptyPasswords|X11Forwarding)" /etc/ssh/sshd_config
+echo "== SELinux =="; getenforce 2>/dev/null || echo "N/A"
+echo "== 审计 =="; systemctl is-active auditd rsyslog 2>/dev/null</pre>
+
+<h3>11.2 Windows Server 核查清单</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">WS-01</span><span><b>补丁与版本</b>：OS 在支持期；无已停止支持组件（旧 .NET、IE）</span></li>
+<li><input type="checkbox"><span class="id">WS-02</span><span><b>账户策略</b>：长度 ≥ 12、复杂度、有效期、锁定策略；Administrator 重命名与禁用；Guest 禁用；无共享账号</span></li>
+<li><input type="checkbox"><span class="id">WS-03</span><span><b>本地管理员治理</b>：<b>LAPS / Windows LAPS</b> 是否部署；是否有域用户被加到本地 Administrators</span></li>
+<li><input type="checkbox"><span class="id">WS-04</span><span><b>特权分配</b>：检查 <code>SeDebug / SeBackup / SeRestore / SeImpersonate / SeAssignPrimaryToken / SeTcb / SeLoadDriver</code> 授予给了谁（服务账号是重灾区）</span></li>
+<li><input type="checkbox"><span class="id">WS-05</span><span><b>UAC</b>：<code>EnableLUA=1</code>；管理员批准模式；非"不提示"</span></li>
+<li><input type="checkbox"><span class="id">WS-06</span><span><b>服务与自启动</b>：无未引号路径、目录不可写（服务劫持）；Run/服务/计划任务/WMI 订阅审计</span></li>
+<li><input type="checkbox"><span class="id">WS-07</span><span><b>网络与协议</b>：禁用 SMBv1；SMB 签名与加密；禁用 LLMNR/NBT-NS/WPAD；LDAP 签名与通道绑定</span></li>
+<li><input type="checkbox"><span class="id">WS-08</span><span><b>防火墙</b>：三档配置均启用；入站默认阻止；远程管理限制源 IP</span></li>
+<li><input type="checkbox"><span class="id">WS-09</span><span><b>审计策略</b>：登录、账户管理、对象访问、4688（含命令行）、PowerShell 4103/4104、Sysmon；外发与留存 ≥ 180 天</span></li>
+<li><input type="checkbox"><span class="id">WS-10</span><span><b>凭据保护</b>：Credential Guard / LSA Protection（RunAsPPL）；WDigest 禁用；缓存登录 ≤ 2</span></li>
+<li><input type="checkbox"><span class="id">WS-11</span><span><b>攻击面削减</b>：Defender ASR、受控文件夹访问、网络保护；AppLocker/WDAC 白名单</span></li>
+<li><input type="checkbox"><span class="id">WS-12</span><span><b>RDP</b>：NLA 强制；限制源；会话超时；RDP 网关 + MFA</span></li>
+<li><input type="checkbox"><span class="id">WS-13</span><span><b>共享与权限</b>：默认共享访问控制；无 Everyone 权限；NTFS 最小化</span></li>
+<li><input type="checkbox"><span class="id">WS-14</span><span><b>PowerShell 安全</b>：5.0+；Transcription、Script Block Logging、受限语言模式</span></li>
+<li><input type="checkbox"><span class="id">WS-15</span><span><b>域相关</b>：Tier 分层；高权限服务账号是否本地登录过（凭据残留）</span></li>
+</ul>
+<div class="note info"><b>自动化工具：</b><code>Lynis</code>（Linux 基线）、<code>osquery</code>（跨平台查询）、<code>Microsoft Security Compliance Toolkit</code>（组策略基线比对）、<code>OpenSCAP</code>（CIS/STIG 扫描）、Nessus 认证扫描。<b>工具是辅助，人工复核才是结论。</b></div>
+</section>
+
+<section id="s12">
+<h2><span class="num">12</span>服务、端口、中间件与数据库<span class="en">Services, Ports, Middleware &amp; DB</span></h2>
+<div class="note info"><b>原则：</b>每一个对外开放的端口都是一个承诺。对每个端口问：① 还需要吗？② 能否只监听内网/回环？③ 能否加认证与加密？</div>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">PT-01</span><span>管理类端口（22/23/3389/5900/10000/8080 管理台）不得直接暴露公网；须经堡垒机/零信任 + MFA</span></li>
+<li><input type="checkbox"><span class="id">PT-02</span><span>数据库端口不得暴露公网，不得对办公网全通</span></li>
+<li><input type="checkbox"><span class="id">PT-03</span><span>服务绑定最小化地址（<code>127.0.0.1</code> 或内网接口），而非 <code>0.0.0.0</code></span></li>
+<li><input type="checkbox"><span class="id">PT-04</span><span>Banner 与版本号最小化（不泄露版本、框架、目录、内部 IP）</span></li>
+<li><input type="checkbox"><span class="id">PT-05</span><span>默认凭据逐项核验（见速查表）</span></li>
+<li><input type="checkbox"><span class="id">PT-06</span><span>目录列表关闭（Nginx <code>autoindex off</code>、Apache 关 <code>Indexes</code>）</span></li>
+<li><input type="checkbox"><span class="id">PT-07</span><span>示例文件与样例应用删除（<code>/examples</code>、<code>/admin</code>、<code>/actuator</code>、<code>/phpinfo</code>、<code>/.git</code>）</span></li>
+<li><input type="checkbox"><span class="id">PT-08</span><span>备份文件残留（<code>*.bak</code>、<code>*.zip</code>、<code>*.sql</code>、<code>~</code>）排查</span></li>
+<li><input type="checkbox"><span class="id">PT-09</span><span>空闲超时、会话超时、并发限制、速率限制合理</span></li>
+<li><input type="checkbox"><span class="id">PT-10</span><span>服务运行账户为低权限专用账号，非 root/Administrator</span></li>
+</ul>
+
+<h3>12.2 常见中间件与默认凭据速查（必查）</h3>
+<div class="tw"><table class="tight">
+<thead><tr><th style="width:140px">组件</th><th style="width:110px">端口</th><th style="width:210px">常见默认凭据</th><th>重点风险</th></tr></thead>
+<tbody>
+<tr><td>Tomcat</td><td>8080 / 8009</td><td>tomcat/tomcat、admin/admin</td><td>Manager 后台可直接部署 WAR 拿 shell；AJP Ghostcat CVE-2020-1938</td></tr>
+<tr><td>Weblogic</td><td>7001</td><td>weblogic/weblogic</td><td>历史 RCE 高发（CVE-2017-10271、CVE-2020-14882）</td></tr>
+<tr><td>JBoss / WildFly</td><td>8080 / 9990</td><td>admin/admin</td><td>JMX/管理控制台未授权部署</td></tr>
+<tr><td>Redis</td><td>6379</td><td>无（默认无认证）</td><td><b>未授权访问</b> → 写 SSH key / crontab / webshell</td></tr>
+<tr><td>MongoDB</td><td>27017</td><td>无</td><td>未授权访问，全量数据可读可删；勒索删库高发</td></tr>
+<tr><td>Elasticsearch</td><td>9200</td><td>无</td><td>未授权读写；历史 Groovy 沙箱绕过 RCE</td></tr>
+<tr><td>Memcached</td><td>11211</td><td>无</td><td>未授权 + <b>UDP 反射放大（最高 5 万倍）</b></td></tr>
+<tr><td>Zookeeper</td><td>2181</td><td>无</td><td>未授权 <code>envi</code> 泄露环境信息</td></tr>
+<tr><td>Jenkins</td><td>8080</td><td>admin/初始令牌</td><td>脚本命令行 → 直接 RCE；构建节点横向</td></tr>
+<tr><td>GitLab / Gitea</td><td>80 / 3000</td><td>root/初始密码</td><td>代码与 CI 变量泄露</td></tr>
+<tr><td>Nexus / Artifactory</td><td>8081</td><td>admin/admin123</td><td>制品投毒；凭据泄露</td></tr>
+<tr><td>phpMyAdmin</td><td>80</td><td>root/空</td><td>暴露外网 = 数据库失守</td></tr>
+<tr><td>Nacos</td><td>8848</td><td>nacos/nacos</td><td><b>认证绕过 CVE-2021-29441</b>；默认 JWT 密钥伪造身份（2026 年仍被真实勒索团伙利用）</td></tr>
+<tr><td>Spring Boot Actuator</td><td>8080</td><td>无</td><td><code>/actuator/env</code>、<code>/heapdump</code> 泄露配置与内存凭据</td></tr>
+<tr><td>Swagger / Druid</td><td>80</td><td>无</td><td>接口文档与监控页暴露全部 API</td></tr>
+<tr><td>Docker API</td><td>2375</td><td>无</td><td><b>未授权 = 直接拿下宿主机</b></td></tr>
+<tr><td>K8s API / etcd / kubelet</td><td>6443 / 2379 / 10250</td><td>无</td><td>见第 19 章；kubelet 匿名 → 进所有容器</td></tr>
+<tr><td>IPMI / BMC</td><td>623</td><td>ADMIN/ADMIN</td><td><b>可远程重装系统与 KVM 控制</b>；必须隔离到管理网</td></tr>
+<tr><td>SNMP</td><td>161</td><td>public / private</td><td>v2c 可读完整配置，可写则能改配置</td></tr>
+<tr><td>NFS</td><td>2049</td><td>—</td><td><code>no_root_squash</code> + 可挂载 = 直接 root 写文件</td></tr>
+</tbody></table></div>
+
+<h3>12.3 数据库专项</h3>
+<div class="tw"><table class="tight">
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:130px">测试项</th><th>方法 / 判定标准</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">DB-01</td><td>注入（SQL/NoSQL）</td><td>手工 + sqlmap；判定：全部参数化，无字符串拼接</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">DB-02</td><td>认证与口令</td><td>弱口令、默认账号、空口令；sa/root 禁远程登录</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">DB-03</td><td>权限最小化</td><td>应用账号仅 DML、无 DROP/FILE/xp_cmdshell；按库按表授权</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DB-04</td><td>危险扩展</td><td>MySQL <code>secure_file_priv</code>、MSSQL <code>xp_cmdshell</code>/CLR、Postgres <code>COPY PROGRAM</code>、Mongo <code>$where</code> → 全部禁用</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">DB-05</td><td>传输加密</td><td>客户端-服务端 TLS 开启且校验；抓包无明文</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DB-06</td><td>静态加密</td><td>TDE / 表空间加密；备份加密；磁盘文件无明文</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DB-07</td><td>审计日志</td><td>登录、DDL、特权操作审计并外发；可追溯谁改了哪条数据</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DB-08</td><td>备份与恢复</td><td>定期备份 + <b>演练恢复</b>；记录 RTO/RPO</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">DB-09</td><td>版本与补丁</td><td>在支持版本且补丁及时（提权/RCE）</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">DB-10</td><td>敏感数据</td><td>个人信息脱敏/加密；<b>生产数据不直接用于测试与开发</b></td><td class="c"><span class="b b-high">高</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section id="s13">
+<h2><span class="num">13</span>提权、持久化与主机对抗<span class="en">Privilege Escalation &amp; Persistence</span></h2>
+<p class="lead">攻击者拿到低权限 shell 只是开始。这一章验证：<b>从普通用户到 root/SYSTEM 有几条路，拿到权限后能藏多久，EDR 能否发现。</b></p>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:100px">平台</th><th style="width:240px">提权路径</th><th style="width:250px">检测 / 验证命令</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">PE-01</td><td>Linux</td><td><b>sudo 误配置</b></td><td><code>sudo -l</code>；GTFOBins 检查 find/vim/python/perl/less/nmap/awk</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-02</td><td>Linux</td><td><b>SUID / SGID 滥用</b></td><td><code>find / -perm -4000 -type f</code></td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">PE-03</td><td>Linux</td><td><b>Capabilities</b></td><td><code>getcap -r / 2>/dev/null</code>（cap_setuid、cap_dac_read_search、cap_sys_admin）</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-04</td><td>Linux</td><td><b>计划任务</b></td><td><code>ls -la /etc/cron*</code>；pspy 观察；通配符注入</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">PE-05</td><td>Linux</td><td><b>内核漏洞</b></td><td>Dirty Pipe、Dirty COW、OverlayFS、io_uring；<code>linux-exploit-suggester</code>（<b>仅受控验证</b>）</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-06</td><td>Linux</td><td><b>NFS no_root_squash</b></td><td><code>showmount -e target</code></td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-07</td><td>Linux</td><td><b>Docker 组 / 容器逃逸</b></td><td><code>id</code> 含 docker 组；特权容器；<code>/var/run/docker.sock</code> 挂载</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-08</td><td>Linux</td><td>明文凭据</td><td>脚本、环境变量、历史、配置文件；linpeas、laZagne</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">PE-09</td><td>Linux</td><td>服务/单元文件可写、PATH 劫持、LD_PRELOAD</td><td>检查 <code>/etc/systemd/system/*.service</code> 权限</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">PE-10</td><td>Windows</td><td><b>服务配置缺陷</b></td><td>可写二进制、未引号路径、DLL 劫持；accesschk、winPEAS、PowerUp</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-11</td><td>Windows</td><td><b>特权滥用</b></td><td>SeImpersonate（Potato 系列）、SeBackup、SeLoadDriver（BYOVD）；<code>whoami /priv</code></td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-12</td><td>Windows</td><td>AlwaysInstallElevated、UAC 绕过、令牌模拟</td><td>注册表检查；fodhelper/eventvwr 类</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">PE-13</td><td>Windows</td><td>凭据残留</td><td>LSASS、SAM、缓存凭据、浏览器、DPAPI；判定：Credential Guard 是否阻断</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-14</td><td>Windows</td><td>内核驱动与 BYOVD</td><td>驱动签名策略、WDAC、易受攻击驱动阻止列表</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">PE-15</td><td>通用</td><td><b>云 IAM 提权链</b></td><td>PassRole + lambda:CreateFunction + sts:AssumeRole 组合；Pacu / Cloudsplaining</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">PE-16</td><td>通用</td><td><b>K8s RBAC 提权</b></td><td><code>kubectl auth can-i --list</code>；create pods/exec、impersonate、escalate/bind</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+</tbody></table></div>
+
+<h3>13.2 持久化（Persistence）检测清单</h3>
+<p>测试目标：<b>在授权条件下植入一个无害的持久化标记，然后看蓝队多久能发现。</b>这是紫队演练的核心指标。</p>
+<div class="tw"><table class="tight">
+<thead><tr><th style="width:100px">平台</th><th style="width:280px">持久化位置</th><th>检测手段 / 数据源</th></tr></thead>
+<tbody>
+<tr><td rowspan="4"><b>Windows</b></td><td>注册表 Run/RunOnce、Winlogon、IFEO、服务</td><td>Sysmon 12/13/14、EDR 注册表监控、Autoruns 基线比对</td></tr>
+<tr><td>计划任务、WMI 事件订阅（__EventFilter + CommandLineEventConsumer）、启动文件夹</td><td>事件 4698/4702、Sysmon 19/20/21</td></tr>
+<tr><td>服务/驱动（含 BYOVD）、DLL 侧加载、COM 劫持、LSA 安全包</td><td>驱动加载事件、签名校验、EDR 自我保护</td></tr>
+<tr><td>域侧：Golden/Silver Ticket、SID History、AdminSDHolder 后门、<b>ADCS 模板后门</b>、GPO 脚本、DCShadow</td><td>AD 审计 4769/5136、BloodHound 基线、ADRecon 快照</td></tr>
+<tr><td rowspan="3"><b>Linux</b></td><td>cron / systemd timer / rc.local / profile.d / bashrc</td><td>AIDE 完整性、auditd、基线比对</td></tr>
+<tr><td>SSH <code>authorized_keys</code>、PAM 后门、sudoers、<code>/etc/ld.so.preload</code></td><td>文件监控、<code>rpm -Va</code>、SSH key 审计</td></tr>
+<tr><td>WebShell、容器 init 脚本</td><td>Web 目录完整性、镜像签名与运行时检测</td></tr>
+<tr><td rowspan="2"><b>云 / 容器</b></td><td>IAM 后门用户/密钥、角色信任策略、Lambda 后门、EventBridge 定时</td><td>CloudTrail、IAM Access Analyzer、CSPM 漂移检测</td></tr>
+<tr><td>镜像后门、DaemonSet、Admission Webhook、CRD 后门</td><td>镜像扫描与签名、K8s 审计日志、Falco</td></tr>
+<tr><td><b>固件</b></td><td>UEFI/BIOS 植入、Bootkit、网卡/硬盘固件、BMC 后门</td><td>见第 14 章；Measured Boot + 远程证明</td></tr>
+</tbody></table></div>
+<div class="note warn"><b>清理义务：</b>任何为验证而植入的东西，必须登记在《测试产物清理清单》中，测试结束逐条复核并请客户确认。留后门在任何司法辖区都不可接受。</div>
+</section>
+
+<section id="s14">
+<h2><span class="num">14</span>固件、硬件、虚拟化与侧信道<span class="en">Firmware, Hardware &amp; Side Channels</span></h2>
+<p class="lead">这是"服务器真的安全吗"的深水区：操作系统之下的东西被攻破，重装系统都救不回来。2025–2026 年这一层出了大量新漏洞。</p>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:160px">测试项</th><th style="width:280px">攻击手法 / 检查</th><th>判定标准</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">FW-01</td><td><b>Secure Boot 绕过</b></td><td>2026 年披露的 <b>UEFI Shell 漏洞</b>（CVE-2026-33197 AMI AptioV 8.7、CVE-2026-20293 Cisco UCS 7.1、CVE-2026-6485 Insyde 8.2）：创建多个启动项绕过防护，调起 UEFI Shell，用 <code>mm</code> 改内存，在预启动执行任意代码；bootkit 可<b>存活于重装系统之后</b></td><td>更新到厂商最新固件（AMI AptioV_5.044+）；审计启动项；限制本地管理员；Measured Boot + 远程证明</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">FW-02</td><td>Secure Boot 吊销列表（DBX）</td><td>2026 年 6 月微软吊销 11 个旧版 Linux shim；未更新服务器仍信任已知有漏洞的 shim</td><td>确认 DBX 已更新；使用支持 SBAT 的新 shim；<code>mokutil --sb-state</code></td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">FW-03</td><td>BIOS/UEFI 口令与写保护</td><td>默认口令、可无口令进 Setup、可关 Secure Boot/TPM</td><td>强口令 + SPI Flash 写保护 + 机箱防拆检测</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">FW-04</td><td>固件版本与更新</td><td>BIOS、BMC、网卡、RAID、SSD、GPU 固件的已知 CVE</td><td>固件台账 + 定期核对公告；纳入变更管理</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">FW-05</td><td><b>TPM / fTPM</b></td><td><b>CVE-2026-6726 / CVE-2026-6727</b>（CVSS 8.5/8.3）：AMD 与 Intel fTPM 缺陷——伪造密钥绕过校验，或通过 RSA-OAEP 填充时序侧信道读出密钥</td><td>CPU 微码/BIOS 更新 + libtpms/系统补丁；BitLocker 等依赖 TPM 的场景评估残余风险</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">FW-06</td><td>UEFI 网络栈</td><td>PixieFail 类（CVE-2023-45229 等）：PXE 启动时被中间人</td><td>固件更新；不必要则禁用 PXE/网络启动</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">FW-07</td><td>LogoFAIL</td><td>启动时解析 logo 图片触发漏洞</td><td>固件更新（AMI/Insyde/Phoenix 均已发布）</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">FW-08</td><td>Intel ME / AMD PSP / CSME</td><td>管理引擎漏洞（如 CVE-2017-5689）</td><td>固件更新；评估禁用部分 ME 功能</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">FW-09</td><td>BMC / IPMI / iLO / iDRAC</td><td>弱口令、默认口令、老固件、可远程 KVM 与重装</td><td>独立管理网 + 强口令 + MFA + 固件最新 + 登录告警</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+</tbody></table></div>
+
+<h3>14.2 CPU 侧信道与内存攻击</h3>
+<div class="tw"><table class="tight">
+<thead><tr><th style="width:170px">攻击</th><th style="width:100px">年份</th><th>原理与影响</th><th style="width:160px">缓解</th></tr></thead>
+<tbody>
+<tr><td>Spectre / Meltdown</td><td>2018</td><td>推测执行泄露内存；跨进程/跨虚机读密钥</td><td>微码 + 系统补丁；IBRS/STIBP</td></tr>
+<tr><td>Foreshadow / L1TF</td><td>2018</td><td>L1 缓存泄露 SGX enclave 与虚机内存</td><td>微码；禁用 SMT 或 L1D flush</td></tr>
+<tr><td>ZombieLoad / RIDL</td><td>2019</td><td>微架构数据采样（MDS）</td><td>微码 + 缓冲区覆写</td></tr>
+<tr><td>Plundervolt / V0LTpwn</td><td>2019–20</td><td><b>电压毛刺</b>注入错误到 SGX 计算</td><td>禁用电压调节接口；BIOS 更新</td></tr>
+<tr><td>Hertzbleed</td><td>2022</td><td>频率随功耗变化的<b>时序侧信道</b>，可远程提取密钥</td><td>平台缓解；常量时间实现</td></tr>
+<tr><td>Downfall (GDS)</td><td>2023</td><td>AVX 指令泄露向量寄存器数据</td><td>微码 + 软件缓解</td></tr>
+<tr><td>Zenbleed / Inception / SLAP</td><td>2023–24</td><td>AMD 寄存器泄露；推测竞争；跨特权数据采样</td><td>微码；部分需权衡关闭 SMT</td></tr>
+<tr><td><b>Rowhammer 家族</b></td><td>2014–2026</td><td>高频访问 DRAM 导致比特翻转 → 提权、沙箱逃逸、改页表。<b>2025 Phoenix</b> 攻破 DDR5 的 TRR，2 分钟提权</td><td>TRR/ECC（已被绕过）；降低刷新周期；避免同主机放不可信租户</td></tr>
+<tr><td><b>GPU Rowhammer</b></td><td>2025–26</td><td>对 NVIDIA A6000 等 GDDR6 做 Rowhammer；可<b>篡改模型权重</b>（80%→&lt;1%）、突破显存隔离，<b>即使启用 IOMMU</b> 也能拿到 root shell</td><td>GPU 多租户隔离；驱动与固件更新；AI 平台完整性校验</td></tr>
+<tr><td><b>DMA 攻击</b></td><td>持续</td><td>ThunderSpy、PCILeech：通过外设在数秒内读取全部内存与磁盘密钥</td><td>BIOS 禁用 Thunderbolt 或需授权；内核 DMA 保护；封堵物理端口</td></tr>
+<tr><td>冷启动攻击</td><td>持续</td><td>冷冻内存条读出残留数据（含磁盘加密密钥）</td><td>物理防护；TPM + 启动 PIN</td></tr>
+<tr><td>功耗/电磁/声学侧信道</td><td>学术前沿</td><td>通过功耗轨迹、电磁辐射、键盘声音恢复密钥与输入</td><td>高价值场景做物理隔离与屏蔽</td></tr>
+</tbody></table></div>
+
+<h3>14.3 虚拟化与多租户隔离</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">VM-01</span><span><b>Hypervisor 逃逸</b>：ESXi / Hyper-V / KVM / Xen 已知 CVE；Pwn2Own 2024–2026 多次演示逃逸；无硬件直通给不可信负载</span></li>
+<li><input type="checkbox"><span class="id">VM-02</span><span><b>ESXi 专项</b>：勒索团伙已具备 Linux/ESXi/NAS 跨平台加密器；管理口是否暴露公网/办公网；MFA；锁定模式</span></li>
+<li><input type="checkbox"><span class="id">VM-03</span><span>虚机间网络隔离（vSwitch / 端口组 / 微隔离）；混杂模式；vMotion 网络隔离</span></li>
+<li><input type="checkbox"><span class="id">VM-04</span><span>快照与模板是否含敏感数据、是否被遗忘</span></li>
+<li><input type="checkbox"><span class="id">VM-05</span><span>虚拟磁盘与备份权限；加密（VM Encryption / vTPM）</span></li>
+<li><input type="checkbox"><span class="id">VM-06</span><span>vCenter / Proxmox / oVirt 管理接口弱口令与老版本</span></li>
+<li><input type="checkbox"><span class="id">VM-07</span><span>PCI 直通 / SR-IOV 给不可信租户 = DMA 攻击面；GPU 多租户 = Rowhammer 面</span></li>
+<li><input type="checkbox"><span class="id">VM-08</span><span>嵌套虚拟化、容器与 VM 混合部署的边界</span></li>
+</ul>
+</section>
+
+<section id="s15">
+<h2><span class="num">15</span>Web 应用安全测试<span class="en">OWASP Top 10:2025 &amp; WSTG</span></h2>
+<p class="lead">2025 年 11 月 OWASP 发布第八版 Top 10（2026 年 1 月定稿），是自 2021 年以来最大调整：<b>新增"软件供应链失效"与"异常状况处理不当"，SSRF 并入访问控制失效，安全配置错误升至第 2 位</b>。测试清单必须同步更新。</p>
+<div class="tw"><table>
+<thead><tr><th style="width:70px">2025</th><th style="width:180px">类别</th><th style="width:90px">2021 位置</th><th>测试重点（可执行）</th></tr></thead>
+<tbody>
+<tr><td><b>A01</b></td><td><b>失效的访问控制</b></td><td>A01（不变）</td><td><b>SSRF 已并入此类</b>。测：越权（水平/垂直/IDOR/BOLA/BFLA）、未授权访问、路径穿越、CORS 误配、JWT 越权、云元数据 SSRF（169.254.169.254）、DNS Rebinding、URL 解析不一致绕过</td></tr>
+<tr><td><b>A02</b></td><td><b>安全配置错误</b></td><td>A05 → <b>↑第2</b></td><td><b>100% 被测应用存在某种形式配置错误</b>。测：默认账号、云桶公开、安全响应头缺失、堆栈泄露、目录列表、调试接口（Actuator/Swagger）、样例文件、未禁用 HTTP 方法、版本 Banner</td></tr>
+<tr><td><b>A03</b></td><td><b>软件供应链失效</b> <span class="b b-crit">新增</span></td><td>A06（扩展）</td><td>测：依赖树与 SBOM、已知 CVE、<b>恶意包（typosquatting / slopsquatting）</b>、构建流水线与制品库、签名与来源证明、依赖混淆、锁文件完整性。此类别<b>发生率最低但平均利用与影响分最高</b></td></tr>
+<tr><td><b>A04</b></td><td><b>加密失败</b></td><td>A02 → ↓第4</td><td>测：明文传输、弱算法（MD5/SHA1/DES/RC4/ECB）、硬编码密钥、密钥管理、随机数质量、padding oracle、GET 传敏感参数</td></tr>
+<tr><td><b>A05</b></td><td><b>注入</b></td><td>A03 → ↓第5</td><td>测：SQL/NoSQL/OS/命令/LDAP/XPath/模板 SSTI/表达式注入/日志注入/CRLF/头注入/XSS/原型链污染</td></tr>
+<tr><td><b>A06</b></td><td><b>不安全设计</b></td><td>A04 → ↓第6</td><td>测：业务逻辑缺陷（绕过流程、改价、重复提交、竞态）、验证码可复用/爆破/跳过、限流缺失、密码找回设计、威胁建模覆盖度</td></tr>
+<tr><td><b>A07</b></td><td><b>认证失败</b></td><td>A07（更名）</td><td>测：弱口令、默认口令、凭据填充、暴破与限流、会话固定、会话未失效、密码重置缺陷、MFA 可绕过、SSO/OAuth/SAML 配置</td></tr>
+<tr><td><b>A08</b></td><td><b>软件与数据完整性失效</b></td><td>A08（不变）</td><td>测：不安全反序列化、自动更新未签名、CI/CD 未校验、包管理器信任、不安全的数据导入</td></tr>
+<tr><td><b>A09</b></td><td><b>日志与告警失效</b> <span class="b b-med">更名</span></td><td>A09（更名）</td><td>从 Monitoring 改为 <b>Alerting</b>：日志必须能触发行动。测：登录失败/越权/关键操作是否记录、是否外发、是否有告警规则、告警是否可达人、防篡改与脱敏</td></tr>
+<tr><td><b>A10</b></td><td><b>异常状况处理不当</b> <span class="b b-crit">新增</span></td><td>替代 SSRF</td><td>测：错误暴露堆栈/路径/内部 IP/SQL、<b>失败开放（fail-open）</b>、异常处理中的逻辑错误、资源耗尽时是否降级安全、超时与中断后状态一致性、边界输入</td></tr>
+</tbody></table></div>
+
+<h3>15.2 高危漏洞类型逐项清单</h3>
+<div class="tw"><table class="tight">
+<thead><tr><th style="width:120px">类型</th><th style="width:270px">测试方法</th><th>判定标准（安全）</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td>SQL 注入</td><td>手工探测（<code>'</code>、时间盲注）+ sqlmap；报错、布尔、时间、带外</td><td>全部参数化；错误不回显 SQL</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>XSS</td><td>反射/存储/DOM 三类；按上下文构造 payload；dalfox</td><td>输出编码 + CSP + HttpOnly；富文本白名单净化</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td>CSRF</td><td>token 缺失/可预测；SameSite 未设置；Referer 可绕过</td><td>Token + <code>SameSite=Lax/Strict</code>；关键操作二次验证</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td>SSRF</td><td>内网端口扫描、云元数据、file/gopher/dict、重定向绕过、Rebinding</td><td>白名单 + 禁重定向 + 统一解析器 + 阻断内网与元数据</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>文件上传</td><td>双扩展名、MIME 篡改、<code>%00</code>、图片马、路径穿越、解压炸弹、条件竞争</td><td>白名单 + 重命名 + 非执行目录/对象存储 + 扫描 + 大小限制</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>文件包含/读取</td><td>LFI/RFI、PHP 伪协议、日志投毒 getshell</td><td>用户输入不进路径；白名单；<code>open_basedir</code></td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td>反序列化</td><td>Java（CC/Shiro/Spring）、PHP、.NET ViewState、Python pickle</td><td>不反序列化不可信数据；白名单类；完整性签名</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>命令注入/RCE</td><td><code>; &amp;&amp; | $()</code> 分隔符；DNSLog 带外；时间延迟</td><td>避免调用 shell；参数数组化；白名单</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>SSTI</td><td><code>{{7*7}}</code>、<code>${7*7}</code>（Jinja2/Twig/Velocity/FreeMarker）</td><td>静态模板；沙箱；不拼接用户输入</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>XXE</td><td>外部实体读文件、SSRF、盲 XXE（OOB）</td><td>禁用 DTD / 外部实体</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td>HTTP 请求走私</td><td>CL.TE / TE.CL / TE.TE；Transfer-Encoding 混淆</td><td>前后端解析一致；HTTP/2 优先</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td>缓存投毒/欺骗</td><td>缓存键与未键化输入（Header、参数）</td><td>谨慎配置缓存键；不返回用户可控内容</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td>JWT</td><td><code>alg:none</code>、RS256→HS256、弱密钥暴破、<code>kid</code> 注入、未校验 exp/aud</td><td>固定算法、强密钥、校验全部声明、可撤销</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>OAuth / SSO</td><td>redirect_uri 绕过、state 缺失、code 重放、token 泄露于 URL</td><td>严格 redirect_uri + state + PKCE + 短时效</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td>竞态条件</td><td>并发重复提交（转账、领券、下单）</td><td>幂等设计、事务与锁、唯一约束</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td>业务逻辑</td><td>改价/负数/越权改他人订单/跳过支付/重复提现</td><td>服务端权威校验；金额与状态服务端计算</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>IDOR / BOLA</td><td>改 ID 访问他人数据</td><td>服务端做归属校验</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td>信息泄露</td><td><code>.git</code>、<code>.env</code>、备份文件、注释、JS 中的密钥与接口、堆栈</td><td>生产不含源码目录与示例；错误页统一</td><td class="c"><span class="b b-high">高</span></td></tr>
+</tbody></table></div>
+
+<h3>15.3 安全响应头与传输配置</h3>
+<pre>curl -sSI https://example.com | grep -iE "strict-transport|content-security|x-frame|x-content|referrer|permissions-policy|cache-control|server|x-powered"
+testssl.sh https://example.com
+nmap -sV --script ssl-enum-ciphers,http-security-headers -p 443 example.com</pre>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">HD-01</span><span><code>Strict-Transport-Security</code>：max-age ≥ 31536000；includeSubDomains；preload</span></li>
+<li><input type="checkbox"><span class="id">HD-02</span><span><code>Content-Security-Policy</code>：至少 <code>default-src 'self'</code>；禁用 unsafe-inline/unsafe-eval 或配合 nonce</span></li>
+<li><input type="checkbox"><span class="id">HD-03</span><span><code>X-Content-Type-Options: nosniff</code>、<code>X-Frame-Options</code> 或 CSP <code>frame-ancestors</code></span></li>
+<li><input type="checkbox"><span class="id">HD-04</span><span><code>Referrer-Policy</code>、<code>Permissions-Policy</code>、<code>Cross-Origin-Opener-Policy</code></span></li>
+<li><input type="checkbox"><span class="id">HD-05</span><span>Cookie：<code>Secure</code> + <code>HttpOnly</code> + <code>SameSite</code> + <code>__Host-</code> 前缀</span></li>
+<li><input type="checkbox"><span class="id">HD-06</span><span>敏感页 <code>Cache-Control: no-store</code>；隐藏 <code>Server</code>/<code>X-Powered-By</code></span></li>
+<li><input type="checkbox"><span class="id">HD-07</span><span>全量 301 到 HTTPS；禁用 TRACE/TRACK；弱 TLS 关闭（见第 20 章）</span></li>
+</ul>
+<div class="note tip"><b>工具组合：</b>Burp Suite（人工验证主力）+ ffuf/feroxbuster（目录与参数）+ nuclei（已知漏洞与配置）+ sqlmap/dalfox（定向）+ Semgrep/CodeQL（白盒）。<b>扫描器结果必须人工去重与验证后才能进报告。</b></div>
+</section>
+
+<section id="s16">
+<h2><span class="num">16</span>API 与微服务安全<span class="en">OWASP API Security Top 10 (2023)</span></h2>
+<p class="lead">API 是现代应用的主动脉，也是访问控制失效的重灾区。OWASP API Top 10 2023 与 Web Top 10 2025 的 A01 高度重合（BOLA / BFLA 已明确纳入）。</p>
+<div class="tw"><table class="tight">
+<thead><tr><th style="width:70px">编号</th><th style="width:180px">风险</th><th style="width:260px">测试方法</th><th>修复要点</th></tr></thead>
+<tbody>
+<tr><td>API1</td><td><b>BOLA</b> 对象级授权失效</td><td>用 A 的 token 请求 B 的资源 ID；批量遍历；GraphQL 改 node id</td><td>每个对象访问做归属校验；UUID 只是辅助</td></tr>
+<tr><td>API2</td><td><b>认证失效</b></td><td>token 缺失/过期未校验、可预测、密钥硬编码、凭证填充</td><td>标准框架；短时效 + 刷新；限流；MFA</td></tr>
+<tr><td>API3</td><td><b>BOPLA</b> 属性级授权失效</td><td>批量赋值（<code>{"role":"admin"}</code>）；响应返回多余字段；PATCH 改只读字段</td><td>显式白名单字段；按角色裁剪响应</td></tr>
+<tr><td>API4</td><td><b>无限制资源消耗</b></td><td>无限流、<code>?limit=999999</code>、GraphQL 深度炸弹、并发耗尽</td><td>限流、分页上限、查询复杂度限制、超时</td></tr>
+<tr><td>API5</td><td><b>BFLA</b> 功能级授权失效</td><td>普通用户调 <code>/admin/*</code>；改 HTTP 方法；旧版本接口未下线</td><td>服务端按角色鉴权；统一鉴权中间件</td></tr>
+<tr><td>API6</td><td>敏感业务流无限制</td><td>脚本刷单、抢购、批量注册、撞库</td><td>业务风控、设备指纹、验证码、行为分析</td></tr>
+<tr><td>API7</td><td><b>SSRF</b></td><td>URL 参数拉取内网资源与云元数据</td><td>白名单 + 阻断内网与元数据 + 禁重定向</td></tr>
+<tr><td>API8</td><td><b>安全配置错误</b></td><td>Swagger/GraphQL introspection 暴露、CORS <code>*</code>、详细错误</td><td>生产关闭文档与 introspection；严格 CORS</td></tr>
+<tr><td>API9</td><td><b>资产管理不当</b></td><td>旧版本 <code>/v1</code> 未下线、影子 API、测试接口暴露</td><td>API 清单与版本治理；网关纳管；废弃即下线</td></tr>
+<tr><td>API10</td><td>不安全消费第三方 API</td><td>信任第三方响应、未校验证书、跟随重定向、无超时</td><td>校验证书与响应结构；超时与熔断</td></tr>
+</tbody></table></div>
+<h3>16.1 测试流程</h3>
+<ol>
+<li><b>收集接口清单</b>：Swagger/OpenAPI、JS 提取、移动端抓包、网关日志、版本枚举</li>
+<li><b>识别认证机制</b>：JWT / OAuth2 / API Key / HMAC；分析可伪造点</li>
+<li><b>逐接口"三个替换"</b>：换用户（BOLA）、换角色（BFLA）、换方法（GET↔POST↔PUT）</li>
+<li><b>批量与限流</b>：并发 100/1000 看速率控制与幂等保护</li>
+<li><b>字段级测试</b>：请求加 <code>role/admin/isVip/balance</code>；响应中看敏感字段</li>
+<li><b>GraphQL 专项</b>：introspection、深度/复杂度限制、别名批量绕过限流、字段级授权</li>
+<li><b>gRPC / WebSocket 专项</b>：WS 的 Origin 校验与认证、消息级授权；gRPC 反射暴露</li>
+</ol>
+<pre>{"query":"{__schema{types{name}}}"}   # introspection 是否开放
+{"query":"{a:login(u:\"a\",p:\"1\"){...} b:login(u:\"a\",p:\"2\"){...}}"}  # 别名批量绕过限流</pre>
+<div class="note cau"><b>最容易漏的一点：</b>很多团队只测"前端能看到的接口"。攻击者会翻<b>旧版本接口、内部接口、移动端独有接口、网关背后未鉴权的直连地址</b>。必须绕过前端直连后端，确认"绕不过网关就打不到"确实成立。</div>
+</section>
+
+<section id="s17">
+<h2><span class="num">17</span>AI / 大模型 / 智能体安全测试<span class="en">LLM &amp; Agent Security</span></h2>
+<p class="lead">2026 年最陡峭的新攻击面。Black Hat USA 2026 有 <b>29%（35/121）</b>议题直接涉及 AI 安全或 AI 红队；首个"由 LLM 智能体自主完成主要入侵阶段"的勒索事件已经出现。</p>
+<div class="tw"><table class="tight">
+<thead><tr><th style="width:70px">编号</th><th style="width:160px">风险</th><th style="width:250px">测试方法</th><th>缓解</th></tr></thead>
+<tbody>
+<tr><td>LLM01</td><td><b>提示注入</b></td><td>在网页/文档/邮件/图片/代码注释埋指令；多轮与跨工具传播；编码与多语言绕过</td><td>输入净化、指令与数据分离、工具白名单与人工确认</td></tr>
+<tr><td>LLM02</td><td>敏感信息泄露</td><td>诱导复述训练数据/系统提示；越权 RAG 检索</td><td>数据最小化、RAG 权限过滤、输出 DLP</td></tr>
+<tr><td>LLM03</td><td>供应链（模型/数据/插件）</td><td>第三方模型/数据集/插件投毒；完整性与来源</td><td>可信来源、签名校验、SBOM for AI</td></tr>
+<tr><td>LLM04</td><td>数据与模型投毒</td><td>污染微调数据/RAG 知识库，植入后门触发词</td><td>数据源治理、入库校验、异常检测、回滚</td></tr>
+<tr><td>LLM05</td><td>输出处理不当</td><td>输出直接渲染导致 XSS、直接执行导致命令注入、直接拼 SQL</td><td>输出编码、不直接执行、参数化、沙箱</td></tr>
+<tr><td>LLM06</td><td><b>过度代理</b></td><td>让 Agent 执行删库、发邮件、转账、改配置；是否需要确认</td><td>最小权限、动作白名单、高危二次确认、审计</td></tr>
+<tr><td>LLM07</td><td>系统提示泄露</td><td>诱导复述系统提示获取内部规则与工具定义</td><td>提示中不写密钥与敏感逻辑</td></tr>
+<tr><td>LLM08</td><td>向量与嵌入弱点</td><td>跨租户检索、嵌入反演还原原文、投毒向量库</td><td>租户隔离、权限过滤、访问控制</td></tr>
+<tr><td>LLM09</td><td>幻觉</td><td>依赖幻觉输出做决策；编造依赖包名、API、法规</td><td>引用溯源、事实校验、人工复核</td></tr>
+<tr><td>LLM10</td><td><b>无界消费</b></td><td>超长上下文/循环递归/海量请求 → 成本爆炸（DoW）与资源耗尽</td><td>配额、token 上限、成本告警、超时与并发限制</td></tr>
+</tbody></table></div>
+
+<h3>17.2 2026 新增：AI 智能体基础设施攻击面</h3>
+<div class="note warn"><b>现实案例（用于倒推测试设计）：</b>① <b>JadePuffer（2026.07）</b>：LLM 智能体自主利用 Langflow RCE（CVE-2025-3248）进入、收集云凭据与 API Key、利用 Nacos 认证绕过伪造 JWT 横向、用 MySQL <code>AES_ENCRYPT</code> 加密配置项；密钥随机不落盘 → <b>付赎金也解不开</b>。② <b>GTG-2002（2025.08）</b>：用 Claude Code 扫描 VPN 端点、生成定制 Chisel 隧道、伪装成微软工具、定制勒索信。③ <b>Double Agent（2026.07）</b>：攻陷邮箱后向 AI 助手同步偏好注入恶意提示 → 传播到所有会话 → 借助 MCP 工具执行反向 Shell。④ LangChain / CrewAI / AutoGen / Semantic Kernel 核心运行时存在可利用逻辑缺陷；5 款 AI 浏览器存在<b>零点击</b>利用链。</div>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">AI-01</span><span><b>MCP / 工具调用</b>：Agent 挂载了哪些工具？是否有 filesystem/terminal/browser 权限？工具调用是否需确认？是否存在"提示注入 → 工具执行"直达链路</span></li>
+<li><input type="checkbox"><span class="id">AI-02</span><span><b>凭据与密钥</b>：环境变量中的 LLM API Key、云 Key、数据库口令是否被 Agent 读取并外传</span></li>
+<li><input type="checkbox"><span class="id">AI-03</span><span><b>AI 编程助手</b>：IDE 助手是否可访问源码与 .env？远程配置/偏好同步是否可被投毒？</span></li>
+<li><input type="checkbox"><span class="id">AI-04</span><span><b>AI 浏览器 / 插件</b>：是否启用？是否可能被零点击链攻陷？是否保存企业会话</span></li>
+<li><input type="checkbox"><span class="id">AI-05</span><span><b>依赖幻觉攻击（Slopsquatting）</b>：AI 建议的不存在包名被抢注 → 安装即中毒</span></li>
+<li><input type="checkbox"><span class="id">AI-06</span><span><b>推理服务</b>：接口鉴权、限流、<code>/metrics</code> 与管理口；模型窃取与成员推断</span></li>
+<li><input type="checkbox"><span class="id">AI-07</span><span><b>对抗样本</b>：图像/文本扰动导致误判（内容审核绕过）</span></li>
+<li><input type="checkbox"><span class="id">AI-08</span><span><b>AI 生成代码</b>：是否经过 SAST/依赖扫描/人工评审</span></li>
+<li><input type="checkbox"><span class="id">AI-09</span><span><b>数据外发</b>：员工把源码/客户数据粘贴到外部大模型；是否有 DLP 与端点管控</span></li>
+<li><input type="checkbox"><span class="id">AI-10</span><span><b>Deepfake 社工</b>：语音/视频克隆用于财务诈骗与 IT 求助（见第 25 章）</span></li>
+</ul>
+<div class="note tip"><b>给测试员的提醒：</b>AI 安全的测试重点不是"模型聪不聪明"，而是<b>"模型被允许做什么"</b>。把 Agent 的权限边界、工具白名单、人工确认点、审计日志当作核心测试对象——和普通服务器的"最小权限 + 审计"是同一件事，只是执行者从人变成了模型。</div>
+</section>
+
+<section id="s18">
+<h2><span class="num">18</span>身份体系：AD / Kerberos / LDAP / 云 IAM<span class="en">Identity, AD &amp; IAM</span></h2>
+<p class="lead">Unit 42《2026 全球 IR 报告》：<b>约 90% 的入侵中身份弱点是实质因素</b>。攻击者越来越多地"登录进来"而不是"打进来"。这一章是整个内网测试的重心。</p>
+<div class="tw"><table>
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:150px">攻击</th><th style="width:250px">手法 / 命令</th><th>检测与加固（判定标准）</th><th class="c" style="width:56px">风险</th></tr></thead>
+<tbody>
+<tr><td class="c">AD-01</td><td><b>Kerberoasting</b></td><td>任意域用户请求 SPN 票据后离线暴破：<code>Rubeus kerberoast /stats</code> → <code>hashcat -m 13100</code></td><td>服务账号口令 ≥ 25 位随机或改用 <b>gMSA</b>；仅 AES（禁 RC4）；监控 4769</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-02</td><td><b>AS-REP Roasting</b></td><td>找"不需要预认证"的账号：<code>Rubeus asreproast</code> → <code>hashcat -m 18200</code></td><td>无 DONT_REQ_PREAUTH 账号；或强口令</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">AD-03</td><td>用户名枚举</td><td>通过 AS-REP 响应差异枚举有效用户名</td><td>开启"不发送未加密密码"；监控异常预认证失败</td><td class="c"><span class="b b-med">中</span></td></tr>
+<tr><td class="c">AD-04</td><td><b>ACL / 权限滥用</b></td><td>BloodHound 找到域控最短路径（GenericAll / WriteDacl / WriteOwner / ForceChangePassword / AddMember）</td><td>清理危险 ACL；AdminSDHolder 保护；定期基线比对</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-05</td><td><b>委派滥用</b></td><td>无约束委派 / 约束委派 / RBCD 提权</td><td>敏感账号"账户敏感且不能被委派"；全面审查</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-06</td><td><b>Pass-the-Hash / Ticket</b></td><td><code>sekurlsa::pth</code>、<code>kerberos::ptt</code>；无需明文口令</td><td>Credential Guard、LAPS、Tier 分层；监控 4624 类型 3/9/10</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-07</td><td><b>Golden / Silver / Diamond Ticket</b></td><td>伪造 TGT/TGS</td><td>定期（至少每 180 天两次）轮换 krbtgt；监控 4769 异常</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-08</td><td><b>DCSync</b></td><td>滥用 <code>DS-Replication-Get-Changes</code> 拉全部哈希</td><td>审查复制权限；监控 4662</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-09</td><td><b>ADCS / ESC1–ESC15</b></td><td>危险模板、可注册模板、ESC8 中继、ESC4 模板 ACL、ESC6/11/13/15；<code>certipy-ad find -vulnerable</code></td><td>模板审计；禁用 ENROLLEE_SUPPLIES_SUBJECT；Web Enrollment 启用 EPA；ADCS 按 Tier 0 保护；监控 4886/4887</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-10</td><td><b>NTLM 中继</b></td><td>见第 6 章（SMB/LDAP/ADCS）</td><td>全网 SMB 签名、LDAP 签名 + 通道绑定、EPA</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-11</td><td>Zerologon / PetitPotam / PrintNightmare</td><td>CVE-2020-1472、CVE-2021-36942、CVE-2021-34527</td><td>补丁到位；Netlogon 安全 RPC；限制打印后台与 RPC</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-12</td><td><b>组策略与脚本</b></td><td>GPO 下发可写脚本目录 → 全域 RCE；SYSVOL 中 cpassword</td><td>GPO 权限最小化；脚本目录不可写；无 GPP 明文密码</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-13</td><td><b>域内本地管理员</b></td><td>域用户被加为多台主机本地管理员 → PTH 横向</td><td><b>LAPS</b>；禁止共享本地管理员；限制域管登录范围</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+<tr><td class="c">AD-14</td><td>账号卫生</td><td>僵尸账号、永不过期口令、无轮换服务账号、离职未禁用</td><td>定期审查；服务账号用 gMSA</td><td class="c"><span class="b b-high">高</span></td></tr>
+<tr><td class="c">AD-15</td><td>Tier 分层</td><td>Tier 0 是否被普通管理员登录过；凭据是否残留</td><td>严格分层 + 跳板隔离；Tier 0 仅用特权访问工作站（PAW）</td><td class="c"><span class="b b-crit">严重</span></td></tr>
+</tbody></table></div>
+
+<h3>18.2 认证与 MFA 抗攻击测试</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">AU-01</span><span><b>MFA 覆盖度</b>：所有远程访问是否强制 MFA；有无例外账号</span></li>
+<li><input type="checkbox"><span class="id">AU-02</span><span><b>MFA 疲劳攻击</b>：能否反复推送直到误点；是否有次数限制与地理位置校验</span></li>
+<li><input type="checkbox"><span class="id">AU-03</span><span><b>AiTM 中间人钓鱼</b>：Evilginx2 类反向代理窃取会话 Cookie + MFA 一并绕过 → 是否部署<b>抗钓鱼 MFA（FIDO2/WebAuthn/证书绑定）</b></span></li>
+<li><input type="checkbox"><span class="id">AU-04</span><span><b>会话管理</b>：令牌是否绑定设备/位置；超时；登出后服务端失效；并发限制</span></li>
+<li><input type="checkbox"><span class="id">AU-05</span><span><b>条件访问</b>：按设备合规、风险级别、地理位置、IP 的动态策略</span></li>
+<li><input type="checkbox"><span class="id">AU-06</span><span><b>口令策略</b>：禁止常见弱口令与历史泄露口令；长度优先于复杂度</span></li>
+<li><input type="checkbox"><span class="id">AU-07</span><span><b>密码管理器</b>：企业是否提供；员工是否用浏览器保存</span></li>
+<li><input type="checkbox"><span class="id">AU-08</span><span><b>SSO 与联邦</b>：IdP 证书与签名校验、断言重放、SAML 签名包装（XSW）、OIDC nonce/state</span></li>
+<li><input type="checkbox"><span class="id">AU-09</span><span><b>服务账号与密钥</b>：API Key 硬编码、长期 Access Key、无轮换、权限过大</span></li>
+<li><input type="checkbox"><span class="id">AU-10</span><span><b>特权访问</b>：PAM/PIM 即时授权（JIT）、审批、录制、到期自动回收</span></li>
+</ul>
+
+<h3>18.3 云 IAM 测试</h3>
+<div class="tw"><table class="tight">
+<thead><tr><th class="c" style="width:40px">#</th><th style="width:160px">测试项</th><th>方法与判定</th></tr></thead>
+<tbody>
+<tr><td class="c">CI-01</td><td>根账号 / 超级管理员</td><td>根账号是否启用 MFA、禁用访问密钥、日常不使用；Owner/Administrator 角色是否过多</td></tr>
+<tr><td class="c">CI-02</td><td>长期凭据</td><td>是否存在长期 Access Key；是否改用角色/临时凭证/工作负载身份联邦</td></tr>
+<tr><td class="c">CI-03</td><td>权限过大</td><td><code>*:*</code>、AdministratorAccess 泛滥；未使用权限未回收</td></tr>
+<tr><td class="c">CI-04</td><td>权限提升路径</td><td>Pacu / Cloudsplaining / Permission Cirrus 找"组合可提权"路径</td></tr>
+<tr><td class="c">CI-05</td><td>信任策略后门</td><td>角色信任策略是否允许外部账号/未验证主体（confused deputy）</td></tr>
+<tr><td class="c">CI-06</td><td>元数据服务</td><td>是否强制 IMDSv2；SSRF 能否拿到临时凭证</td></tr>
+<tr><td class="c">CI-07</td><td>多因素与条件访问</td><td>是否强制抗钓鱼 MFA；条件访问覆盖全部管理入口</td></tr>
+<tr><td class="c">CI-08</td><td>OAuth 同意钓鱼</td><td>是否禁用用户自主授权第三方应用</td></tr>
+<tr><td class="c">CI-09</td><td>审计</td><td>CloudTrail/Activity/Audit 是否开启、多区域、防篡改（对象锁）</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="s19">
+<h2><span class="num">19</span>云、容器、Kubernetes 与软件供应链<span class="en">Cloud / Container / K8s / Supply Chain</span></h2>
+<p class="lead">现代服务器的"边界"已不在机房，而在<b>云控制台、CI/CD 流水线与镜像仓库</b>。Unit 42《2026 全球事件响应报告》指出：<b>约 90% 的事件涉及身份 weakness，87% 横跨多个攻击面，云与 SaaS 是被横向扩散最快的面</b>；Verizon DBIR 显示供应链相关 breach 占比约 30%、平均损失 491 万美元、平均驻留 267 天。本章按"攻击者怎么走"倒推测试项。</p>
+
+<h3>19.1 云配置基线（CSPM）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法与通过标准</th></tr></thead>
+<tbody>
+<tr><td class="c">CL-01</td><td>公开存储</td><td>对象存储（OSS/S3/Blob/GCS）是否有公开读/写桶、公开快照、公开镜像。<b>通过标准：0 个公开对象</b>，且开启 Block Public Access / 组织级策略强制</td></tr>
+<tr><td class="c">CL-02</td><td>元数据服务</td><td>实例是否强制 IMDSv2（或等价）；容器内能否 <code>curl 169.254.169.254</code> 拿到凭证。<b>通过：SSRF 打不出临时凭证</b></td></tr>
+<tr><td class="c">CL-03</td><td>安全组/NSG</td><td>是否存在 <code>0.0.0.0/0</code> 放行 22/3389/3306/6379/9200/27017/5432；是否对管理端口做源 IP 限制或走堡垒机</td></tr>
+<tr><td class="c">CL-04</td><td>密钥与凭据</td><td>代码/镜像/环境变量/CI 日志中是否硬编码 AK/SK、Token；是否启用密钥托管（KMS/Secrets Manager）并定期轮转</td></tr>
+<tr><td class="c">CL-05</td><td>日志与审计</td><td>CloudTrail/操作审计是否开启、<b>多区域/全局</b>、投递到独立账号、开启对象锁（WORM）防篡改</td></tr>
+<tr><td class="c">CL-06</td><td>加密</td><td>云盘/对象存储/数据库是否默认加密；KMS 密钥轮转策略；快照是否继承加密</td></tr>
+<tr><td class="c">CL-07</td><td>网络出口</td><td>是否收敛出网（NAT/代理白名单），防止 C2 回连与数据外传</td></tr>
+<tr><td class="c">CL-08</td><td>资源暴露面</td><td>公网 IP、负载均衡、未绑定 WAF 的域名、影子资源（废弃实例/孤儿快照/僵尸负载均衡）</td></tr>
+<tr><td class="c">CL-09</td><td>多账号/租户隔离</td><td>生产/测试/开发是否账号级隔离；是否用 SCP/组织策略防越权</td></tr>
+<tr><td class="c">CL-10</td><td>无服务器与托管服务</td><td>Func/Lambda 执行角色最小权限、事件源可注入、临时目录 <code>/tmp</code> 复用、环境变量明文、冷启动依赖劫持</td></tr>
+</tbody></table></div>
+
+<h3>19.2 容器与镜像</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">攻击手法</th><th>验证方法与通过标准</th></tr></thead>
+<tbody>
+<tr><td class="c">CN-01</td><td><b>容器逃逸</b></td><td>检查 privileged、<code>hostPID/hostNetwork/hostIPC</code>、挂载 <code>/var/run/docker.sock</code>、<code>/</code>、<code>/proc</code>、CAP_SYS_ADMIN、<code>--security-opt seccomp=unconfined</code>。<b>通过：无 privileged、无 docker.sock 挂载</b></td></tr>
+<tr><td class="c">CN-02</td><td>以 root 运行</td><td>镜像 USER 是否为 root；K8s 是否 <code>runAsNonRoot: true</code> + <code>allowPrivilegeEscalation: false</code> + 只读根文件系统</td></tr>
+<tr><td class="c">CN-03</td><td>镜像漏洞与恶意镜像</td><td>trivy/grype 扫描；检查基础镜像来源、latest 标签、层数中的敏感文件（<code>.env</code>、<code>id_rsa</code>、<code>history</code>）</td></tr>
+<tr><td class="c">CN-04</td><td><b>镜像投毒 / 依赖混淆</b></td><td>私有仓库是否允许同名覆盖、是否校验签名（cosign/Notation）、是否强制只从可信 registry 拉取（Admission 策略）</td></tr>
+<tr><td class="c">CN-05</td><td>运行时威胁</td><td>Falco/Tetragon 是否部署；能否告警"容器内启动 shell""写入宿主目录""外连矿池"</td></tr>
+<tr><td class="c">CN-06</td><td>编排平面暴露</td><td>Docker API 2375 未授权、etcd 2379 未授权、kubelet 10250/10255 未授权、Dashboard 未鉴权</td></tr>
+<tr><td class="c">CN-07</td><td>Secrets 泄露</td><td>K8s Secret 是否 etcd 静态加密；是否可被任意 Pod 通过 RBAC 读取</td></tr>
+<tr><td class="c">CN-08</td><td>资源限制</td><td>是否设置 CPU/内存 limits，防止单容器 DoS 拖垮宿主（<b>与第 23 章稳定性联动</b>）</td></tr>
+</tbody></table></div>
+
+<h3>19.3 Kubernetes 专项</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法</th></tr></thead>
+<tbody>
+<tr><td class="c">KS-01</td><td>RBAC 过度授权</td><td>是否存在 <code>cluster-admin</code> 泛绑定、<code>*</code> 通配符 verbs/resources、可 <code>get secrets</code> 或 <code>create pods/exec</code> 的服务账号</td></tr>
+<tr><td class="c">KS-02</td><td><b>Service Account Token 滥用</b></td><td>容器内默认挂载 SA token 是否关（<code>automountServiceAccountToken: false</code>）；token 是否为旧版永不过期（1.24 前）</td></tr>
+<tr><td class="c">KS-03</td><td>准入控制</td><td>是否部署 Pod Security Admission（restricted）或 OPA/Gatekeeper/Kyverno；能否拒绝 privileged Pod</td></tr>
+<tr><td class="c">KS-04</td><td>NetworkPolicy</td><td>是否默认拒绝（default-deny）并逐条放行；<b>测：从无关 Pod 能否直连数据库 Pod</b></td></tr>
+<tr><td class="c">KS-05</td><td>控制面与 etcd</td><td>API Server 是否匿名认证可访问、etcd 是否 TLS + 客户端证书 + 无公网</td></tr>
+<tr><td class="c">KS-06</td><td>配置基线</td><td>kube-bench 跑 CIS Kubernetes Benchmark，<b>通过标准：无 FAIL 项，WARN 项有补偿控制说明</b></td></tr>
+<tr><td class="c">KS-07</td><td>供应链 - Helm/Operator</td><td>第三方 Chart 来源、values 中明文凭据、CRD 提权、Operator 的 clusterrole 范围</td></tr>
+<tr><td class="c">KS-08</td><td>Ingress / Gateway</td><td>是否可被 Host 头注入、路径穿越、rewrite 绕过认证、WebSocket 未鉴权</td></tr>
+<tr><td class="c">KS-09</td><td>审计日志</td><td>API Server audit policy 是否记录 <code>RequestResponse</code> 级关键操作并外送 SIEM</td></tr>
+</tbody></table></div>
+<pre># K8s 快速自检（在授权环境执行）
+kubectl auth can-i --list --as=system:serviceaccount:default:default
+kubectl get clusterrolebindings -o json | jq '.items[] | select(.roleRef.name=="cluster-admin")'
+kubectl get pods -A -o json | jq -r '.items[] | select(.spec.containers[].securityContext.privileged==true) | .metadata.namespace+"/"+.metadata.name'
+kubectl get sa -A -o json | jq -r '.items[] | select(.automountServiceAccountToken!=false) | .metadata.namespace+"/"+.metadata.name'
+kube-bench run --targets master,node,etcd,policies</pre>
+
+<h3>19.4 软件供应链与 CI/CD（OWASP A03:2025）</h3>
+<div class="note warn"><b>2025–2026 关键变化：</b>恶意包数量激增（公开报道称 2025 年 npm 生态发现数十万量级恶意/风险包，同比大幅增长），出现 <b>Shai-Hulud 类自复制蠕虫型后门</b>（偷取 CI 凭据后自动发布新版本扩散）、<b>tj-actions/changed-files 类 GitHub Actions 供应链投毒</b>、以及 <b>slopsquatting</b>（攻击者抢注 AI 编码助手"幻觉"出来的不存在的包名）。测试必须覆盖"依赖从哪来"而非只扫 CVE。</div>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法</th></tr></thead>
+<tbody>
+<tr><td class="c">SC-01</td><td>SBOM</td><td>是否有 CycloneDX/SPDX 格式 SBOM 且随版本发布；能否回答"某 CVE 影响我们哪些系统"（15 分钟内）</td></tr>
+<tr><td class="c">SC-02</td><td>来源与签名</td><td>制品是否签名（cosign/Sigstore）、是否有来源证明（SLSA L2+）、部署时验证</td></tr>
+<tr><td class="c">SC-03</td><td>恶意包检测</td><td>是否有包准入（私有代理仓库 + 白名单）、依赖审计（<code>npm audit</code>/<code>osv-scanner</code>/<code>pip-audit</code>/<code>dependabot</code>）、<b>新发布版本冷却期策略</b></td></tr>
+<tr><td class="c">SC-04</td><td>锁文件完整性</td><td>是否提交 lockfile 且 CI 使用 <code>npm ci</code>/<code>pip install --require-hashes</code>；能否被 PR 静默改锁文件</td></tr>
+<tr><td class="c">SC-05</td><td>依赖混淆</td><td>私有包是否被公共源同名抢占；是否配置 scope/源映射与 <code>--registry</code> 强制</td></tr>
+<tr><td class="c">SC-06</td><td><b>CI/CD 权限</b></td><td>GitHub Actions/GitLab Runner 的 <code>GITHUB_TOKEN</code> 权限是否最小（默认 read）、是否防 <code>pull_request_target</code> +  checkout 恶意分支、自托管 Runner 是否可被 fork PR 触达</td></tr>
+<tr><td class="c">SC-07</td><td>CI 秘密防护</td><td>Secret 是否只在必要时注入、是否 mask、是否启用 push protection / 密钥扫描</td></tr>
+<tr><td class="c">SC-08</td><td>构建产物完整性</td><td>构建缓存/产物仓是否可写、是否可复现构建（reproducible build）</td></tr>
+<tr><td class="c">SC-09</td><td>第三方脚本执行</td><td>是否允许 <code>curl | bash</code>、postinstall 脚本执行（<code>--ignore-scripts</code> 策略）</td></tr>
+<tr><td class="c">SC-10</td><td>代码仓库</td><td>分支保护、强制 Code Review、签名提交、禁止 force push、禁止泄露历史 secret（历史扫描 + 轮换）</td></tr>
+</tbody></table></div>
+<pre>osv-scanner --lockfile=package-lock.json --lockfile=requirements.txt
+trivy fs --scanners vuln,secret,misconfig .
+cosign verify --key cosign.pub registry.example.com/app:v1.2.3
+gitleaks detect --source . --log-opts=--all</pre>
+</section>
+
+<section id="s20">
+<h2><span class="num">20</span>密码学、TLS 与 PKI<span class="en">Cryptography / TLS / PKI</span></h2>
+<p class="lead">密码学很少"被攻破"，绝大多数事故来自<b>用错、配错、密钥管错</b>。测试原则：<b>不审自研算法（禁止自研），只审算法选择、参数、实现、密钥生命周期与协议配置</b>。</p>
+
+<h3>20.1 传输层（TLS）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法与通过标准</th></tr></thead>
+<tbody>
+<tr><td class="c">TL-01</td><td>协议版本</td><td>禁用 SSLv2/v3、TLS 1.0/1.1；<b>最低 TLS 1.2</b>，对外网服务建议启用 TLS 1.3</td></tr>
+<tr><td class="c">TL-02</td><td>套件与参数</td><td>禁用 RC4/3DES/DES、NULL、EXPORT、CBC + MAC-then-Encrypt 优先修复、禁用静态 RSA 密钥交换；优先 ECDHE + AES-GCM/ChaCha20-Poly1305；<b>必须前向保密（PFS）</b></td></tr>
+<tr><td class="c">TL-03</td><td>证书有效性</td><td>有效期 ≤ 398 天、域名匹配（含 SAN）、非 SHA-1 签名、RSA ≥ 2048 / ECDSA ≥ P-256、非自签（对外）</td></tr>
+<tr><td class="c">TL-04</td><td>证书链与信任</td><td>链完整、无不受信根、无过期中间证书、配置 OCSP Stapling</td></tr>
+<tr><td class="c">TL-05</td><td>重定向与 HSTS</td><td>HTTP→HTTPS 全站 301；HSTS <code>max-age≥31536000; includeSubDomains</code>；建议加入 preload</td></tr>
+<tr><td class="c">TL-06</td><td>弱点扫描</td><td>testssl.sh / sslscan 全项；<b>通过：无 HIGH 及以上</b>，BEAST/LUCKY13/POODLE/FREAK/Logjam/DROWN/ROBOT 全绿</td></tr>
+<tr><td class="c">TL-07</td><td>内部流量</td><td><b>内网是否已 TLS 化</b>（东西向）——内网明文是横向移动与嗅探的主要温床；至少对认证、数据库、管理通道加密</td></tr>
+<tr><td class="c">TL-08</td><td>证书透明度</td><td>是否监控 CT log 发现仿冒证书（防止域名被冒名签发）</td></tr>
+<tr><td class="c">TL-09</td><td>客户端校验</td><td>移动端/客户端是否<b>正确校验证书</b>（禁 <code>trustAllManager</code>、禁 hostnameVerifier 全通过）；是否可绕过证书固定（pinning bypass）</td></tr>
+<tr><td class="c">TL-10</td><td>密钥交换与后量子</td><td>是否启用混合后量子密钥交换（X25519MLKEM768 等）；制定 PQC 迁移路线（NIST FIPS 203/204/205）</td></tr>
+</tbody></table></div>
+<pre>testssl.sh --full --parallel https://example.com
+openssl s_client -connect example.com:443 -tls1_2 -cipher 'ECDHE-RSA-AES128-GCM-SHA256'
+nmap --script ssl-enum-ciphers -p 443 example.com</pre>
+
+<h3>20.2 存储与算法</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法</th></tr></thead>
+<tbody>
+<tr><td class="c">CR-01</td><td>口令存储</td><td>必须用 <b>Argon2id / scrypt / bcrypt / PBKDF2（高迭代）</b>；<b>禁止裸 MD5/SHA1/SHA256（加盐也不行）</b>；每用户独立盐</td></tr>
+<tr><td class="c">CR-02</td><td>对称加密</td><td>AES-GCM/ChaCha20-Poly1305（AEAD）；<b>禁止 ECB 模式</b>（经典：ECB 企鹅图）、禁止静态 IV 的 CTR、禁用 DES/3DES/RC4</td></tr>
+<tr><td class="c">CR-03</td><td>随机数</td><td>敏感用途（token/会话/密钥/盐）必须 CSPRNG（<code>/dev/urandom</code>、<code>secrets</code>、<code>SecureRandom</code>）；禁止 <code>rand()/Math.random()</code> 或时间戳做凭证</td></tr>
+<tr><td class="c">CR-04</td><td>密钥管理</td><td>密钥不进代码/镜像/日志/备份明文；使用 KMS/HSM；<b>轮转周期明确</b>（对称 ≤1 年、签名 ≤2 年，且泄露可即时轮转）</td></tr>
+<tr><td class="c">CR-05</td><td>硬编码密钥</td><td>全仓扫描（gitleaks/trufflehog），含历史提交；<b>命中即高危，必须轮换而非删除</b></td></tr>
+<tr><td class="c">CR-06</td><td>完整性</td><td>关键数据/文件/更新包是否有签名或 HMAC 校验；是否存在可篡改的更新通道</td></tr>
+<tr><td class="c">CR-07</td><td>Padding Oracle</td><td>是否暴露解密错误差异（"填充错误" vs "明文错误"）；CBC 场景重点测</td></tr>
+<tr><td class="c">CR-08</td><td>敏感数据残留</td><td>日志/错误信息/URL/Referer/缓存中是否出现明文密码、身份证、手机号、卡号、Token</td></tr>
+<tr><td class="c">CR-09</td><td>国密合规（如适用）</td><td>涉及国内合规场景需评估 SM2/SM3/SM4 落地与双证书体系，避免"自造国密"</td></tr>
+</tbody></table></div>
+
+<h3>20.3 PKI 与证书服务（含 AD CS）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法</th></tr></thead>
+<tbody>
+<tr><td class="c">PK-01</td><td>CA 私钥保护</td><td>离线根 CA、HSM 存储、最小可访问人数、双人控制</td></tr>
+<tr><td class="c">PK-02</td><td>模板风险（AD CS ESC1–ESC15）</td><td>Certipy / Certify 扫描：是否允许请求者自定 SAN + 客户端认证 + 低权限可注册 + 无需审批 → <b>域内提权直通车</b></td></tr>
+<tr><td class="c">PK-03</td><td>证书吊销</td><td>CRL/OCSP 可用且及时；吊销后是否被正确拒绝</td></tr>
+<tr><td class="c">PK-04</td><td>证书清单</td><td>是否有全量证书资产与到期告警（&lt;30 天）；是否存在"影子 CA"/自签根</td></tr>
+<tr><td class="c">PK-05</td><td>弱模板与旧算法</td><td>禁用 SHA1 签发、禁用 1024 位、禁用可导出私钥的模板</td></tr>
+</tbody></table></div>
+<pre>certipy-ad find -u user@domain -p pass -dc-ip 10.0.0.1 -vulnerable -stdout</pre>
+</section>
+
+<section id="s21">
+<h2><span class="num">21</span>邮件与协作办公攻击面<span class="en">Email / Collaboration</span></h2>
+<p class="lead">邮件仍是<b>最高频的初始入口</b>，而防护的重点早已不只是"收件箱"，而是<b>域名层面的身份</b>（SPF/DKIM/DMARC）、<b>OAuth 授权</b>与<b>协作平台共享链接</b>。</p>
+
+<h3>21.1 域名身份与反冒充</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法与通过标准</th></tr></thead>
+<tbody>
+<tr><td class="c">EM-01</td><td>SPF</td><td>存在且 <code>-all</code> 或 <code>~all</code>；<b>DNS 查询不超过 10 次</b>（避免 PermError）；无 <code>+all</code></td></tr>
+<tr><td class="c">EM-02</td><td>DKIM</td><td>关键发信域均已签名；<b>密钥 ≥2048 位</b>；定期轮转 selector</td></tr>
+<tr><td class="c">EM-03</td><td>DMARC</td><td><b>通过标准：p=reject 且 pct=100</b>（至少 quarantine 过渡），rua/fo 报告已接收并有人看</td></tr>
+<tr><td class="c">EM-04</td><td>子域防护</td><td>SPF/DMARC 的 sp/quarantine 覆盖子域；<b>无 SPF 的空子域必须加 <code>v=spf1 -all</code> 防冒名</b></td></tr>
+<tr><td class="c">EM-05</td><td>显示名欺骗</td><td>网关是否检测 Display Name 欺骗（CEO 欺诈）；外部邮件是否有"外部"标记</td></tr>
+<tr><td class="c">EM-06</td><td>相似域名</td><td>是否监控 <code>typosquatting</code>（<code>examp1e.com</code>、<code>example-corp.com</code>）并加入阻断</td></tr>
+<tr><td class="c">EM-07</td><td>MTA-STS / TLS-RPT</td><td>是否强制 SMTP 传输加密（MTA-STS），防止降级与内网嗅探</td></tr>
+<tr><td class="c">EM-08</td><td>附件与链接</td><td>沙箱/URL 重写/时间-of-click 检测；能否拦截 HTML 走私（HTML smuggling）、SVG/ISO/OneNote 附件、二维码钓鱼（quishing）</td></tr>
+<tr><td class="c">EM-09</td><td>入站规则后门</td><td>邮箱规则是否被植入"转发到外部/删除/移动到 RSS"；审计非本人创建的规则</td></tr>
+<tr><td class="c">EM-10</td><td>邮件网关自身</td><td>网关管理口是否公网可达、是否存在历史 RCE（历史重灾区）、是否可绕过 X-Header 伪造</td></tr>
+</tbody></table></div>
+<pre>dig +short TXT example.com | grep -i spf
+dig +short TXT _dmarc.example.com
+dig +short TXT selector._domainkey.example.com
+dig +short TXT _mta-sts.example.com</pre>
+
+<h3>21.2 协作与即时通讯（Teams/企微/飞书/Slack/O365）</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">CO-01</span><span><b>OAuth 同意钓鱼</b>：是否允许用户自主授权第三方应用；是否有高风险授权告警与回收流程</span></li>
+<li><input type="checkbox"><span class="id">CO-02</span><span>共享链接：是否存在"任何人可编辑/可查看"的公开链接；外部共享是否受限与到期</span></li>
+<li><input type="checkbox"><span class="id">CO-03</span><span>外部访客账号：Guest 账号是否长期存在、是否有权限、是否定期回收</span></li>
+<li><input type="checkbox"><span class="id">CO-04</span><span>遗留认证：是否仍启用 Basic Auth / IMAP / POP / 旧版 EWS（MFA 无法覆盖的旁路）</span></li>
+<li><input type="checkbox"><span class="id">CO-05</span><span>条件访问：是否按设备合规/位置/风险级别动态控制；异常地点登录是否阻断</span></li>
+<li><input type="checkbox"><span class="id">CO-06</span><span>邮件归档与 eDiscovery 权限：谁能搜全公司邮件，是否有审计</span></li>
+<li><input type="checkbox"><span class="id">CO-07</span><span>Teams/会议：外部参会者默认权限、会议链接复用、录制文件共享范围</span></li>
+<li><input type="checkbox"><span class="id">CO-08</span><span>文件同步客户端：敏感文件是否被同步到未纳管设备，是否有 DLP 阻断</span></li>
+</ul>
+</section>
+
+<section id="s22">
+<h2><span class="num">22</span>数据安全、备份与勒索韧性<span class="en">Data / Backup / Ransomware Resilience</span></h2>
+<p class="lead">安全测试的最终命题不是"能不能进来"，而是<b>"进来了会损失多少、多久能恢复"</b>。本章与第 23 章稳定性共同构成"业务连续性"证据链。测试方法：<b>假定已被攻陷</b>，验证数据是否被加密、被外传、能否恢复。</p>
+
+<h3>22.1 数据分级与流转</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法</th></tr></thead>
+<tbody>
+<tr><td class="c">DA-01</td><td>资产与分级</td><td>是否有数据资产清单 + 分级（公开/内部/敏感/核心）；敏感字段是否打标</td></tr>
+<tr><td class="c">DA-02</td><td>最小化收集</td><td>是否存在"收集了但不用"的敏感字段（常见：身份证、人脸、精确位置）</td></tr>
+<tr><td class="c">DA-03</td><td>存储加密</td><td>敏感字段落库是否加密/脱敏；密钥是否与数据分离</td></tr>
+<tr><td class="c">DA-04</td><td>展示脱敏</td><td>列表/导出/日志/客服后台是否脱敏（手机号/证件/卡号/地址）</td></tr>
+<tr><td class="c">DA-05</td><td>导出与下载</td><td>批量导出是否有审批、水印、限流与审计；<b>测：低权限能否导出全量</b></td></tr>
+<tr><td class="c">DA-06</td><td>外传通道</td><td>是否有 DLP/出网管控；<b>演练：模拟向外部网盘/邮箱/自建域名外传，是否被发现</b></td></tr>
+<tr><td class="c">DA-07</td><td>测试环境数据</td><td>测试环境是否使用生产真实数据（高危），是否脱敏</td></tr>
+<tr><td class="c">DA-08</td><td>销毁</td><td>删除是否为逻辑删除后仍可恢复；到期数据是否真正销毁；磁盘/云盘退役是否擦除</td></tr>
+<tr><td class="c">DA-09</td><td>跨境与合规</td><td>数据出境、日志留存 ≥6 个月（网络安全法）、个人信息告知同意是否齐备</td></tr>
+</tbody></table></div>
+
+<h3>22.2 备份有效性（"没验证过的备份 = 没有备份"）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:150px">检查项</th><th>验证方法与通过标准</th></tr></thead>
+<tbody>
+<tr><td class="c">BK-01</td><td><b>3-2-1-1-0</b></td><td>3 份副本、2 种介质、1 份异地、<b>1 份不可变/离线（空气隔离）</b>、<b>0 错误（恢复验证通过）</b></td></tr>
+<tr><td class="c">BK-02</td><td>不可变性</td><td>对象锁/WORM/一次性写入；<b>测：用被攻陷的管理员账号尝试删除备份，应失败</b></td></tr>
+<tr><td class="c">BK-03</td><td>权限隔离</td><td>备份系统与生产域<b>不共享凭据</b>；备份管理员不在生产管理员组；独立 MFA</td></tr>
+<tr><td class="c">BK-04</td><td>加密</td><td>备份静态加密 + 密钥独立保管（否则勒索者拿到密钥一并加密备份）</td></tr>
+<tr><td class="c">BK-05</td><td><b>恢复演练</b></td><td>每季度至少 1 次真实恢复演练并计时；记录 <b>RTO/RPO 实测值 vs 目标值</b></td></tr>
+<tr><td class="c">BK-06</td><td>覆盖度</td><td>是否覆盖：数据库、对象存储、配置/IaC、密钥、证书、<b>身份系统（AD/IdP 是恢复链条中最容易被忘的一环）</b></td></tr>
+<tr><td class="c">BK-07</td><td>监控</td><td>备份失败是否告警到值班人（不是"静默失败"）</td></tr>
+<tr><td class="c">BK-08</td><td>快照防护</td><td>云快照是否可被攻击者 API 删除；是否启用快照锁定与回收站保护</td></tr>
+</tbody></table></div>
+
+<h3>22.3 勒索与破坏场景演练</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:170px">演练场景</th><th>验证内容</th></tr></thead>
+<tbody>
+<tr><td class="c">RR-01</td><td>终端加密扩散</td><td>EDR 是否拦截并隔离；文件服务器写权限是否收敛；共享盘是否可写全量</td></tr>
+<tr><td class="c">RR-02</td><td>备份定向破坏</td><td>攻击者先删备份再加密——不可变备份是否生效（见 BK-02）</td></tr>
+<tr><td class="c">RR-03</td><td>身份系统瘫痪</td><td>AD/IdP 不可用时，带外应急账号（break-glass）是否可用且受监控</td></tr>
+<tr><td class="c">RR-04</td><td>数据窃密+双重勒索</td><td>出网监控能否发现大流量外传；是否有数据外传告警阈值</td></tr>
+<tr><td class="c">RR-05</td><td>供应商/托管连锁</td><td>第三方被攻陷后，我们的隔离与吊销流程（VPN 账号、API Key、OIDC 信任）多久生效</td></tr>
+<tr><td class="c">RR-06</td><td>内部恶意人员</td><td>Linux auditd/Windows 事件是否覆盖"敏感文件读取"；是否可追溯</td></tr>
+<tr><td class="c">RR-07</td><td>恢复时间实测</td><td>从"宣告灾难"到"核心业务可用"的实测时长，是否满足 RTO</td></tr>
+<tr><td class="c">RR-08</td><td>恢复后安全</td><td>恢复的系统是否<b>先打补丁再上线</b>；是否清理持久化；是否轮换全部凭据</td></tr>
+</tbody></table></div>
+<div class="note tip"><b>测试员必做的 3 件事（本章核心输出）：</b>① 实际删一次备份（验证不可变）；② 实际恢复一次（计时、记录 RTO）；③ 实际用被攻陷权限尝试横向到备份系统（验证隔离）。三项任一不通过，本章判定为<b>不通过</b>。</div>
+</section>
+
+<section id="s23">
+<h2><span class="num">23</span>服务器稳定性与韧性测试<span class="en">Stability / Load / Chaos Engineering</span></h2>
+<p class="lead">安全测试回答"会不会被攻破"，稳定性测试回答<b>"攻不破的情况下会不会自己倒"</b>。二者必须合测：很多"疑似攻击"其实是容量问题，而很多容量问题在攻击面前会被放大成 outage。本章可直接交给测试员执行。测试铁律：<b>先在预发/灰度执行，指标基线先采集，变更单步进行，回滚预案先写好。</b></p>
+
+<h3>23.1 五类负载测试（缺一不可）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:110px">类型</th><th style="width:170px">目的</th><th style="width:120px">典型方法</th><th>通过标准（示例，按业务自定）</th></tr></thead>
+<tbody>
+<tr><td><b>基准测试</b><br><span class="en">Baseline</span></td><td>建立性能基线</td><td>低并发（10–50 VU）稳态跑 10–30 分钟</td><td>P95 延迟、TPS、错误率、CPU/内存/连接数基线入库</td></tr>
+<tr><td><b>负载测试</b><br><span class="en">Load</span></td><td>验证日常/峰值容量</td><td>逐步加压到<b>日均峰值 ×2</b></td><td>P95 ≤ 目标、错误率 &lt; 0.1%、资源水位 &lt; 70%</td></tr>
+<tr><td><b>压力测试</b><br><span class="en">Stress</span></td><td>找崩溃拐点</td><td>持续加压直至错误率飙升</td><td><b>必须记录拐点 TPS</b>；降级而非雪崩；崩溃后能自动恢复</td></tr>
+<tr><td><b>浸泡测试</b><br><span class="en">Soak / Endurance</span></td><td>发现内存泄漏、句柄泄漏、磁盘增长、连接耗尽</td><td>70% 峰值跑 <b>12–72 小时</b></td><td>内存/句柄/FD/线程池<b>曲线平稳无单调上升</b>；无 OOM；无重启</td></tr>
+<tr><td><b>尖峰测试</b><br><span class="en">Spike</span></td><td>验证突发流量（秒杀、推送、爬虫、DDoS 边缘场景）</td><td>10 秒内从 0 拉到峰值 ×5</td><td>限流生效、队列不击穿下游、无连锁雪崩；恢复时间可测</td></tr>
+</tbody></table></div>
+
+<h3>23.2 关键监控指标（测试期间必须同时采集）</h3>
+<div class="grid g3">
+<div class="card"><h5>① 用户体验层</h5><ul><li>响应时间 P50 / P95 / <b>P99</b>（只看平均是错的）</li><li>错误率、超时率、重试放大倍数</li><li>成功率按接口维度拆分</li></ul></div>
+<div class="card"><h5>② 应用层</h5><ul><li>QPS/TPS、并发数、队列长度</li><li>线程池/连接池占用与等待</li><li>GC 次数与停顿（JVM）、慢查询数</li><li>缓存命中率</li></ul></div>
+<div class="card"><h5>③ 系统/基础设施层</h5><ul><li>CPU（user/sys/iowait/steal）、Load</li><li>内存与 swap、OOM kill 次数</li><li>磁盘 IOPS/吞吐/await、磁盘剩余</li><li>FD、TCP 连接状态、TIME_WAIT</li><li>网络 PPS/带宽/重传率</li></ul></div>
+</div>
+
+<h3>23.3 常用压测与基准命令</h3>
+<pre># —— HTTP 压测（k6，推荐，脚本可版本化）——
+# spike.js：0 → 2000 VU（10s）→ 保持 1min → 0
+import http from 'k6/http'; import { check, sleep } from 'k6';
+export const options = { stages:[
+  { duration:'1m', target:200 }, { duration:'10s', target:2000 },
+  { duration:'1m', target:2000 }, { duration:'10s', target:0 }],
+  thresholds:{ http_req_duration:['p(95)&lt;500'], http_req_failed:['rate&lt;0.01'] } };
+export default function(){ const r=http.get('https://target/api/health');
+  check(r,{ 'status 200':(x)=&gt;x.status===200 }); sleep(0.2); }
+
+# 其他常用
+ab -n 100000 -c 500 https://target/api          # 简单基线
+wrk -t12 -c400 -d300s --latency https://target/  # 高并发长跑
+hey -z 10m -q 200 -c 50 https://target/          # 恒定 QPS
+
+# —— CPU / 内存 / IO / 网络 基准 ——
+sysbench cpu --cpu-max-prime=20000 --threads=$(nproc) run
+sysbench memory --memory-block-size=1M --memory-total-size=100G run
+fio --name=rand --ioengine=libaio --rw=randrw --bs=4k --numjobs=4 --size=4G --runtime=300 --time_based --group_reporting
+iperf3 -c &lt;server&gt; -P 8 -t 60
+stress-ng --cpu 8 --io 4 --vm 2 --vm-bytes 1G --timeout 300s
+
+# —— 数据库 ——
+sysbench oltp_read_write --tables=16 --table-size=1000000 --threads=64 --time=600 prepare/run
+pgbench -c 64 -j 8 -T 600 -P 10 testdb
+mysqlslap --concurrency=100 --iterations=10 --auto-generate-sql</pre>
+
+<h3>23.4 混沌工程实验清单（Chaos Experiments）</h3>
+<div class="note warn"><b>前提：</b>① 有明确假设（"kill 一个节点后 P95 应仍 &lt;800ms"）；② 有自动停止条件（blast radius 熔断）；③ 生产演练需变更审批 + 业务低峰 + 回滚脚本在手；④ 一次只注入一个变量。</div>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:170px">故障注入</th><th>预期表现 / 判定</th></tr></thead>
+<tbody>
+<tr><td class="c">CH-01</td><td>杀进程 / 杀容器</td><td>自动拉起；健康检查摘除；P95 抖动可控；<b>无请求丢失或仅少量可重试失败</b></td></tr>
+<tr><td class="c">CH-02</td><td>宕机一台节点 / 一个可用区</td><td>流量自动切走；副本补足；<b>单 AZ 故障不影响可用性</b></td></tr>
+<tr><td class="c">CH-03</td><td>网络延迟 +200ms / 抖动</td><td>超时与重试策略合理；<b>不出现重试风暴</b>；熔断生效</td></tr>
+<tr><td class="c">CH-04</td><td>丢包 5% / 30%</td><td>连接重建正常；无雪崩；队列不无限堆积</td></tr>
+<tr><td class="c">CH-05</td><td>网络分区（脑裂）</td><td>不会出现双写/数据冲突；有仲裁机制</td></tr>
+<tr><td class="c">CH-06</td><td>CPU 打满 / 内存打满</td><td>限流降级；<b>不 OOM-kill 掉关键进程</b>；不被驱逐后无法调度</td></tr>
+<tr><td class="c">CH-07</td><td>磁盘写满 / IO hang</td><td>告警及时；<b>日志写满不应导致业务进程崩溃</b></td></tr>
+<tr><td class="c">CH-08</td><td>依赖服务不可用（DB/缓存/MQ/第三方）</td><td><b>降级可用</b>（熔断/兜底/本地缓存）；不级联挂掉</td></tr>
+<tr><td class="c">CH-09</td><td>依赖返回慢（慢 SQL / 慢接口）</td><td>超时而非阻塞；线程池不被耗尽</td></tr>
+<tr><td class="c">CH-10</td><td><b>时钟漂移</b>（+300s）</td><td>证书校验、Token 过期、定时任务、分布式锁是否异常（<b>高频被忽视项</b>）</td></tr>
+<tr><td class="c">CH-11</td><td>DNS 失效 / 解析错误</td><td>是否有本地缓存与备用 DNS；不是"全站 502"</td></tr>
+<tr><td class="c">CH-12</td><td>证书过期（改时间为过期证书）</td><td>是否有到期告警（&lt;30/&lt;7 天）与自动续期</td></tr>
+<tr><td class="c">CH-13</td><td>消息队列积压 10 万条</td><td>消费能力可扩；不丢消息；有死信与告警</td></tr>
+<tr><td class="c">CH-14</td><td><b>重启后自检</b></td><td>开机自启、配置正确加载、数据一致、无"必须人工干预才能起"</td></tr>
+</tbody></table></div>
+
+<h3>23.5 稳定性验收标准（可直接抄进验收报告）</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">SA-01</span><span><b>容量</b>：日均峰值 ×2 负载下，P95 ≤ 目标值、错误率 &lt; 0.1%、资源水位 &lt; 70%</span></li>
+<li><input type="checkbox"><span class="id">SA-02</span><span><b>拐点已知</b>：压力测试已记录崩溃拐点 TPS，且当前峰值距离拐点 ≥ 2 倍余量</span></li>
+<li><input type="checkbox"><span class="id">SA-03</span><span><b>长稳</b>：72 小时浸泡后内存/FD/线程无单调增长，无 OOM、无计划外重启</span></li>
+<li><input type="checkbox"><span class="id">SA-04</span><span><b>尖峰</b>：5 倍尖峰下限流生效，恢复时间 &lt; 60s，下游未被击穿</span></li>
+<li><input type="checkbox"><span class="id">SA-05</span><span><b>单点</b>：任意单节点/单 AZ 故障，业务可用性 ≥ 99.9%，无需人工切换</span></li>
+<li><input type="checkbox"><span class="id">SA-06</span><span><b>降级</b>：核心依赖全挂时，核心链路仍可降级响应（拒绝服务 ≠ 白屏/卡死）</span></li>
+<li><input type="checkbox"><span class="id">SA-07</span><span><b>可观测</b>：全部关键指标有采集、有看板、<b>有告警且告警有人响应（随机抽 3 条告警验证响应时长）</b></span></li>
+<li><input type="checkbox"><span class="id">SA-08</span><span><b>日志</b>：日志不因流量翻倍而丢失；无 P0 敏感信息明文落日志</span></li>
+<li><input type="checkbox"><span class="id">SA-09</span><span><b>恢复</b>：故障后恢复时间实测 ≤ RTO 目标；数据丢失 ≤ RPO 目标</span></li>
+</ul>
+<div class="note info"><b>与第 8 章（DoS）联动：</b>先做容量基线（本章），再做 DoS 测试（第 8 章）。没有基线就无法判断"异常流量"到底是攻击还是真实用户，也无法验证防护策略是否误杀。</div>
+</section>
+
+<section id="s24">
+<h2><span class="num">24</span>紫队：攻击模拟与检测能力验证<span class="en">Purple Team / Detection Engineering</span></h2>
+<p class="lead">单独做红队（攻进去）价值有限。<b>紫队 = 红队出招 + 蓝队同步验证是否看见</b>，产出是"检测覆盖率"和"告警质量"，而不是一串漏洞编号。Unit 42 报告提到 <b>90% 以上的事件由可预防的防护缺口促成</b>——缺口往往不是"没设备"，而是"设备没规则/规则没调通"。</p>
+
+<h3>24.1 执行方式</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:120px">方式</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><b>Atomic Red Team</b></td><td>按 ATT&amp;CK 技术 ID 跑最小原子测试（如 T1059.001 PowerShell、T1003.001 SAM 复制），<b>只验证检测，不做破坏</b>。适合常态化</td></tr>
+<tr><td><b>CALDERA / 场景剧本</b></td><td>按"攻击链剧本"串起来跑，验证跨阶段关联告警</td></tr>
+<tr><td><b>真实红队 + 蓝队同步</b></td><td>红队每一步都提前写"预计会触发哪些告警"，蓝队事后比对，逐条标注：<b>未告警 / 告警但误判为低危 / 告警但未响应</b></td></tr>
+<tr><td><b>假设 breach 演练</b></td><td>假定域管已失陷，测蓝队多久发现、多久隔离</td></tr>
+</tbody></table></div>
+
+<h3>24.2 每个用例必须记录的四元组</h3>
+<div class="grid g2">
+<div class="card"><h5>① 执行记录</h5><p>时间（精确到分钟）、执行命令、源主机、目标主机、使用账号。<b>没有精确时间就无法比对日志</b>。</p></div>
+<div class="card"><h5>② 预期检测</h5><p>ATT&amp;CK 技术 ID + 预期数据源（EDR/Windows 事件 ID/Sysmon/Panther 规则）。</p></div>
+<div class="card"><h5>③ 实际结果</h5><p><b>四选一：</b>已检测并告警 / 有日志但无告警 / 有告警但被忽略 / 完全无数据。<b>后三种都要开改进项</b>。</p></div>
+<div class="card"><h5>④ 时效指标</h5><p>MTTD（多久发现）、MTTA（多久有人看）、MTTR（多久处置完）。<b>目标是分钟级，不是天级</b>。</p></div>
+</div>
+
+<h3>24.3 检测覆盖自检（按数据源）</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">PT-01</span><span>终端 EDR 覆盖率 = 100%，且<b>非"仅安装未运行"</b>（抽查进程与心跳）</span></li>
+<li><input type="checkbox"><span class="id">PT-02</span><span>Windows：Sysmon 部署 + 关键事件 4688（进程创建，含命令行）、4104（PS 脚本块）、4624/4625、4672、4698（计划任务）、7045（服务安装）</span></li>
+<li><input type="checkbox"><span class="id">PT-03</span><span>Linux：auditd/auditbeat 覆盖 execve、<code>/etc/passwd</code>、<code>/etc/shadow</code>、crontab、sshd 配置、sudoers</span></li>
+<li><input type="checkbox"><span class="id">PT-04</span><span>网络设备与防火墙日志入 SIEM；<b>拒绝日志与允许日志都收</b>（只看拒绝会漏横向）</span></li>
+<li><input type="checkbox"><span class="id">PT-05</span><span>云审计日志（CloudTrail/操作审计）入 SIEM，含数据面事件（S3 GetObject）</span></li>
+<li><input type="checkbox"><span class="id">PT-06</span><span>身份系统日志（AD 安全日志、IdP 登录日志、MFA 失败/绕过）入 SIEM</span></li>
+<li><input type="checkbox"><span class="id">PT-07</span><span>DNS 日志采集（DNS 隧道与 DGA 检测依赖它）</span></li>
+<li><input type="checkbox"><span class="id">PT-08</span><span>告警规则有版本管理与定期回归（<b>每季度用 Atomic 跑一遍，防止规则被改坏</b>）</span></li>
+<li><input type="checkbox"><span class="id">PT-09</span><span>告警有明确 playbook 与责任人；<b>随机抽 5 条真实告警验证处置时效</b></span></li>
+<li><input type="checkbox"><span class="id">PT-10</span><span>日志防篡改：集中存储、写一次、<b>服务器被攻陷后不能本地清日志</b></span></li>
+</ul>
+<pre># Atomic Red Team 示例（仅在授权环境、指定主机执行）
+Invoke-AtomicTest T1059.001 -TestNumbers 1 -ShowDetailsBrief   # PowerShell 命令执行
+Invoke-AtomicTest T1003.001                                     # 复制 SAM 注册表
+Invoke-AtomicTest T1053.005                                     # 计划任务持久化
+Invoke-AtomicTest T1558.003                                     # Kerberoasting</pre>
+</section>
+
+<section id="s25">
+<h2><span class="num">25</span>社会工程与物理安全测试<span class="en">Social Engineering / Physical</span></h2>
+<p class="lead">技术防线再强，人也常被绕过。物理接触 = 通常等于已失陷。本章测试<b>必须书面授权、限定范围、预设停止词</b>，涉及员工心理的钓鱼演练需 HR 与法务会签，避免法律风险与信任损伤。</p>
+
+<h3>25.1 钓鱼与人因</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:160px">场景</th><th>要点与合规提示</th></tr></thead>
+<tbody>
+<tr><td class="c">SE-01</td><td>邮件钓鱼演练</td><td>分级（低/中/高危模板）；<b>只收集"点击/提交"统计，不真实留存员工输入的密码</b>；提供即时安全教育页</td></tr>
+<tr><td class="c">SE-02</td><td><b>AI 语音/视频伪造</b></td><td>2026 年高发：模拟领导声音/视频会议要求转账或发凭据。<b>测：是否有"带外二次确认"流程</b>（这才是控制点）</td></tr>
+<tr><td class="c">SE-03</td><td>二维码钓鱼（quishing）</td><td>打印件/邮件内二维码跳转钓鱼页；移动端是否受 MDM 保护</td></tr>
+<tr><td class="c">SE-04</td><td>MFA 疲劳 / 推送轰炸</td><td><b>测：连续拒绝 10 次后是否被通过</b>；是否启用 number matching 与抗钓鱼 MFA（FIDO2/Passkey）</td></tr>
+<tr><td class="c">SE-05</td><td>OAuth 同意钓鱼</td><td>诱导授权恶意应用；测：是否禁用用户自主授权、是否有告警</td></tr>
+<tr><td class="c">SE-06</td><td>设备码钓鱼（Device Code）</td><td>针对 O365/CLI 登录流程；测：条件访问是否阻断非常规设备码登录</td></tr>
+<tr><td class="c">SE-07</td><td>短信/IM 钓鱼 + 水坑</td><td>仿冒 IT 支持、仿冒 VPN 门户；测：是否只从内网门户/书签分发工具</td></tr>
+<tr><td class="c">SE-08</td><td>投递型（USB / 快递）</td><td>丢弃 U 盘是否被插入执行；是否禁用自动运行、是否有终端管控</td></tr>
+<tr><td class="c">SE-09</td><td>帮助台社工</td><td><b>重置密码流程是否可凭"听起来合理"的话术绕过</b>；是否要求视频核验 + 主管审批（这是最常被攻破的一环）</td></tr>
+</tbody></table></div>
+
+<h3>25.2 物理与办公环境</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">PH-01</span><span><b>尾随（Piggybacking）</b>：无授权人员能否跟随进入机房/办公区</span></li>
+<li><input type="checkbox"><span class="id">PH-02</span><span>门禁：是否刷卡+生物；离职卡是否回收；门禁日志是否留存</span></li>
+<li><input type="checkbox"><span class="id">PH-03</span><span>机房：访客登记、陪同、摄像头覆盖与留存周期、UPS/消防/温湿度</span></li>
+<li><input type="checkbox"><span class="id">PH-04</span><span><b>暴露的网口与 USB</b>：会议室/前台网口是否可直接接内网（应隔离到访客 VLAN）；服务器是否有未锁机柜</span></li>
+<li><input type="checkbox"><span class="id">PH-05</span><span><b>未锁屏终端</b>：抽查 20 台，是否存在未锁屏、贴密码便签</span></li>
+<li><input type="checkbox"><span class="id">PH-06</span><span>打印与碎纸：含敏感信息的打印件是否遗留；碎纸是否达标</span></li>
+<li><input type="checkbox"><span class="id">PH-07</span><span>设备外带：笔记本是否全盘加密（BitLocker/FileVault）、是否有 MDM 远程擦除</span></li>
+<li><input type="checkbox"><span class="id">PH-08</span><span>废弃介质：退役硬盘是否消磁/销毁；是否有处置记录</span></li>
+<li><input type="checkbox"><span class="id">PH-09</span><span>DMA/冷启动攻击（高价值场景）：是否禁用 Thunderbolt DMA、是否启用内核 DMA 保护、是否设置 BIOS 密码</span></li>
+<li><input type="checkbox"><span class="id">PH-10</span><span>监控与告警：物理入侵是否有告警与录像可追溯</span></li>
+</ul>
+</section>
+
+<section id="s26">
+<h2><span class="num">26</span>2026 新兴攻击面与前沿研究<span class="en">Emerging Threats / Research</span></h2>
+<p class="lead">本章对应你说的"用最新的学术论文和最新手法倒推"。梳理 2025–2026 年学术界与 Black Hat / USENIX / CCS / S&amp;P 等会议上<b>已经落地成攻击手法</b>的方向，逐条给出"如果是黑客，我会怎么用 → 我们测什么"。</p>
+
+<h3>26.1 AI 与智能体（Agent）安全 —— 变化最快的一块</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:160px">威胁</th><th>测试点</th></tr></thead>
+<tbody>
+<tr><td class="c">AX-01</td><td><b>智能体自主勒索</b></td><td>公开研究已出现<b>首个"智能体式"勒索原型</b>（自主侦察、自主写加密器、自主谈判）。测：AI 应用是否有工具调用白名单、是否有人类确认闸门、是否有行为熔断</td></tr>
+<tr><td class="c">AX-02</td><td><b>AI 编码助手被武器化</b></td><td>已出现利用 Claude Code / 各类 coding agent 自动生成攻击脚本、批量挖漏洞的团伙活动。测：开发机上的 AI 助手是否可无审计地执行 shell / 写文件 / 读凭据</td></tr>
+<tr><td class="c">AX-03</td><td><b>MCP / 工具投毒</b></td><td>已出现通过邮件投递"恶意 MCP 配置"劫持 AI 客户端（Double Agent 类）。测：MCP 服务器来源与签名、工具描述是否含隐藏指令、工具调用是否需要确认</td></tr>
+<tr><td class="c">AX-04</td><td>间接提示注入</td><td>网页/文档/邮件/图片中的隐藏指令；测：AI 是否会遵循外部内容去调用敏感工具或外传数据</td></tr>
+<tr><td class="c">AX-05</td><td>记忆污染 / RAG 投毒</td><td>测：能否通过一次交互写入长期记忆；知识库文档被植入后是否影响后续所有回答</td></tr>
+<tr><td class="c">AX-06</td><td>GPU / 硬件层新攻击</td><td><b>GPU Rowhammer</b>（GPUHammer/GeForge 类）可在共享 GPU 环境下翻转显存位、破坏模型权重与隔离。<b>测：多租户 GPU 是否隔离、是否禁用共享、是否更新驱动微码</b></td></tr>
+<tr><td class="c">AX-07</td><td>AI 浏览器 / 零点击链路</td><td>AI 浏览器代理可被一条链接串起"读取邮件 → 调用工具 → 外传"。测：AI 浏览器是否隔离、是否禁用自动执行、是否有域名白名单</td></tr>
+<tr><td class="c">AX-08</td><td>模型与数据泄露</td><td>训练数据记忆泄露、模型窃取、系统提示词泄露、越狱导致敏感数据外泄</td></tr>
+<tr><td class="c">AX-09</td><td>供应链（模型侧）</td><td>第三方模型/微调 LoRA/ONNX 文件反序列化 RCE；未校验的模型哈希</td></tr>
+<tr><td class="c">AX-10</td><td>治理</td><td>是否有 AI 资产清单、审批、输出审计、人工复核、停用开关</td></tr>
+</tbody></table></div>
+<div class="note cau"><b>给测试员的判断标准：</b>凡"AI 能自己动手"的环节（发请求、跑命令、改文件、发邮件、下单、转账），<b>默认都必须有人类确认或沙箱隔离</b>。发现"全自动 + 高权限 + 不可回滚"三件套同时存在，直接判定<b>高危</b>。</div>
+
+<h3>26.2 固件、硬件与侧信道</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:78px">编号</th><th style="width:160px">方向</th><th>测试点</th></tr></thead>
+<tbody>
+<tr><td class="c">HX-01</td><td><b>UEFI / Secure Boot 绕过</b></td><td>2026 年披露多起 UEFI 相关漏洞（如 UEFI Shell 被利用于绕过 Secure Boot、AMI/Insyde 类固件缺陷）。<b>测：Secure Boot 是否开启且密钥正确、固件是否为最新、是否启用 Boot Guard / 测量启动、是否有固件完整性检测（fwupd/CHIPSEC）</b></td></tr>
+<tr><td class="c">HX-02</td><td><b>fTPM / TPM 缺陷</b></td><td>2026 年披露 AMD fTPM 类缺陷可导致密钥泄露。<b>测：TPM 固件版本、BitLocker 是否因此弱化、是否使用独立 dTPM/外接密钥保护</b></td></tr>
+<tr><td class="c">HX-03</td><td>BMC / IPMI / 带外管理</td><td>iLO/iDRAC/IPMI 是否公网可达、默认口令、固件最新；<b>BMC 失陷 = 完全控制服务器且绕过操作系统</b></td></tr>
+<tr><td class="c">HX-04</td><td>CPU 侧信道</td><td>Spectre/Meltdown 系列、Downfall、Zenbleed、Inception、<b>训练数据侧信道</b>；测：微码与内核补丁、云上是否禁用 SMT/共享核</td></tr>
+<tr><td class="c">HX-05</td><td><b>Rowhammer / GPU Rowhammer</b></td><td>共享内存/共享 GPU 多租户场景；测：是否启用 ECC、是否做租户隔离、是否禁用大页共享</td></tr>
+<tr><td class="c">HX-06</td><td>DMA 攻击</td><td>Thunderbolt/PCIe 直连内存读取；测：内核 DMA 保护、Thunderbolt 安全级别、端口物理管控</td></tr>
+<tr><td class="c">HX-07</td><td>冷启动 / 内存残留</td><td>测：是否全盘加密、休眠文件是否保护、是否禁用休眠</td></tr>
+<tr><td class="c">HX-08</td><td>虚拟化逃逸</td><td>测：VMM/Hypervisor 补丁、设备直通风险、嵌套虚拟化的隔离</td></tr>
+<tr><td class="c">HX-09</td><td>供应链硬件</td><td>设备来源、固件签名、防拆封、序列号台账</td></tr>
+</tbody></table></div>
+
+<h3>26.3 其他值得列入年度测试计划的前沿方向</h3>
+<div class="grid g2">
+<div class="card"><h5>后量子密码迁移</h5><p>NIST FIPS 203/204/205 已定稿。<b>测：是否完成加密资产清点、是否在 TLS 启用混合密钥交换、长期保密数据的"先收割后解密"风险评估。</b></p></div>
+<div class="card"><h5>量子/随机数与熵源</h5><p>嵌入式与虚拟化环境熵不足导致密钥可预测；测：启动早期熵、<code>/dev/urandom</code> 可用性、VM 克隆后密钥重复。</p></div>
+<div class="card"><h5>卫星 / 5G / 车联网（如涉业务）</h5><p>测：GNSS 欺骗与干扰、5G 伪基站、NESAS/SCBA 合规。</p></div>
+<div class="card"><h5>浏览器与端点新攻击面</h5><p>Unit 42 报告强调<b>浏览器已成为主要入口</b>（约 48% 事件涉及）。测：浏览器扩展管控、企业策略、下载管控、隔离浏览。</p></div>
+<div class="card"><h5>身份优先（Identity-first）</h5><p>约 90% 事件涉及身份问题。测：非人身份（NHI/服务账号/API Key）清单与轮转——<b>这是 2026 最容易被忽略的资产</b>。</p></div>
+<div class="card"><h5>可观测性即控制</h5><p>OWASP 2025 已将 A09 改为"日志与<b>告警</b>失效"。测：不只问"有没有日志"，而问"出事时会不会有人被叫醒"。</p></div>
+</div>
+</section>
+
+<section id="s27">
+<h2><span class="num">27</span>工具矩阵与命令速查<span class="en">Toolkit &amp; Command Cheatsheet</span></h2>
+<p class="lead">工具只是放大器，<b>方法论 + 判定标准</b>才是核心。以下按测试阶段列出主流工具；<b>每条命令都应在书面授权范围内执行</b>，且默认先跑<b>只读</b>模式。</p>
+
+<h3>27.1 按阶段的工具矩阵</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:110px">阶段</th><th style="width:230px">主力工具</th><th>辅助 / 专项</th></tr></thead>
+<tbody>
+<tr><td><b>侦察</b></td><td>nmap、masscan、amass、subfinder、httpx、theHarvester</td><td>FOFA/Shodan/Censys、whois、dnsx、certspotter、CT 日志、<code>assetfinder</code></td></tr>
+<tr><td><b>漏洞发现</b></td><td>nuclei、nessus/OpenVAS、trivy、grype、prowler、testssl.sh</td><td>osv-scanner、dependency-check、gitleaks、kube-bench、lynis、<code>nikto</code></td></tr>
+<tr><td><b>Web / API</b></td><td>Burp Suite、ZAP、sqlmap、ffuf、feroxbuster、Nuclei WAF 模板</td><td>arjun（参数发现）、jwt_tool、SSTImap、nosqlmap、graphql-cop、kiterunner</td></tr>
+<tr><td><b>主机 / 内网</b></td><td>Impacket、Responder、ntlmrelayx、CrackMapExec/NetExec、BloodHound</td><td>Rubeus、certipy-ad、SharpHound、PowerView、mimikatz（受控）、secretsdump</td></tr>
+<tr><td><b>密码破解</b></td><td>hashcat、john、hcxdumptool/hcxtools、aircrack-ng</td><td>规则集（OneRule/NSAKEY）、掩码与词表（rockyou）、<code>statsprocessor</code></td></tr>
+<tr><td><b>无线</b></td><td>aircrack-ng 套件、hcxdumptool、wifite2、eaphammer、hostapd-wpe</td><td>Kismet、Wireshark、reaver/bully、bettercap、<code>wpa_supplicant</code> 自建验证</td></tr>
+<tr><td><b>云 / 容器</b></td><td>prowler、scoutSuite、cloudsplaining、Pacu、trivy、kube-bench、kdigger</td><td>Steampipe（合规即代码）、checkov（IaC）、tfsec、<code>kubescape</code></td></tr>
+<tr><td><b>AI / LLM</b></td><td>gptfuzzer、promptfoo、Garak、PyRIT</td><td>自研用例集（越狱/注入/越权/外传）、MCP 配置审计</td></tr>
+<tr><td><b>稳定性</b></td><td>k6、wrk/ab/hey、JMeter、Locust</td><td>fio、sysbench、pgbench、iperf3、stress-ng、Chaos Mesh / Litmus、<code>tc/netem</code></td></tr>
+<tr><td><b>检测验证</b></td><td>Atomic Red Team、CALDERA、Sigma / Panther 规则</td><td>Sysmon、auditd、Zeek/Suricata、Wazuh、Velociraptor（IR 取证）</td></tr>
+</tbody></table></div>
+
+<h3>27.2 高频命令速查（复制即用）</h3>
+<pre># ——— 资产与端口 ———
+nmap -sS -sV -O -A -p- --min-rate 3000 -oA full 10.0.0.0/24
+masscan -p1-65535 10.0.0.0/24 --rate 5000 -oL ports.txt
+nmap --script "default and safe" -p 80,443,445,3389 target
+nmap --script smb-vuln*,ssl-*,http-* -p 445,443,80 target
+
+# ——— 服务与凭据风险快速体检 ———
+nmap --script ftp-anon,smb-enum-shares,mysql-empty-password,redis-info,mongodb-info,ldap-search target
+crackmapexec smb 10.0.0.0/24 -u '' -p '' --shares
+crackmapexec smb 10.0.0.0/24 -u user -p pass --sam --lsa
+
+# ——— Web 面 ———
+ffuf -u https://t/FUZZ -w /usr/share/wordlists/dirb/common.txt -mc 200,301,403 -t 60
+ffuf -u https://t/api -X POST -d '{"a":"FUZZ"}' -H 'Content-Type: application/json' -w params.txt -fs 0
+sqlmap -u "https://t/item?id=1" --batch --level 3 --risk 2 --dbs
+nuclei -u https://t -t cves/ -t exposures/ -t misconfiguration/ -severity medium,high,critical
+
+# ——— 内网中继与横向 ———
+responder -I eth0 -wrf -v                       # 只做检测时：加 --analyze
+ntlmrelayx.py -tf targets.txt -smb2support -socks
+impacket-psexec domain/user:pass@10.0.0.5
+impacket-secretsdump -just-dc-ntlm domain/user:pass@dc01
+
+# ——— 主机基线 ———
+lynis audit system
+grep -E '^PermitRootLogin|^PasswordAuthentication' /etc/ssh/sshd_config
+auditctl -l ; sestatus ; systemctl list-unit-files --state=enabled
+Get-MpComputerStatus ; Get-ItemProperty 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\...'
+
+# ——— 无线（自有网络，授权后） ———
+nmcli dev wifi list --rescan yes
+airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w cap wlan0mon
+hcxdumptool -i wlan0mon -o cap.pcapng --enable_status=1
+hashcat -m 22000 cap.22000 /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/OneRule.rule
+hostapd-mana /etc/hostapd-mana.conf ; eaphammer --cert-wizard
+
+# ——— 稳定性 ———
+k6 run --vus 500 --duration 5m script.js
+wrk -t12 -c400 -d300s --latency https://t/
+fio --rw=randwrite --bs=4k --numjobs=8 --size=8G --runtime=300 --time_based --group_reporting
+tc qdisc add dev eth0 root netem delay 200ms loss 5%   # 网络损伤注入
+
+# ——— 检测验证 ———
+Invoke-AtomicTest T1059.001 -TestNumbers 1
+Invoke-AtomicTest T1003.001 ; Invoke-AtomicTest T1053.005</pre>
+<div class="note warn"><b>命令安全三原则：</b>① 破坏性命令（<code>-A</code> 全扫、爆破、DoS、注入）先在预发执行；② 生产执行必须有<b>变更单 + 时间窗 + 回滚方案</b>；③ 所有输出落盘到受控目录，<b>报告中脱敏后再外发</b>。</div>
+
+<h3>27.3 推荐测试环境</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">TE-01</span><span>独立测试机（Kali/Parrot 或自装工具集），<b>与生产网络隔离或走白名单跳板</b></span></li>
+<li><input type="checkbox"><span class="id">TE-02</span><span>靶场：DVWA / Juice Shop / HackTheBox / 自建 AD 域 + Vulnerable K8s（先练手再上生产）</span></li>
+<li><input type="checkbox"><span class="id">TE-03</span><span>无线测试专用网卡（支持 monitor + injection，如 AX200/Atheros 芯片）</span></li>
+<li><input type="checkbox"><span class="id">TE-04</span><span>结果存储：加密盘 + 独立账号 + 访问审计；<b>报告完成后按约定期限销毁</b></span></li>
+<li><input type="checkbox"><span class="id">TE-05</span><span>工具版本台账与校验和（防止工具本身被投毒）</span></li>
+</ul>
+</section>
+
+<section id="s28">
+<h2><span class="num">28</span>风险评级与报告模板<span class="en">Risk Rating / Reporting</span></h2>
+<p class="lead">同一漏洞，在不同资产上风险天差地别。评级必须<b>技术严重度（CVSS）× 利用可能性（EPSS）× 业务影响 × 可达性</b>四维合并，不能只看扫描器分数。</p>
+
+<h3>28.1 四维评级法</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:110px">维度</th><th style="width:170px">来源</th><th>取值与说明</th></tr></thead>
+<tbody>
+<tr><td><b>技术严重度</b></td><td>CVSS v4.0</td><td>0.1–10.0；注意 v4.0 强调<b>后续影响（SC/SI/SA）</b>与威胁情报（E:X/A:X）</td></tr>
+<tr><td><b>利用可能性</b></td><td>EPSS（每日更新）</td><td>概率值；<b>EPSS &gt; 0.5 或已在野利用（KEV）→ 直接升级为紧急</b></td></tr>
+<tr><td><b>业务影响</b></td><td>资产关键度 × 数据敏感度</td><td>核心交易 / 用户数据 / 内网跳板 / 边缘展示；是否涉个人信息与关基</td></tr>
+<tr><td><b>可达性</b></td><td>网络位置 + 已有多层防护</td><td>公网直连 / 需 VPN / 需已登录 / 仅内网 / 已有补偿控制（WAF/EDR/RASP 已拦）</td></tr>
+</tbody></table></div>
+
+<h3>28.2 最终等级与处置时限</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:100px">等级</th><th style="width:150px">判定（示例）</th><th style="width:110px">修复时限</th><th>兜底动作</th></tr></thead>
+<tbody>
+<tr><td><span class="b b-crit">紧急 Critical</span></td><td>CVSS ≥9.0 且可达；或 KEV/在野；或可直达域管/核心数据</td><td><b>24–72 小时</b></td><td>立即下线或上 WAF 虚拟补丁 + 临时封禁，24h 内给出方案</td></tr>
+<tr><td><span class="b b-high">高危 High</span></td><td>CVSS 7.0–8.9 且可达；或可横向/提权/批量数据</td><td><b>7 天</b></td><td>两周内修复；超期需 CISO 级审批延期并加监控</td></tr>
+<tr><td><span class="b b-med">中危 Medium</span></td><td>CVSS 4.0–6.9；或需多条件组合</td><td><b>30 天</b></td><td>纳入迭代排期</td></tr>
+<tr><td><span class="b b-low">低危 Low</span></td><td>CVSS &lt;4.0；或纯配置建议</td><td><b>90 天</b></td><td>随基线整改批量处理</td></tr>
+<tr><td><span class="b b-info">提示 Info</span></td><td>信息泄露但无直接利用路径</td><td>下个版本</td><td>记录即可</td></tr>
+</tbody></table></div>
+
+<h3>28.3 每条发现必须包含的字段</h3>
+<div class="grid g2">
+<div class="card"><h5>必填字段</h5><ul>
+<li>编号、标题、等级、CVSS v4.0 向量串、CWE 编号</li>
+<li>受影响资产（IP/域名/组件/版本 + 资产责任人）</li>
+<li><b>复现步骤（逐步、可复制）</b>与请求/响应证据（脱敏截图或 PoC）</li>
+<li>攻击路径说明（对应第 2 章攻击链第几步、ATT&amp;CK 技术 ID）</li>
+<li>实际影响（拿到什么权限/数据/能到哪一步）</li>
+<li>修复建议（<b>具体到配置项或代码改法</b>）+ 临时缓解方案</li>
+<li>复测方式与时限</li>
+</ul></div>
+<div class="card"><h5>常见"报告不合格"反例</h5><ul>
+<li>只贴扫描器导出，没有人工验证与误报剔除</li>
+<li>没有"实际影响"——说不出能干啥</li>
+<li>建议写成"建议加强安全建设"这类无法执行的空话</li>
+<li>没有资产责任人，导致无人认领</li>
+<li>没有复测时间，整改闭环缺失</li>
+</ul></div>
+</div>
+
+<h3>28.4 报告结构（交付给管理层与技术团队两份）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:150px">版本</th><th style="width:110px">受众</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><b>管理层摘要</b><br><span class="en">Executive Summary</span></td><td>决策层 / 业务负责人</td><td>2–4 页：整体风险态势、Top 5 风险与业务影响、投入建议、与上期对比趋势。<b>不放攻击细节与技术术语</b></td></tr>
+<tr><td><b>技术报告</b></td><td>研发 / 运维 / 安全</td><td>范围与方法、资产清单、逐条发现（含 PoC）、攻击链复盘、修复建议与优先级</td></tr>
+<tr><td><b>附录与证据</b></td><td>审计 / 合规</td><td>原始输出（受控分发）、命令日志、时间线、授权书与 ROE、测试人员签名</td></tr>
+<tr><td><b>复测报告</b></td><td>全员</td><td>初测问题逐条标注：<b>已修复 / 缓解 / 未修复 / 新增</b>，并给出残余风险接受说明</td></tr>
+</tbody></table></div>
+<div class="note tip"><b>KPI 建议（用于衡量安全工作是否有效）：</b>危高漏洞平均修复时长、复测一次通过率、检测覆盖率（紫队覆盖率）、MTTD/MTTR、备份恢复演练成功率、<b>公网暴露面数量趋势（应持续下降）</b>。</div>
+</section>
+
+<section id="s29">
+<h2><span class="num">29</span>加固基线与验收标准<span class="en">Hardening Baseline / Acceptance</span></h2>
+<p class="lead">把"应该做"固化成"必须做"。以下为<b>可直接纳入上线审批门禁</b>的最低标准；不符合则不允许发布。</p>
+
+<h3>29.1 服务器（Linux / Windows）基线</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:120px">类别</th><th>基线要求</th></tr></thead>
+<tbody>
+<tr><td><b>身份与登录</b></td><td>禁用 root/管理员直接 SSH/RDP；<b>密钥登录 + 禁密码</b>（Linux）；管理口仅堡垒机可达；sudo 需授权与审计；口令长度 ≥12 且复杂度策略生效；账号锁定策略</td></tr>
+<tr><td><b>补丁</b></td><td>OS 与中间件补丁 SLA：紧急 ≤72h、高危 ≤7 天、常规 ≤30 天；有补丁台账与抽查</td></tr>
+<tr><td><b>最小化</b></td><td>卸载无用软件与服务；<b>只开必要端口</b>；关闭不必要的内核模块与 SUID 程序</td></tr>
+<tr><td><b>主机防护</b></td><td>EDR/AV 100% 覆盖并处于运行态；主机防火墙开启；Linux SELinux/AppArmor 或 Windows 攻击面减少规则</td></tr>
+<tr><td><b>日志</b></td><td>关键日志开启并<b>实时外送</b>；保留 ≥180 天；敏感操作（登录、提权、配置变更）必记</td></tr>
+<tr><td><b>文件与权限</b></td><td>关键目录权限最小化；配置文件不含明文密码；umask 合理；无 <code>777</code> 关键文件</td></tr>
+<tr><td><b>备份</b></td><td>纳入备份且<b>每季度验证恢复</b>；备份账号与生产隔离</td></tr>
+<tr><td><b>镜像模板</b></td><td>使用经过加固的黄金镜像，<b>新机器一律从模板创建，禁止手工搭机</b></td></tr>
+</tbody></table></div>
+
+<h3>29.2 网络与边界基线</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">HB-01</span><span>公网入口收敛：必须有 WAF/反向代理/负载均衡统一入口，<b>禁止业务机直接暴露公网</b></span></li>
+<li><input type="checkbox"><span class="id">HB-02</span><span>管理口（22/3389/管理后台）不直接对公网；必须经 VPN/堡垒机 + MFA</span></li>
+<li><input type="checkbox"><span class="id">HB-03</span><span>分区分域：办公网 / 生产网 / 测试网 / 访客网 / IoT 网隔离，跨区需审批与审计</span></li>
+<li><input type="checkbox"><span class="id">HB-04</span><span>出网白名单；DNS 走内部可控解析；<b>禁止服务器任意出网</b></span></li>
+<li><input type="checkbox"><span class="id">HB-05</span><span>高危端口全网不可达（详见附录 D）</span></li>
+<li><input type="checkbox"><span class="id">HB-06</span><span>DDoS 防护与带宽冗余；有应急预案与演练记录</span></li>
+<li><input type="checkbox"><span class="id">HB-07</span><span>无线：WPA3（或 WPA2-AES + 强口令）、<b>关闭 WPS</b>、访客网独立且隔离、管理后台强口令 + HTTPS、固件在维护期内</span></li>
+<li><input type="checkbox"><span class="id">HB-08</span><span>安全设备规则季度评审；<b>删除"临时放行"规则</b></span></li>
+<li><input type="checkbox"><span class="id">HB-09</span><span>网络配置变更有审批与回滚；有配置备份与 diff</span></li>
+</ul>
+
+<h3>29.3 应用与数据基线</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">HA-01</span><span>全站 HTTPS + HSTS；内网敏感链路同样加密</span></li>
+<li><input type="checkbox"><span class="id">HA-02</span><span>安全响应头齐全（CSP、X-Frame-Options/XFO 或 frame-ancestors、X-Content-Type-Options、Referrer-Policy、Permissions-Policy）</span></li>
+<li><input type="checkbox"><span class="id">HA-03</span><span>Cookie：Secure + HttpOnly + SameSite；会话有超时与轮换</span></li>
+<li><input type="checkbox"><span class="id">HA-04</span><span>输入校验 + 参数化查询 + 输出编码 + 上传白名单（类型/大小/重命名/非 Web 目录/不执行）</span></li>
+<li><input type="checkbox"><span class="id">HA-05</span><span>认证：抗钓鱼 MFA 可选可强制、口令加盐慢哈希、登录失败限流、找回流程防枚举</span></li>
+<li><input type="checkbox"><span class="id">HA-06</span><span>越权：所有接口服务端鉴权（禁止只靠前端隐藏），对象级权限校验</span></li>
+<li><input type="checkbox"><span class="id">HA-07</span><span>错误处理：统一错误页，<b>不回显堆栈/SQL/路径/版本号</b></span></li>
+<li><input type="checkbox"><span class="id">HA-08</span><span>依赖：SBOM + 漏洞扫描进 CI；高危依赖阻断合并；<b>锁文件与私有源</b></span></li>
+<li><input type="checkbox"><span class="id">HA-09</span><span>密钥/证书：统一托管、定期轮转、<b>到期前 30 天告警</b>、禁止硬编码</span></li>
+<li><input type="checkbox"><span class="id">HA-10</span><span>数据：分级分类 + 脱敏 + 导出审批 + 外传管控 + 日志不留敏感明文</span></li>
+<li><input type="checkbox"><span class="id">HA-11</span><span>日志与告警：安全事件（登录失败、越权、异常导出）有告警且有人响应</span></li>
+<li><input type="checkbox"><span class="id">HA-12</span><span>发布：灰度 + 可回滚；<b>安全测试通过才允许上线</b>（门禁）</span></li>
+</ul>
+
+<h3>29.4 验收判定（本次测试整体结论）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:110px">结论</th><th style="width:170px">判定条件</th><th>处置</th></tr></thead>
+<tbody>
+<tr><td><span class="b b-low">通过</span></td><td>无危高；中低危已排期且不超过时限；全部"必须通过项"达标</td><td>出具通过结论，进入常规周期</td></tr>
+<tr><td><span class="b b-med">有条件通过</span></td><td>存在高危但已有<b>有效临时缓解</b>且修复计划明确</td><td>限定 30 天内复测，跟踪至关闭</td></tr>
+<tr><td><span class="b b-crit">不通过</span></td><td>存在紧急项未处置；或核心资产可被直达；或备份/恢复验证失败</td><td><b>暂停上线/对外服务</b>，专项整改后重测</td></tr>
+</tbody></table></div>
+<div class="note cau"><b>一票否决项（出现即判定不通过）：</b>① 核心数据可从公网未授权读取；② 存在可直达域管/管理员的路径；③ 备份可被同一权限删除或从未验证恢复；④ 生产环境存在默认口令；⑤ 关键日志完全缺失导致无法追溯。</div>
+</section>
+
+<section id="s30">
+<h2><span class="num">30</span>执行 Runbook 与排期<span class="en">Runbook / Schedule</span></h2>
+<p class="lead">给你家测试员的可执行计划。按 <b>Phase 0 → 6</b> 推进，每阶段有明确输入输出与退出条件。</p>
+
+<h3>30.1 七阶段执行表</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:90px">阶段</th><th style="width:150px">目标</th><th style="width:170px">主要动作</th><th>退出条件（Exit Criteria）</th></tr></thead>
+<tbody>
+<tr><td><b>P0 授权</b></td><td>合法合规</td><td>签授权书（附录 A）、确认 ROE（附录 B）、建应急联系人表、备案变更单</td><td>书面授权到手、红线下发、值班人确认 <b>（未完成禁止开工）</b></td></tr>
+<tr><td><b>P1 侦察</b></td><td>搞清被测对象</td><td>资产发现与确认（第 3 章）、OSINT（第 3 章）、范围边界确认</td><td>资产清单经业务方签字确认；<b>范围外资产清单同步产出</b></td></tr>
+<tr><td><b>P2 扫描</b></td><td>覆盖面</td><td>端口/服务/漏洞/Web/容器/云 扫描，<b>全部只读</b></td><td>扫描报告产出，高危项 24h 内快速通报</td></tr>
+<tr><td><b>P3 人工验证</b></td><td>去伪存真</td><td>逐条验证、剔除误报、串联攻击链（第 2 章模板）</td><td>每条发现可复现、有影响说明、有 ATT&amp;CK 映射</td></tr>
+<tr><td><b>P4 深度测试</b></td><td>挖深风险</td><td>内网横向、提权、持久化、无线、AI/供应链、稳定性与混沌</td><td>关键假设已被验证或推翻，均有证据</td></tr>
+<tr><td><b>P5 报告</b></td><td>交付与整改</td><td>评级（第 28 章）、报告撰写、评审会</td><td>管理层 + 技术版报告交付；责任人与时限已落</td></tr>
+<tr><td><b>P6 复测</b></td><td>闭环</td><td>逐条复测，标注已修复/未修复/新增</td><td><b>危高 100% 关闭或有效缓解</b>；残余风险书面接受</td></tr>
+</tbody></table></div>
+
+<h3>30.2 建议节奏（可按规模压缩）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:120px">频率</th><th style="width:200px">做什么</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><b>日常 / 持续</b></td><td>资产发现、漏洞扫描、暴露面监控、依赖扫描</td><td>自动化进 CI/CD 与定时任务，异常即告警</td></tr>
+<tr><td><b>每周</b></td><td>公网暴露面巡检、证书到期巡检、备份任务成功率</td><td>30 分钟级别，可脚本化</td></tr>
+<tr><td><b>每月</b></td><td>补丁合规核查、账号与权限复核、配置漂移检查</td><td>输出趋势图给管理层</td></tr>
+<tr><td><b>每季度</b></td><td>专项渗透（Web/内网/无线轮换）、<b>备份恢复演练</b>、紫队检测验证</td><td>季度末出报告</td></tr>
+<tr><td><b>每半年</b></td><td>红队完整攻击链演练、钓鱼演练、物理安全抽查、稳定性压测</td><td>需业务低峰 + 变更审批</td></tr>
+<tr><td><b>每年</b></td><td>全面评估（L3 深度）、等保测评/合规审计、DR 演练、基线版本升级</td><td>结合合规要求与外部审计</td></tr>
+</tbody></table></div>
+
+<h3>30.3 分工建议（RACI 简化版）</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:150px">角色</th><th>职责</th></tr></thead>
+<tbody>
+<tr><td><b>测试负责人</b></td><td>范围确认、方案与排期、质量把关、对外沟通、报告终审</td></tr>
+<tr><td><b>网络/系统测试员</b></td><td>第 3–14 章、第 23 章（稳定性压测与混沌）</td></tr>
+<tr><td><b>应用/API 测试员</b></td><td>第 15–17 章（Web、API、AI）</td></tr>
+<tr><td><b>无线/物理测试员</b></td><td>第 9–10 章、第 25 章</td></tr>
+<tr><td><b>蓝队/运维配合</b></td><td>提供日志与告警证据、执行止血、参与紫队（第 24 章）</td></tr>
+<tr><td><b>业务/资产责任人</b></td><td>确认影响、确认修复窗口、接受残余风险</td></tr>
+</tbody></table></div>
+
+<h3>30.4 应急联络与中止机制</h3>
+<div class="note warn"><b>出现以下任一情况立即中止并上报：</b>① 发现正在被第三方攻击（立即转应急响应，不要继续测试）；② 测试导致业务异常（执行回滚并通知）；③ 超出授权范围或触及红线；④ 发现生产数据泄露风险。<br><b>中止联系人必须在 P0 阶段就确定，且 7×24 可达。</b></div>
+<pre>测试期间必须记录的"三张表"
+1) 操作时间线表：时间 / 操作 / 目标 / 执行人 / 预期影响 / 实际影响
+2) 发现记录表：编号 / 等级 / 资产 / 复现 / 影响 / 责任人 / 时限 / 状态
+3) 检测比对表：动作 / 预期告警 / 实际告警 / MTTD / 缺口 / 改进项</pre>
+</section>
+
+<section id="a1">
+<h2><span class="num">A</span>渗透测试授权书模板<span class="en">Authorization Letter</span></h2>
+<p class="lead">开工前必须签署。<b>没有书面授权的测试等同于违法</b>（详见第 00 章合规红线）。以下为模板，按法务意见调整后使用。</p>
+<pre>【网络安全测试授权书】
+
+委托方（甲方）：____________________   统一社会信用代码：____________________
+受托方（乙方）：____________________   统一社会信用代码：____________________
+项目名称：____________________        项目编号：____________________
+
+一、测试范围（必须精确到 IP / 域名 / 网段 / 账号 / SSID）
+  1. 目标资产：______________________________________________
+  2. 网络范围：______________________________________________
+  3. 无线目标（SSID / BSSID / 物理位置）：____________________
+  4. 明确排除的范围：________________________________________
+  5. 允许的测试类型：□ 信息收集 □ 漏洞扫描 □ 人工渗透 □ 拒绝服务
+                    □ 社会工程 □ 物理安全 □ 无线测试 □ 稳定性/混沌
+
+二、测试时间窗
+  自 ____ 年 __ 月 __ 日 __:__ 起，至 ____ 年 __ 月 __ 日 __:__ 止。
+  非约定时间内的任何测试行为均属越权。
+
+三、双方义务
+  1. 甲方保证对测试目标拥有合法所有权或已获得权利人授权，
+     因权属瑕疵产生的一切责任由甲方承担。
+  2. 乙方仅在授权范围内实施测试，遵守 ROE（见附录 B），
+     不得超出范围、不得破坏业务连续性、不得泄露测试数据。
+  3. 乙方对测试过程中获知的任何数据承担保密义务，
+     测试结束后按约定销毁或归还。
+  4. 甲方指定应急联系人并保持 7×24 可达。
+
+四、应急联系
+  甲方应急联系人：________  电话：________  邮箱：________
+  乙方应急联系人：________  电话：________  邮箱：________
+
+五、免责与限制
+  1. 测试存在固有风险，乙方已尽合理谨慎义务仍发生的不可预见损害，
+     双方按约定责任上限处理。
+  2. 因甲方提供信息不准确、未及时响应或未执行已告知的备份要求
+     导致的损失，乙方不承担责任。
+  3. 乙方故意或重大过失造成损害的，不适用责任限制。
+
+六、交付物与保密期限
+  交付物：管理层摘要、技术报告、复测报告。
+  保密期限：自签署之日起 ____ 年。
+
+七、其他
+  本授权书一式两份，双方各执一份，自双方签章之日起生效。
+
+甲方（盖章）：____________  授权代表：____________  日期：________
+乙方（盖章）：____________  授权代表：____________  日期：________</pre>
+</section>
+
+<section id="a2">
+<h2><span class="num">B</span>ROE 交战规则与红线<span class="en">Rules of Engagement</span></h2>
+<p class="lead">ROE 是把"可以做"和"绝对不能做"写死的文件。测试员人手一份，<b>越权一次即中止项目</b>。</p>
+
+<h3>B.1 允许 / 禁止清单</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:90px">类别</th><th style="width:230px">允许（在授权范围内）</th><th>绝对禁止</th></tr></thead>
+<tbody>
+<tr><td><b>信息收集</b></td><td>扫描、指纹识别、公开情报、配置读取</td><td>对第三方/非授权目标扫描；人肉搜索测试人员身份以外的信息</td></tr>
+<tr><td><b>漏洞利用</b></td><td>在预发验证 PoC；生产只读验证</td><td>生产环境执行破坏性利用（删除、改数据、加密、写马）</td></tr>
+<tr><td><b>拒绝服务</b></td><td>仅在书面特批 + 业务低峰 + 有回滚</td><td><b>默认禁止任何 DoS / 压力测试打到生产</b></td></tr>
+<tr><td><b>账号与数据</b></td><td>使用甲方提供的测试账号；取样验证</td><td><b>批量下载/导出真实用户数据</b>；查看与测试无关的个人信息</td></tr>
+<tr><td><b>持久化</b></td><td>预发环境可留后门用于检测验证</td><td>生产环境留后门；未清理的测试账号与工具</td></tr>
+<tr><td><b>无线</b></td><td>对授权 SSID 抓握手包、审计配置</td><td>破解非授权网络；干扰他人网络；<b>去授权化（deauth）攻击生产用户</b></td></tr>
+<tr><td><b>社工与物理</b></td><td>按批准剧本执行，有停止词</td><td>冒充执法/监管；触碰无关人员设备；进入非授权区域</td></tr>
+<tr><td><b>数据外带</b></td><td>脱敏样本、截图、PoC</td><td>把真实数据带出甲方环境或上传外部服务</td></tr>
+</tbody></table></div>
+
+<h3>B.2 沟通与升级机制</h3>
+<ul class="chk">
+<li><input type="checkbox"><span class="id">RO-01</span><span>建立专用沟通群，<b>每次破坏性操作前 @ 确认，操作后 @ 报告结果</b></span></li>
+<li><input type="checkbox"><span class="id">RO-02</span><span>发现紧急漏洞：<b>立即电话通知</b>，不等报告；同时提供临时缓解方案</span></li>
+<li><input type="checkbox"><span class="id">RO-03</span><span>发现正在被攻击：立即停止测试 → 转应急响应 → 保留证据</span></li>
+<li><input type="checkbox"><span class="id">RO-04</span><span>造成业务影响：立即执行回滚 → 通知 → 事后复盘</span></li>
+<li><input type="checkbox"><span class="id">RO-05</span><span>每日站会同步进度与风险；<b>不带着未解决的风险进入下一阶段</b></span></li>
+<li><input type="checkbox"><span class="id">RO-06</span><span>工作底稿受控存储，项目结束按约定销毁并出具销毁证明</span></li>
+</ul>
+</section>
+
+<section id="a3">
+<h2><span class="num">C</span>用例与发现记录模板<span class="en">Test Case / Finding Template</span></h2>
+
+<h3>C.1 测试用例模板（倒推法四问）</h3>
+<pre>用例编号：NET-SEC-0042
+所属章节：第 6 章 中间人 / 中继
+攻击手法：LLMNR/NBT-NS 投毒 + NTLM 中继（ATT&amp;CK T1557.001）
+────────────────────────────────────────
+【1 黑客怎么做】
+  在内网广播伪造名称解析响应，诱使主机向攻击者认证，
+  将 Net-NTLM 凭据中继到未启用签名的 SMB 服务，实现免破解横向。
+【2 我们怎么验证】
+  1) 在测试机执行：responder -I eth0 -A（仅检测模式）
+  2) 记录 30 分钟内收到的名称解析请求与来源主机
+  3) 检查 SMB 签名策略：crackmapexec smb CIDR | grep signing
+【3 什么算通过】
+  · 全网禁用 LLMNR 与 NBT-NS（组策略已下发并生效）
+  · SMB 签名强制启用（RequireSecuritySignature=1）
+  · 已启用 LDAP 签名与通道绑定、EPA
+  · 检测模式下无主机响应伪造请求，或有响应但被 EDR 告警
+【4 不过怎么办】
+  · 组策略：关闭 LLMNR / 禁用 NBT-NS
+  · 开启 SMB/LDAP 签名与通道绑定
+  · 加入"内网名称解析异常"检测规则并做紫队验证
+────────────────────────────────────────
+执行结果：□通过 □不通过 □不适用   证据：______   执行人/日期：______</pre>
+
+<h3>C.2 发现记录模板</h3>
+<pre>发现编号：VULN-2026-018
+标题：Redis 未授权访问可导致服务器被控
+等级：紧急（Critical）   CVSS v4.0：9.8   CWE：CWE-306   EPSS：0.94
+资产：10.0.0.23:6379（生产缓存节点，责任人：张三）
+────────────────────────────────────────
+复现步骤：
+  1) redis-cli -h 10.0.0.23 ping → PONG（无需认证）
+  2) config set dir /root/.ssh ; config set dbfilename authorized_keys
+  3) set x "\n\nssh-rsa AAAA...\n\n" ; save
+  4) ssh -i key root@10.0.0.23 → 获得 root
+实际影响：
+  以 root 完全控制生产缓存节点，可横向至同网段数据库与应用服务器，
+  可读取缓存中的会话令牌与用户数据（攻击链第 4→7 步）。
+攻击路径：第 12 章 → 第 13 章 → 第 7 章横向 → 核心数据
+修复建议：
+  1) 立即：防火墙限制 6379 仅应用服务器可达 + 启用 requirepass
+  2) 根治：rename-command 高危命令、绑定内网地址、以非 root 运行、开启 TLS
+  3) 长期：中间件安全基线进 IaC，CI 增加端口暴露检测
+临时缓解：已完成（网络策略 2026-09-16 生效）
+复测方式：redis-cli 直连应被拒绝 + 端口扫描仅应用段可达
+时限：72 小时内完成根治，7 天内复测
+状态：□待修复 □修复中 □已修复 □已复测通过 □接受风险</pre>
+
+<h3>C.3 稳定性测试记录模板</h3>
+<pre>场景编号：STAB-007
+场景：订单服务尖峰测试（日均峰值 ×5）
+时间：2026-__-__ __:__ ~ __:__   环境：预发（规格同生产）
+────────────────────────────────────────
+基线（加压前）：P50 ___ P95 ___ P99 ___ 错误率 ___ CPU ___ 内存 ___
+加压曲线：0→200 VU(1m) →2000 VU(10s) →保持(1m) →0
+峰值数据：TPS ___ P95 ___ P99 ___ 错误率 ___ 连接池占用 ___ 队列长度 ___
+拐点：TPS ≈ ___ 时错误率超过 1%（是否为已知拐点：□是 □否）
+异常现象：_________________________________________
+降级/限流是否生效：□是 □否   熔断触发：□是 □否
+恢复时长：___ 秒（从撤销压力到指标回到基线）
+结论：□通过（满足 SA-01~SA-09） □不通过
+不通过原因与改进项：_________________________________________</pre>
+</section>
+
+<section id="a4">
+<h2><span class="num">D</span>高危端口与危险信号速查<span class="en">Ports / IoC Quick Reference</span></h2>
+
+<h3>D.1 高危端口与典型风险</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:80px">端口</th><th style="width:150px">服务</th><th style="width:90px">风险</th><th>检查要点</th></tr></thead>
+<tbody>
+<tr><td class="c">21</td><td>FTP</td><td><span class="b b-high">高</span></td><td>匿名登录、明文传输；应改用 SFTP/FTPS</td></tr>
+<tr><td class="c">22</td><td>SSH</td><td><span class="b b-med">中</span></td><td>弱口令、root 登录、旧版算法；禁密码 + 限源 + 堡垒机</td></tr>
+<tr><td class="c">23</td><td>Telnet</td><td><span class="b b-crit">紧急</span></td><td><b>明文，发现即关停</b></td></tr>
+<tr><td class="c">25/465/587</td><td>SMTP</td><td><span class="b b-med">中</span></td><td>开放中继、用户枚举（VRFY/EXPN）</td></tr>
+<tr><td class="c">53</td><td>DNS</td><td><span class="b b-high">高</span></td><td>域传送、递归开放、DNS 放大、缓存投毒</td></tr>
+<tr><td class="c">80/443</td><td>HTTP(S)</td><td><span class="b b-high">高</span></td><td>主战场：注入、越权、配置错误、证书与套件</td></tr>
+<tr><td class="c">110/143</td><td>POP3/IMAP</td><td><span class="b b-med">中</span></td><td>明文认证；强制 TLS</td></tr>
+<tr><td class="c">111/2049</td><td>RPC/NFS</td><td><span class="b b-high">高</span></td><td>导出表泄露、未授权挂载</td></tr>
+<tr><td class="c">135/139/445</td><td>RPC/SMB</td><td><span class="b b-crit">紧急</span></td><td><b>横向移动主通道</b>；永恒之蓝类、中继、签名</td></tr>
+<tr><td class="c">389/636</td><td>LDAP(S)</td><td><span class="b b-high">高</span></td><td>匿名绑定、中继、注入</td></tr>
+<tr><td class="c">1433</td><td>MSSQL</td><td><span class="b b-crit">紧急</span></td><td>sa 弱口令、xp_cmdshell</td></tr>
+<tr><td class="c">1521</td><td>Oracle</td><td><span class="b b-high">高</span></td><td>默认账号、TNS 监听器</td></tr>
+<tr><td class="c">2049/3306</td><td>NFS / MySQL</td><td><span class="b b-high">高</span></td><td>弱口令、空口令、任意文件读（LOAD DATA/sed）</td></tr>
+<tr><td class="c">3389</td><td>RDP</td><td><span class="b b-crit">紧急</span></td><td><b>勒索主要入口</b>；必须 MFA + 堡垒机 + 禁公网</td></tr>
+<tr><td class="c">5432</td><td>PostgreSQL</td><td><span class="b b-high">高</span></td><td>弱口令、COPY FROM PROGRAM</td></tr>
+<tr><td class="c">5900</td><td>VNC</td><td><span class="b b-crit">紧急</span></td><td>无认证/弱认证；应走 VPN</td></tr>
+<tr><td class="c">6379</td><td>Redis</td><td><span class="b b-crit">紧急</span></td><td>未授权 → 写密钥/计划任务 → 直接拿主机</td></tr>
+<tr><td class="c">7001</td><td>WebLogic</td><td><span class="b b-crit">紧急</span></td><td>历史反序列化 RCE 重灾区</td></tr>
+<tr><td class="c">9200/9300</td><td>Elasticsearch</td><td><span class="b b-crit">紧急</span></td><td>未授权可读全量数据</td></tr>
+<tr><td class="c">11211</td><td>Memcached</td><td><span class="b b-high">高</span></td><td>未授权 + UDP 反射放大</td></tr>
+<tr><td class="c">2375/2376</td><td>Docker API</td><td><span class="b b-crit">紧急</span></td><td><b>2375 未授权 = 宿主沦陷</b></td></tr>
+<tr><td class="c">2380/2379</td><td>etcd</td><td><span class="b b-crit">紧急</span></td><td>未授权可读 K8s 全部 Secret</td></tr>
+<tr><td class="c">6443</td><td>K8s API</td><td><span class="b b-crit">紧急</span></td><td>匿名认证、RBAC 过宽</td></tr>
+<tr><td class="c">10250/10255</td><td>Kubelet</td><td><span class="b b-crit">紧急</span></td><td>未授权 exec → 进容器</td></tr>
+<tr><td class="c">27017</td><td>MongoDB</td><td><span class="b b-crit">紧急</span></td><td>未授权（历史上大规模勒索擦库）</td></tr>
+<tr><td class="c">50070/8088</td><td>Hadoop/YARN</td><td><span class="b b-high">高</span></td><td>未授权可远程执行</td></tr>
+<tr><td class="c">9100</td><td>node_exporter</td><td><span class="b b-med">中</span></td><td>指标泄露；限制内网 + ACL</td></tr>
+<tr><td class="c">161</td><td>SNMP</td><td><span class="b b-high">高</span></td><td>默认团体名 public/private 泄露配置</td></tr>
+</tbody></table></div>
+
+<h3>D.2 危险信号（发现即排查）</h3>
+<div class="grid g2">
+<div class="card"><h5>主机层</h5><ul>
+<li>异常计划任务 / systemd 服务 / crontab 新增项</li>
+<li>未知监听端口、未知 SUID 文件、未知内核模块</li>
+<li><code>/etc/passwd</code> 新增 UID 0 账号；SSH authorized_keys 被改</li>
+<li>日志被清空或 <code>history</code> 被禁用</li>
+<li>CPU 长期异常（可能是挖矿）</li>
+</ul></div>
+<div class="card"><h5>身份与网络层</h5><ul>
+<li>非常用地/非常规时间的管理员登录</li>
+<li>短时间内大量登录失败后成功（爆破成功）</li>
+<li>Kerberoasting / AS-REP 特征（大量 TGS 请求、RC4 加密票据）</li>
+<li>从未出现过的外连域名、IP、User-Agent</li>
+<li>DNS 异常长标签 / 高频子域查询（隧道/DGA）</li>
+</ul></div>
+<div class="card"><h5>数据层</h5><ul>
+<li>非工作时间的大批量查询/导出</li>
+<li>数据库出现未知账号或权限变更</li>
+<li>备份任务被禁用、快照被删除</li>
+<li>压缩/加密工具异常调用（7z、rclone、gpg）</li>
+</ul></div>
+<div class="card"><h5>AI / 供应链层</h5><ul>
+<li>AI 助手执行了未授权的命令或外发了数据</li>
+<li>CI 流水线出现未知步骤、runner 异常</li>
+<li>依赖包版本在无人提交的情况下变化</li>
+<li>lockfile 被 PR 静默修改</li>
+</ul></div>
+</div>
+
+<h3>D.3 合规与标准对照</h3>
+<div class="tw"><table>
+<thead><tr><th style="width:150px">标准 / 法规</th><th>用途</th></tr></thead>
+<tbody>
+<tr><td><b>等保 2.0</b>（GB/T 22239）</td><td>国内定级备案与测评依据：安全物理环境、通信网络、区域边界、计算环境、管理制度</td></tr>
+<tr><td><b>《网络安全法》</b></td><td>第 21 条安全保护义务、第 25 条应急处置、<b>日志留存 ≥6 个月</b></td></tr>
+<tr><td><b>《数据安全法》《个人信息保护法》</b></td><td>数据分级分类、出境评估、个人信息最小必要与告知同意</td></tr>
+<tr><td><b>《关键信息基础设施安全保护条例》</b></td><td>关基单位额外义务与年度检测评估</td></tr>
+<tr><td><b>《网络产品安全漏洞管理规定》</b></td><td><b>漏洞不得违规发布；2 日内向工信部报送产品漏洞</b></td></tr>
+<tr><td><b>刑法 285/286/287</b></td><td>非法侵入计算机信息系统罪、破坏计算机信息系统罪（合规红线）</td></tr>
+<tr><td><b>ISO/IEC 27001、27701</b></td><td>ISMS 与隐私信息管理体系</td></tr>
+<tr><td><b>NIST CSF 2.0 / SP 800-115</b></td><td>治理、识别、保护、检测、响应、恢复；技术安全测试指南</td></tr>
+<tr><td><b>PTES / OSSTMM / MITRE ATT&amp;CK</b></td><td>渗透测试执行标准、安全测试方法学、对抗行为知识库</td></tr>
+<tr><td><b>CIS Benchmarks / DISA STIG</b></td><td>系统与应用加固基线（可直接落地为检查项）</td></tr>
+<tr><td><b>OWASP WSTG / ASVS / Top 10 2025 / API Top 10 / LLM Top 10</b></td><td>Web、API、AI 应用测试与验证标准</td></tr>
+<tr><td><b>CVSS v4.0 / EPSS / CWE / VEX</b></td><td>漏洞评级、利用概率、缺陷类型、可利用性交换</td></tr>
+</tbody></table></div>
+
+<div class="note info"><b>文档结束。</b>使用建议：把本页加入书签，用左侧搜索框按关键字定位章节；勾选框状态保存在本地浏览器（换机器不同步），建议每周导出一次进度（勾选数显示在页面顶部）。所有命令请在<b>书面授权范围</b>内执行。</div>
+</section>
+
+</div>
+</main>
+</div>
+<button class="mobile-menu" id="mobileMenu" type="button" aria-label="打开章节目录">☰</button>
+
+<script>
+(function(){
+  var KEY = 'sec-test-progress-v1';
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) { store = {}; }
+
+  // 1) 勾选框：恢复状态 + 保存 + 统计
+  var boxes = document.querySelectorAll('ul.chk input[type=checkbox]');
+  var pbar = document.getElementById('pbar');
+  function save(){
+    try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e) {}
+  }
+  function updateStat(){
+    var total = boxes.length, done = 0;
+    boxes.forEach(function(cb){
+      if (cb.checked) done++;
+      var li = cb.closest('li');
+      if (li) { if (cb.checked) li.classList.add('done'); else li.classList.remove('done'); }
+    });
+    if (pbar) pbar.style.width = (total ? (done / total * 100) : 0) + '%';
+  }
+  boxes.forEach(function(cb, i){
+    var sec = cb.closest('section');
+    var k = (sec ? sec.id : 'x') + ':' + i;
+    if (store[k]) cb.checked = true;
+    cb.addEventListener('change', function(){ store[k] = cb.checked; save(); updateStat(); });
+  });
+  updateStat();
+
+  // 2) 目录滚动高亮
+  var links = Array.prototype.slice.call(document.querySelectorAll('#toc a'));
+  var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function onScroll(){
+    var idx = 0, min = Infinity;
+    var st = window.scrollY + 120;
+    secs.forEach(function(s, i){
+      if (!s) return;
+      var d = Math.abs(s.offsetTop - st);
+      if (s.offsetTop <= st && d < min + 1) { min = s.offsetTop; idx = i; }
+    });
+    // 简化：以第一个 offsetTop <= st 的最大者为准
+    var cur = 0;
+    secs.forEach(function(s, i){ if (s && s.offsetTop <= st) cur = i; });
+    links.forEach(function(a, i){ if (i === cur) a.classList.add('on'); else a.classList.remove('on'); });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function(){ onScroll(); ticking = false; });
+  });
+  onScroll();
+
+  // 3) 搜索过滤目录
+  var q = document.getElementById('q');
+  if (q) {
+    q.addEventListener('input', function(){
+      var v = (q.value || '').trim().toLowerCase();
+      links.forEach(function(a){
+        var t = (a.textContent || '').toLowerCase();
+        a.style.display = (!v || t.indexOf(v) >= 0) ? '' : 'none';
+      });
+      document.querySelectorAll('#toc .grp').forEach(function(g){ g.style.display = v ? 'none' : ''; });
+    });
+  }
+
+  // 4) 一键展开/收起目录（点击 brand 标题）
+  var brand = document.querySelector('.brand h1');
+  if (brand) {
+    brand.style.cursor = 'pointer';
+    brand.title = '点击滚动到顶部';
+    brand.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+  }
+
+  // 5) 主题：优先恢复用户选择，否则跟随系统
+  var root = document.documentElement;
+  var themeToggle = document.getElementById('themeToggle');
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem('sec-test-theme'); } catch(e) {}
+  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    root.setAttribute('data-theme', 'dark');
+  }
+  if (themeToggle) themeToggle.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    if (next === 'dark') root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+    try { localStorage.setItem('sec-test-theme', next); } catch(e) {}
+  });
+
+  // 6) 移动端抽屉目录
+  var mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenu) mobileMenu.addEventListener('click', function(){
+    document.body.classList.toggle('menu-open');
+    mobileMenu.textContent = document.body.classList.contains('menu-open') ? '×' : '☰';
+  });
+  links.forEach(function(a){ a.addEventListener('click', function(){
+    document.body.classList.remove('menu-open');
+    if (mobileMenu) mobileMenu.textContent = '☰';
+  }); });
+})();
+</script>
+</body>
+</html>
